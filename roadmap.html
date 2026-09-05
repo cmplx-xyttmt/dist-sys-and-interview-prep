@@ -106,7 +106,10 @@
   .chipitem input{accent-color:var(--accent);cursor:pointer}
   .chipitem a{color:var(--text);text-decoration:none}
   .chipitem a:hover{color:var(--accent)}
+  .chipitem{transition:opacity .45s ease,transform .45s ease}
   .chipitem.done{opacity:.5}
+  .chipitem.leaving{opacity:0;transform:translateX(-8px)}
+  .chipitem.recent{border-color:var(--accent);opacity:.7}
   .chipitem.done a,.chipitem.done span{text-decoration:line-through}
   .chipitem.static{border-style:dashed;color:var(--muted)}
   .chipitem.course{border-color:var(--amber)}
@@ -298,7 +301,7 @@
 'use strict';
 const KEY='dsprep-v1';
 let S; try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
-S.tasks=S.tasks||{}; S.items=S.items||{}; S.metrics=S.metrics||{}; S.quiz=S.quiz||{}; S.game=S.game||{best:0}; S.notes=S.notes||{};
+S.tasks=S.tasks||{}; S.items=S.items||{}; S.recent=S.recent||[]; S.metrics=S.metrics||{}; S.quiz=S.quiz||{}; S.game=S.game||{best:0}; S.notes=S.notes||{};
 const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
 function resetAll(){if(confirm('Wipe ALL progress, notes and quiz answers from this browser? (Export a backup first if in doubt.)')){localStorage.removeItem(KEY);location.reload()}}
 
@@ -625,7 +628,21 @@ function rowHTML(id,label,url,meta){
 /* delegate all item checkboxes */
 document.addEventListener('change',e=>{
   const id=e.target.getAttribute&&e.target.getAttribute('data-item');
-  if(id)setItem(id,e.target.checked);
+  if(!id)return;
+  const chip=e.target.closest('.chipitem');
+  const inQueue=chip&&chip.closest('.dsa-queue');
+  if(inQueue){
+    /* the queue re-sorts itself, so a checked chip would vanish instantly — show the tick,
+       hold it, then slide it out and re-render with it in the "just solved" strip */
+    S.items[id]=e.target.checked;
+    if(e.target.checked){S.recent=[id,...S.recent.filter(x=>x!==id)].slice(0,8)}else{S.recent=S.recent.filter(x=>x!==id)}
+    save();
+    chip.classList.toggle('done',e.target.checked);
+    setTimeout(()=>chip.classList.add('leaving'),350);
+    setTimeout(renderAll,900);
+    return;
+  }
+  setItem(id,e.target.checked);
 });
 /* week notes: save on every keystroke, no re-render (would steal focus) */
 document.addEventListener('input',e=>{
@@ -804,10 +821,13 @@ function renderSchedule(){
   const allProbs=DSA_GROUPS.flatMap(g=>g.items.map(it=>pid(it[1])));
   const solved=countIds(allProbs),remaining=allProbs.length-solved;
   const nxt=nextProblems(6);
-  let html=`<details class="sched-month" data-k="dsa"${openState.dsa===undefined||openState.dsa?' open':''}>
+  const probById={};DSA_GROUPS.forEach(g=>g.items.forEach(it=>{probById[pid(it[1])]={name:g.g+' · '+it[0],url:LC(it[1])}}));
+  const recent=S.recent.filter(id=>isDone(id)&&probById[id]).slice(0,3);
+  let html=`<details class="sched-month dsa-queue" data-k="dsa"${openState.dsa===undefined||openState.dsa?' open':''}>
     <summary>Queue 1 — DSA (daily slot)<span class="dates">${solved}/${allProbs.length} solved · ~${Math.ceil(remaining/7)} weeks left at 7/week</span></summary>
     <div class="wbody"><div class="day-row"><span class="dlabel">next</span><div class="chips">${nxt.map(p=>chipHTML(p.id,p.name,p.url)).join('')||'<span class="chipitem static">queue empty — re-solves only</span>'}</div></div>
-    <div class="note">Two timed problems per session, in this order. Failed ones get a re-solve date in dsa/ and take a light day's slot.</div></div></details>`;
+    ${recent.length?`<div class="day-row"><span class="dlabel">solved</span><div class="chips">${recent.map(id=>chipHTML(id,probById[id].name,probById[id].url,'recent')).join('')}</div></div>`:''}
+    <div class="note">Two timed problems per session, in this order. A ticked problem slides out of "next" and lands under "solved" (untick it there to put it back). Failed ones get a re-solve date in dsa/ and take a light day's slot.</div></div></details>`;
   /* Queue 2 — Sundays, grouped by stage */
   const nextSun=SUNDAYS.find(s=>s.date>=todayKey);
   let n=0;
