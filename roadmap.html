@@ -92,6 +92,8 @@
   .week .wbody{padding:2px 18px 14px}
   .wkcount{margin-left:auto;color:var(--muted);font-weight:400;font-size:12px}
   .youare{color:var(--amber);font-weight:400;font-size:12px}
+  .kind{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--muted);font-weight:400}
+  details.week.slipped>summary{opacity:.75}
   .notedot{font-weight:400;font-size:12px}
   .wknotes{width:100%;min-height:56px;margin-top:10px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;line-height:1.5;resize:vertical}
   .wknotes:focus{outline:none;border-color:var(--accent)}
@@ -176,6 +178,7 @@
   <h2>Weekly cadence (season-driven, ~5–8h — WEEK.md owns the calendar)</h2>
   <div class="card tablewrap"><table>
     <tr><th>Daily ~09:00</th><td>DSA slot: 2 timed problems (3–4 days/wk once the rotating slot returns Sep 14; re-solves on the light days)</td><td>45–60m</td></tr>
+    <tr><th>Rotating slot, sys-design days (from Sep 14)</th><td>Read the DDIA chapter the next Sunday needs; from Stage 2, story drafting</td><td>45–60m</td></tr>
     <tr><th>Sun (alt. A)</th><td>System-design deep-dive / exploration (Sep 6: Fly.io Sprites)</td><td>half-day</td></tr>
     <tr><th>Sun (alt. B)</th><td>Glomers challenge — Python (Go deferred to Stage 4)</td><td>half-day</td></tr>
     <tr><th>Sun tail</th><td>DDIA note wrap-up + weekly review in PROGRESS.md + <b>export backup</b> + behavioral (from Stage 2)</td><td>45m</td></tr>
@@ -185,7 +188,7 @@
 
 <!-- ============ SCHEDULE ============ -->
 <section class="view" id="view-schedule">
-  <p class="note">Concrete assignments, day by day. Checking a chip here checks it everywhere (Work tab, scoreboard). The plan is deterministic — if you fall behind, just keep going in order; don't skip. Current week is highlighted. Day labels are a default spread — map them onto the real slots (daily DSA block; DDIA + Glomers/designs on Sundays, alternating).</p>
+  <p class="note">Two queues, not weeks (ROADMAP §5, Sep 5 2026). <b>DSA queue:</b> NeetCode 150 in pattern order, two per daily slot — the next six are shown. <b>Sunday queue:</b> every half-day session in order, A = design/DDIA/exploration, B = Glomers. Dates are projections: a skipped Sunday shifts everything after it by a week; the order is the truth. Checking a chip here checks it everywhere.</p>
   <div id="schedule"></div>
 </section>
 
@@ -495,7 +498,7 @@ const EXPL=[
 
 /* Timeline months (milestone view) */
 const MONTHS=[
- {name:'Stage 1 — Foundations (restart; Stage 0 = Sep 4–13 re-entry: daily DSA + Sprites Sunday)',start:'2026-09-14',end:'2026-11-08',tasks:[
+ {name:'Stage 1 — Foundations',start:'2026-09-14',end:'2026-11-08',tasks:[
   ['m1-dsa1','34 problems: arrays/hashing, two pointers, sliding window, stack, binary search','A'],
   ['m1-ddia1','DDIA ch.1–2 notes — trade-offs, nonfunctional requirements','B'],
   ['m1-ddia2','DDIA ch.3 note — data models & query languages','B'],
@@ -748,69 +751,102 @@ function renderWork(){
 }
 
 /* ================= SCHEDULE TAB ================= */
+/* Two queues, not weeks (ROADMAP §5, Sep 5 2026). The DSA queue is NeetCode 150 in
+   pattern order, eaten two problems per daily slot. SUNDAYS is the Sunday queue: every
+   half-day session in order — kind A = design/DDIA/exploration, B = Glomers, buffer =
+   catch-up, '—' = no prep slot. `items` are the same ids as the Work tab; `pre` is the
+   weekday reading the session needs. Dates are projections — a skipped Sunday shifts the
+   rest by a week; re-project at each WEEK.md season boundary, never re-order to hide it.
+   Session notes are keyed wk-<Monday of that week> so older week notes stay attached. */
+const SUNDAYS=[
+ {date:'2026-09-06',kind:'A',title:'Fly.io Sprites deep-dive → exploration #1',items:['expl-5'],pre:'the three Sprites posts (WEEK.md shelf)'},
+ {date:'2026-09-13',kind:'—',title:'Contest Sunday + season wrap — no prep slot',items:[]},
+ {date:'2026-09-20',kind:'B',title:'Maelstrom set up + Glomers 1 Echo',items:['m1-mael-s','gl-1-py'],pre:'DDIA ch.5 Encoding (weekday slots Sep 14–19)',note:'If setup eats the half-day, Echo rides along with S3.'},
+ {date:'2026-09-27',kind:'A',title:'DDIA ch.1–2 → notes',items:['ch-1','ch-2']},
+ {date:'2026-10-04',kind:'B',title:'Glomers 2 Unique IDs',items:['gl-2-py'],pre:'Snowflake-style IDs; why not auto-increment'},
+ {date:'2026-10-11',kind:'A',title:'DDIA ch.3 data models → note',items:['ch-3']},
+ {date:'2026-10-18',kind:'A',title:'DDIA ch.4 storage engines → note (LSM vs B-tree, cold)',items:['ch-4']},
+ {date:'2026-10-25',kind:'A',title:'Exploration #2 "How fast is fast?" — build',items:[],note:'Needs ch.1–4 done. Timebox: two Sundays total.'},
+ {date:'2026-11-01',kind:'A',title:'Exploration #2 — ship',items:['expl-1']},
+ {date:'2026-11-08',kind:'buffer',title:'Catch-up. If nothing slipped, start ch.6',items:[]},
+ {date:'2026-11-15',kind:'A',title:'DDIA ch.6 Replication → note',items:['ch-6']},
+ {date:'2026-11-22',kind:'B',title:'Glomers 3a + 3b broadcast',items:['gl-3a-py','gl-3b-py'],pre:'ch.6 note fresh'},
+ {date:'2026-11-29',kind:'A',title:'DDIA ch.7 Sharding → note',items:['ch-7']},
+ {date:'2026-12-06',kind:'B',title:'Glomers 3c fault-tolerant broadcast',items:['gl-3c-py']},
+ {date:'2026-12-13',kind:'A',title:'Hello Interview 4-step framework + written design #1 (rate limiter)',items:['frame-hi','d1']},
+ {date:'2026-12-20',kind:'B',title:'Glomers 3d + 3e efficient broadcast — measure, don\'t guess',items:['gl-3d-py','gl-3e-py']},
+ {date:'2026-12-27',kind:'buffer',title:'Holidays',items:[]},
+ {date:'2027-01-03',kind:'A',title:'Written design #2 (URL shortener)',items:['d2']},
+ {date:'2027-01-10',kind:'A',title:'DDIA ch.8 Transactions → note',items:['ch-8']},
+ {date:'2027-01-17',kind:'B',title:'Glomers 4 G-counter (+ CRDT reading)',items:['gl-4-py']},
+ {date:'2027-01-24',kind:'A',title:'DDIA ch.9 The trouble with distributed systems → note',items:['ch-9']},
+ {date:'2027-01-31',kind:'B',title:'Glomers 5a + 5b Kafka-style log',items:['gl-5a-py','gl-5b-py']},
+ {date:'2027-02-07',kind:'A',title:'DDIA ch.10 Consistency & consensus → note (go slow)',items:['ch-10']},
+ {date:'2027-02-14',kind:'B',title:'Glomers 5c efficient log',items:['gl-5c-py']},
+ {date:'2027-02-21',kind:'A',title:'Written designs #3 chat + #4 Uber-lite · 🔓 applications-trigger check',items:['d3','d4'],note:'Trigger: 60+ problems · ch.1–7 noted · 4 designs · 8 stories → warm-up tier goes out.'},
+ {date:'2027-02-28',kind:'A',title:'Timed-verbal designs (ledger, feed) + coding mock #1 · ✅ min-viable-readiness check',items:['d5','d6','mock-c1']},
+];
 const DAY_MS=864e5;
 const fmtD=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-function monthWeeks(m){ // array of week-start Dates (Mondays)
-  const out=[];let d=new Date(m.start+'T00:00');const end=new Date(m.end+'T00:00');
-  while(d<=end){out.push(new Date(d));d=new Date(d.getTime()+7*DAY_MS)}
+const KIND_LABEL={A:'A · design',B:'B · Glomers',buffer:'buffer','—':'no slot'};
+const STAGE0={name:'Stage 0 — Re-entry (contest season)',start:'2026-09-04',end:'2026-09-13'};
+function nextProblems(n){
+  const out=[];
+  for(const g of DSA_GROUPS)for(const it of g.items){const id=pid(it[1]);if(!isDone(id)){out.push({id,name:g.g+' · '+it[0],url:LC(it[1])});if(out.length>=n)return out}}
   return out;
 }
 function renderSchedule(){
   const openState={};document.querySelectorAll('details.sched-month').forEach(d=>{openState[d.dataset.k]=d.open});
   const openW={};document.querySelectorAll('details.week').forEach(d=>{openW[d.dataset.wk]=d.open});
   const el=document.getElementById('schedule');const now=new Date();
-  let html='';
-  MONTHS.forEach((m,mi)=>{
-    const mNum=mi+1;
-    const weeks=monthWeeks(m);
-    const probs=DSA_GROUPS.filter(g=>g.month===mNum).flatMap(g=>g.items.map(it=>({id:pid(it[1]),name:it[0],url:LC(it[1])})));
-    const chaps=DDIA_CH.filter(c=>c[2]===mNum);
-    const gloms=GLOMERS.filter(g=>g[3]===mNum);
-    const dsgn=DESIGNS.filter(d=>d[2]===mNum).map(d=>({id:d[0],name:'Design: '+d[1],url:HI}))
-      .concat(MOCKS.filter(x=>x[2]===mNum).map(x=>({id:x[0],name:x[1],url:''})));
-    const wProbs=distribute(probs,weeks.length);
-    const wChaps=distribute(chaps,weeks.length);
-    const wGloms=distribute(gloms,weeks.length);
-    const wDsgn=distribute(dsgn,weeks.length);
+  const todayKey=now.toISOString().slice(0,10);
+  /* Queue 1 — DSA */
+  const allProbs=DSA_GROUPS.flatMap(g=>g.items.map(it=>pid(it[1])));
+  const solved=countIds(allProbs),remaining=allProbs.length-solved;
+  const nxt=nextProblems(6);
+  let html=`<details class="sched-month" data-k="dsa"${openState.dsa===undefined||openState.dsa?' open':''}>
+    <summary>Queue 1 — DSA (daily slot)<span class="dates">${solved}/${allProbs.length} solved · ~${Math.ceil(remaining/7)} weeks left at 7/week</span></summary>
+    <div class="wbody"><div class="day-row"><span class="dlabel">next</span><div class="chips">${nxt.map(p=>chipHTML(p.id,p.name,p.url)).join('')||'<span class="chipitem static">queue empty — re-solves only</span>'}</div></div>
+    <div class="note">Two timed problems per session, in this order. Failed ones get a re-solve date in dsa/ and take a light day's slot.</div></div></details>`;
+  /* Queue 2 — Sundays, grouped by stage */
+  const nextSun=SUNDAYS.find(s=>s.date>=todayKey);
+  let n=0;
+  [STAGE0,...MONTHS].forEach((m,mi)=>{
+    const inStage=SUNDAYS.filter(s=>s.date>=m.start&&s.date<=m.end);
     const isCurM=now>=new Date(m.start)&&now<=new Date(m.end+'T23:59');
     let body='';
-    weeks.forEach((wk,wi)=>{
-      const wkEnd=new Date(wk.getTime()+6*DAY_MS);
-      const wkKey='wk-'+wk.getFullYear()+'-'+String(wk.getMonth()+1).padStart(2,'0')+'-'+String(wk.getDate()).padStart(2,'0');
-      const isCurW=now>=wk&&now<wkEnd.getTime()+DAY_MS;
-      const courseWeek=false; /* course rescheduled to the first post-MVP gap — re-point this date when it's set */
-      const wkIds=[];
-      wProbs[wi].forEach(p=>wkIds.push(p.id));
-      wChaps[wi].forEach(c=>wkIds.push('ch-'+c[0]));
-      wGloms[wi].forEach(g=>wkIds.push('gl-'+g[0]+'-py','gl-'+g[0]+'-go'));
-      wDsgn[wi].forEach(d=>wkIds.push(d.id));
-      if(courseWeek)COURSE.forEach(c=>wkIds.push(c[0]));
-      const [mon,wed,fri]=distribute(wProbs[wi],3);
-      const probChips=arr=>arr.map(p=>chipHTML(p.id,p.name,p.url)).join('')||'<span class="chipitem static">re-solve failed problems</span>';
-      const dayRow=(lbl,chips)=>`<div class="day-row"><span class="dlabel">${lbl}</span><div class="chips">${chips}</div></div>`;
-      let rows='';
-      rows+=dayRow('Mon',probChips(mon)+(courseWeek?chipHTML('course-1',COURSE[0][1],COURSE_URL,'course'):''));
-      rows+=dayRow('Tue',(wChaps[wi].map(c=>chipHTML('ch-'+c[0],'DDIA Ch.'+c[0]+' — '+c[1],'')).join('')||'<span class="chipitem static">DDIA: continue / review notes</span>')+(courseWeek?chipHTML('course-2',COURSE[1][1],COURSE_URL,'course'):''));
-      rows+=dayRow('Wed',probChips(wed)+(courseWeek?chipHTML('course-3',COURSE[2][1],COURSE_URL,'course'):''));
-      let thu=wGloms[wi].map(g=>{
-        const py='gl-'+g[0]+'-py',go='gl-'+g[0]+'-go';
-        return `<span class="chipitem"><a href="${g[2]}" target="_blank" rel="noopener">Glomers ${esc(g[1])}</a>
-          <label><input type="checkbox" data-item="${py}" ${isDone(py)?'checked':''}>Py</label>
-          <label><input type="checkbox" data-item="${go}" ${isDone(go)?'checked':''}>Go</label></span>`;
-      }).join('');
-      if(mNum===1&&wi===0){thu=chipHTML('m1-mael-s','Set up Maelstrom (glomers/README.md)','https://github.com/jepsen-io/maelstrom')+thu;wkIds.push('m1-mael-s')}
-      if(mNum===1&&wi<2){thu+=chipHTML('m1-go-s'+wi,wi===0?'Tour of Go (½)':'Effective Go + Exercism','https://go.dev/tour/');wkIds.push('m1-go-s'+wi)}
-      rows+=dayRow('Thu',(thu||'<span class="chipitem static">Go practice / Glomers overflow</span>')+(courseWeek?chipHTML('course-4',COURSE[3][1],COURSE_URL,'course'):''));
-      rows+=dayRow('Fri',probChips(fri)+(courseWeek?chipHTML('course-5',COURSE[4][1],COURSE_URL,'course'):''));
-      rows+=dayRow('Sat',wDsgn[wi].map(d=>chipHTML(d.id,d.name,d.url)).join('')||'<span class="chipitem static">design practice / Glomers overflow / exploration</span>');
-      rows+=dayRow('Sun','<span class="chipitem static">behavioral 30min · weekly review · export backup · plan week</span>');
+    if(!inStage.length){
+      body=`<div class="wbody"><div class="note">Backlog — not queued Sunday-by-Sunday yet. Planning Sundays six months out is how the July plan died; these get queued when S24 is in sight. The Timeline tab holds the task list.</div></div>`;
+    }
+    inStage.forEach(s=>{
+      const d=new Date(s.date+'T00:00');
+      const mon=new Date(d.getTime()-6*DAY_MS);
+      const wkKey='wk-'+mon.getFullYear()+'-'+String(mon.getMonth()+1).padStart(2,'0')+'-'+String(mon.getDate()).padStart(2,'0');
+      const isNext=s===nextSun;
+      const label=s.kind==='—'?'—':'S'+(n++);
+      const done=countIds(s.items);
+      const past=s.date<todayKey;
+      const slipped=past&&s.items.length&&done<s.items.length;
+      const chips=s.items.map(id=>{
+        const gl=GLOMERS.find(g=>'gl-'+g[0]+'-py'===id);if(gl)return chipHTML(id,'Glomers '+gl[1]+' — Py',gl[2]);
+        const ch=DDIA_CH.find(c=>'ch-'+c[0]===id);if(ch)return chipHTML(id,'DDIA ch.'+ch[0]+' — '+ch[1],'');
+        const ds=DESIGNS.find(x=>x[0]===id);if(ds)return chipHTML(id,'Design: '+ds[1],HI);
+        const ex=EXPL.find(x=>x[0]===id);if(ex)return chipHTML(id,ex[1],'https://cmplx-xyttmt.github.io/');
+        const mk=MOCKS.find(x=>x[0]===id);if(mk)return chipHTML(id,mk[1],'');
+        if(id==='m1-mael-s')return chipHTML(id,'Set up Maelstrom (glomers/README.md)','https://github.com/jepsen-io/maelstrom');
+        if(id==='frame-hi')return chipHTML(id,'Hello Interview 4-step framework',HI);
+        return chipHTML(id,id,'');
+      }).join('')||`<span class="chipitem static">${esc(s.kind==='—'?'no prep this Sunday':s.title)}</span>`;
       const noteVal=S.notes[wkKey]||'';
-      const wkDone=countIds(wkIds);
-      const openThis=openW[wkKey]!==undefined?openW[wkKey]:isCurW;
-      body+=`<details class="week${isCurW?' currentweek':''}" data-wk="${wkKey}"${openThis?' open':''}>
-        <summary><span>Week of ${fmtD(wk)} – ${fmtD(wkEnd)}</span>${courseWeek?'<span class="note">🤖 agents-course sprint (1–2h/day, amber chips)</span>':''}${isCurW?'<span class="youare">← you are here</span>':''}${noteVal.trim()?'<span class="notedot" title="has notes">📝</span>':''}<span class="wkcount">${wkDone}/${wkIds.length} done</span></summary>
-        <div class="wbody">${rows}
-        <textarea class="wknotes" data-wk="${wkKey}" placeholder="Week notes — what I learned, what tripped me up, what to revisit…">${esc(noteVal)}</textarea></div></details>`;
+      const openThis=openW[wkKey]!==undefined?openW[wkKey]:isNext;
+      body+=`<details class="week${isNext?' currentweek':''}${slipped?' slipped':''}" data-wk="${wkKey}"${openThis?' open':''}>
+        <summary><span>${label} · Sun ${fmtD(d)}</span><span class="kind">${KIND_LABEL[s.kind]}</span><span>${esc(s.title)}</span>${isNext?'<span class="youare">← next Sunday</span>':''}${slipped?'<span class="youare">slipped — shift the queue</span>':''}${s.items.length?`<span class="note">${done}/${s.items.length}</span>`:''}</summary>
+        <div class="wbody">
+          <div class="day-row"><span class="dlabel">do</span><div class="chips">${chips}</div></div>
+          ${s.pre?`<div class="day-row"><span class="dlabel">prep</span><div class="chips"><span class="chipitem static">${esc(s.pre)}</span></div></div>`:''}
+          ${s.note?`<div class="note">${esc(s.note)}</div>`:''}
+          <textarea class="wknotes" data-wk="${wkKey}" placeholder="Session notes — what I learned, what tripped me up, what to revisit…">${esc(noteVal)}</textarea>
+        </div></details>`;
     });
     html+=`<details class="sched-month" data-k="${mi}"${(openState[mi]!==undefined?openState[mi]:isCurM)?' open':''}>
       <summary>${m.name}<span class="dates">${m.start} → ${m.end}</span></summary>${body}</details>`;
@@ -831,7 +867,7 @@ const AUTO={
  'm1-expl':()=>['expl-5'],
  'm2-dsa':()=>monthProbIds(2),
  'm2-ddia5':()=>['ch-6'],'m2-ddia6':()=>['ch-7'],
- 'm2-d1':()=>['d1'],'m2-d2':()=>['d2'],
+ 'm2-d1':()=>['d1'],'m2-d2':()=>['d2'],'m2-frame':()=>['frame-hi'],
  'm2-g3':()=>['gl-3a-py','gl-3b-py','gl-3c-py'],'m2-g3e':()=>['gl-3d-py','gl-3e-py'],
  'm2-expl1':()=>['expl-1'],
  'm3-dsa':()=>monthProbIds(3),

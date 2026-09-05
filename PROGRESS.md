@@ -1,6 +1,6 @@
 # Progress Log
 
-> One entry per week (Sunday review). Honest > pretty. After each *real* interview round, add a retro entry immediately.
+> Two logs, matching the two queues (ROADMAP §5): a one-line **DSA session log** per daily slot, and a **Sunday review** per half-day session headed by its queue position (S1, S2, …). Honest > pretty. After each *real* interview round, add a retro entry immediately.
 
 ## Scoreboard
 
@@ -16,6 +16,7 @@
 | Kaggle agents course (days done) | 5 | 0 |
 | Explorations published | 3+ | 0 |
 | Applications out | 15+ | 0 |
+| Sunday queue position | S24 (proj. Feb 28, 2027) | next: S0 — Sun Sep 6, 2026 |
 
 ## Application pipeline
 
@@ -23,7 +24,26 @@
 |---|---|---|---|---|---|
 | | | | | | |
 
-## Weekly entries
+## DSA session log
+
+_One line per daily slot. Time is minutes to a passing solution (or "DNF"). Failed → re-solve date in `dsa/`._
+
+| Date | Problems (pattern) | Time | Result | Re-solve due |
+|---|---|---|---|---|
+| | | | | |
+
+## Sunday reviews
+
+_One per Sunday session, headed by queue position. Older weekly entries below kept as-is._
+
+### S0 — Sun Sep 6, 2026 · A · Fly.io Sprites deep-dive
+- **Done:**
+- **What surprised me:**
+- **Note / quiz questions added:**
+- **What slipped & why:**
+- **Next Sunday (S1, Sep 20): Maelstrom set up + Glomers 1 Echo — prep: DDIA ch. 5 in the weekday slots**
+
+### Older weekly entries (pre-Sep 5 format)
 
 ### Week of Jul 6, 2026
 - **DSA:**

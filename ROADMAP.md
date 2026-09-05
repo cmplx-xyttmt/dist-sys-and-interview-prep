@@ -2,7 +2,7 @@
 
 > **Owner:** Isaac Owomugisha · **Started:** July 6, 2026 · **Restarted:** Sep 4, 2026 (see §0)
 > **Goal:** Interview-ready for senior (L5/E5) backend roles at FAANG-tier and strong non-FAANG companies.
-> **Checkpoints are scoreboard triggers now, not dates** (§5). Projections at the current
+> **Checkpoints are scoreboard triggers, not dates; the schedule is two queues, not weeks** (§5). Projections at the current
 > cadence: *applications open* ~Feb 2027 · *minimum viable readiness* ~Mar 2027 · *full
 > readiness* ~mid-2027. A dedicated prep season (realistic after the edtech MVP ships)
 > pulls all three in.
@@ -26,8 +26,13 @@ Two structural changes, baked into everything below:
 - **Hours follow the WEEK.md season, not this file.** Prep lives in the sharpening slots
   (~5–8 h/wk right now), not the imagined 12–15. This roadmap orders the material and
   defines the triggers; WEEK.md decides each week.
-- **Checkpoints are scoreboard triggers, not calendar dates.** The stage dates in §5 are
+- **Checkpoints are scoreboard triggers, not calendar dates.** The dates in §5 are
   projections at the current cadence, re-estimated at every season boundary.
+- **(Added Sep 5) The schedule is two queues, not weeks.** Weeks were the unit when 12–15
+  hours were spread over five days. With one 45-minute daily block and one half-day, a week
+  holds nothing a queue position doesn't say better. §5 is now a DSA queue and a numbered
+  Sunday queue; "when do I set up Maelstrom?" has a queue answer (S1) and a date only as a
+  projection (Sun Sep 20, if no Sunday slips before it).
 
 Current slots (season of Sep 4–13; the CodinGame contest is the primary block):
 
@@ -112,7 +117,7 @@ Track C is the *engine* for Track B: Glomers challenges turn DDIA theory into sc
 
   | Challenge | DDIA fuel |
   |---|---|
-  | 1 Echo | Ch. 4 encoding/JSON over the wire |
+  | 1 Echo | Ch. 5 Encoding & Evolution (2nd-ed numbering, as in roadmap.html) — JSON over the wire |
   | 2 Unique ID generation | Replication + ordering chapters (why not auto-increment; Snowflake-style IDs) |
   | 3a–e Broadcast | Replication, gossip, unreliable networks; 3d/3e force efficiency under latency budgets |
   | 4 Grow-only counter | Consistency chapters; CRDTs (G-counter) |
@@ -166,42 +171,87 @@ Interviews now come in **two modes**, and you must train both:
 
 ---
 
-## 5. Stage schedule
+## 5. The two queues
 
-Same material, same order — but the dates are **projections at the current cadence**
-(~5–8 prep hrs/week), re-estimated at every WEEK.md season boundary. Stage boundaries
-don't gate anything; the triggers do. A dedicated 12–15 hr/week prep season would
-compress Stages 2–6 by roughly half.
+_Replaces the stage-by-date schedule (Sep 5, 2026). Same material, same order._
 
-### Stage 0 — Sep 4 → Sep 13, 2026: Re-entry (contest season)
-- The CodinGame contest is the primary block; prep is the sharpening slots only.
-- **DSA:** daily 45-min slot restarted Sep 4 (week goal: 6 of 10 days). Arrays/hashing first.
-- **System design:** Sunday Sep 6 half-day — Fly.io Sprites deep-dive → exploration #1 (§8).
+Prep runs in two slots, so the schedule is two ordered queues. Three rules:
 
-### Stage 1 — Sep 14 → Nov 8, 2026: Foundations
-- **DSA:** arrays/hashing, two pointers, sliding window, stack, binary search (~34 problems, Python, timed).
-- **DDIA:** ch. 1–5, 2nd-ed numbering (trade-offs, nonfunctional requirements, data models, storage engines — LSM vs B-tree cold, encoding). Notes per chapter, read ahead of the mapped Sundays.
-- **Glomers:** Maelstrom environment set up; Challenge 1 (Echo) and Challenge 2 (Unique IDs) in **Python**, on alternating Sundays. Go on-ramp deferred to Stage 4 (§3C).
-- **Logistics:** none yet. Heads-down.
+- **Order is the truth; dates are projections.** A skipped Sunday shifts everything after
+  it by one week. Re-project at each WEEK.md season boundary; never re-order to hide a slip.
+- **Stages are segments of the Sunday queue.** They keep their names for the triggers and
+  for roadmap.html's Timeline tab, but they no longer own dates.
+- **WEEK.md decides which Sundays exist.** This file only says what the next one holds.
 
-### Stage 2 — Nov 9, 2026 → Jan 3, 2027: Replication
-- **DSA:** linked lists, trees, tries, heaps (~36 problems).
-- **DDIA:** replication + sharding chapters. This is the heart of interview system design.
-- **Glomers:** Broadcast 3a–3e in Python (3d/3e are the efficiency targets — measure, don't guess).
-- **System design:** learn the 4-step framework (Hello Interview); first 2 written designs (start easy: rate limiter, URL shortener).
-- **Behavioral:** flesh out story bank to 8 drafted stories; identify gaps (need: a failure story, a conflict story).
-- **Logistics:** resume + LinkedIn updated; referral list drafted.
-- **Kaggle agents course:** runs in *work hours* (§4 — agent-building is the day job); should be done by this stage, notes + retro landed.
+### Queue 1 — DSA (the daily slot, 45 min)
 
-### Stage 3 — Jan 4 → Feb 28, 2027: Transactions & consistency · applications trigger
-- **DSA:** graphs (BFS/DFS/topo/union-find), backtracking (~28 problems). First timed mock (any platform).
-- **DDIA:** transactions, the trouble with distributed systems, consistency & consensus. The hardest and highest-yield reading — go slow, take notes.
-- **Glomers:** Challenge 4 (G-counter) + Challenge 5 (Kafka-style log), Python.
-- **System design:** 1 written + 1 timed-verbal design per week (Uber-lite, chat system, financial ledger, news feed).
-- 🔓 **Applications trigger:** warm-up tier goes out when the scoreboard shows **60+ problems · DDIA ch. 1–7 · 4+ written designs · 8 stories drafted** (projected ~Feb 2027). Their loops become your live mocks.
-- **✅ Minimum-viable-readiness checkpoint (end of stage):** most mediums in 25 min; a coherent 40-min design for standard questions; 8 stories ready; Glomers 1–5 done in Python.
+NeetCode 150 in the §3A pattern order, two timed problems per session. No dates: the next
+problem is the first unchecked one (roadmap.html's Schedule tab shows the next six). Pace:
+~6 sessions/week during the contest season, 3–4/week from Sep 14, so ~7 problems/week. At
+that rate the 60-problem line of the applications trigger lands ~mid-Nov 2026 and the full
+150 ~Feb 2027. Failed problems get re-solve dates in `dsa/` and take the light days' slots.
 
-### Stage 4 — Mar 1 → Apr 11, 2027: Interview simulation
+### Queue 2 — Sundays (the half-day)
+
+**A** = design / DDIA note / exploration. **B** = Glomers in Python. The chapter a session
+needs is read ahead in the weekday rotating slot's system-design days (from Sep 14); the
+Sunday finishes the reading, writes the 1-page note, and adds 1–3 quiz questions.
+
+**Stage 0 — re-entry (contest season)**
+
+| # | Sunday (proj.) | Kind | Session |
+|---|---|---|---|
+| S0 | Sep 6, 2026 | A | Fly.io Sprites deep-dive → exploration #1 (§8) |
+| — | Sep 13 | — | Contest Sunday + season wrap. No prep slot. |
+
+**Stage 1 — Foundations**
+
+| # | Sunday (proj.) | Kind | Session |
+|---|---|---|---|
+| S1 | Sep 20 | B | **Maelstrom set up** (document in `glomers/README.md`) + Glomers 1 Echo. Prep: DDIA ch. 5 Encoding in the weekday slots of Sep 14–19. If setup eats the half-day, Echo rides along with S3. |
+| S2 | Sep 27 | A | DDIA ch. 1–2 → notes (trade-offs, nonfunctional requirements) |
+| S3 | Oct 4 | B | Glomers 2 Unique IDs (Snowflake-style; ch. 6 re-explains the why later) |
+| S4 | Oct 11 | A | DDIA ch. 3 data models → note |
+| S5 | Oct 18 | A | DDIA ch. 4 storage engines → note (LSM vs B-tree, cold) |
+| S6 | Oct 25 | A | Exploration #2 "How fast is fast?" — build (needs ch. 1–4 ✓) |
+| S7 | Nov 1 | A | Exploration #2 — ship. Timebox: two Sundays, total. |
+| S8 | Nov 8 | buffer | Catch-up for whatever slipped. If nothing did, start ch. 6. |
+
+**Stage 2 — Replication**
+
+| # | Sunday (proj.) | Kind | Session |
+|---|---|---|---|
+| S9 | Nov 15 | A | DDIA ch. 6 Replication → note |
+| S10 | Nov 22 | B | Glomers 3a + 3b broadcast |
+| S11 | Nov 29 | A | DDIA ch. 7 Sharding → note |
+| S12 | Dec 6 | B | Glomers 3c fault-tolerant broadcast |
+| S13 | Dec 13 | A | Hello Interview 4-step framework + written design #1 (rate limiter) |
+| S14 | Dec 20 | B | Glomers 3d + 3e efficient broadcast (measure, don't guess) |
+| S15 | Dec 27 | buffer | Holidays |
+| S16 | Jan 3, 2027 | A | Written design #2 (URL shortener) |
+
+Weekday slots during Stage 2: story bank to 8 drafts; resume + LinkedIn; referral list.
+The Kaggle agents course runs in work hours (§4), not here.
+
+**Stage 3 — Transactions & consistency**
+
+| # | Sunday (proj.) | Kind | Session |
+|---|---|---|---|
+| S17 | Jan 10 | A | DDIA ch. 8 Transactions → note |
+| S18 | Jan 17 | B | Glomers 4 G-counter (+ CRDT reading) |
+| S19 | Jan 24 | A | DDIA ch. 9 The trouble with distributed systems → note |
+| S20 | Jan 31 | B | Glomers 5a + 5b Kafka-style log |
+| S21 | Feb 7 | A | DDIA ch. 10 Consistency & consensus → note (go slow; may spill into S22's tail) |
+| S22 | Feb 14 | B | Glomers 5c efficient log |
+| S23 | Feb 21 | A | Written designs #3 chat + #4 Uber-lite. 🔓 **Applications trigger check:** 60+ problems · ch. 1–7 noted · 4 designs · 8 stories → warm-up tier goes out |
+| S24 | Feb 28 | A | Timed-verbal designs (ledger, feed) + first coding mock. ✅ **Minimum-viable-readiness check:** mediums in 25 min; coherent 40-min design; 8 stories; Glomers 1–5 in Python |
+
+### Stages 4–6 — backlog, not yet queued
+
+Planning Sundays six months out is how the July plan died. The content stands; it gets
+queued Sunday-by-Sunday when S24 is in sight (or earlier if a dedicated prep season opens).
+
+**Stage 4 — Interview simulation** (projected Mar–Apr 2027)
 - **DSA:** DP, intervals, greedy (~37 problems). Weekly timed sets (2 problems / 60 min).
 - **DDIA:** batch + stream processing + derived-data chapters (lighter interview weight — read efficiently).
 - **Glomers:** Challenge 6 (totally-available transactions) in Python; **Go starts here** — on-ramp (§3C) + backfill Go versions (1–3 and one of 4/5/6).
@@ -209,14 +259,14 @@ compress Stages 2–6 by roughly half.
 - **AI-enabled drills:** weekly 45-min AI-assisted build task.
 - **Logistics:** FAANG applications + referrals out. Behavioral mock #1.
 
-### Stage 5 — Apr 12 → May 23, 2027: Sharpening
-- **DSA:** review-and-redo stage — re-solve every problem you failed; company-tagged lists for live pipelines.
+**Stage 5 — Sharpening** (projected Apr–May 2027)
+- **DSA:** review-and-redo — re-solve every problem you failed; company-tagged lists for live pipelines.
 - **System design:** 2 mocks/week; deep-dive weak spots from mock feedback; live-debugging intuition (read 3–4 public postmortems: AWS, Cloudflare, Google SRE book chapters).
-- **Glomers:** performance-tune broadcast (3e) and log (5c) in Go — great "efficiency under constraints" stories.
+- **Glomers:** performance-tune broadcast (3e) and log (5c) in Go — "efficiency under constraints" stories.
 - **Behavioral:** all stories at 2–3 min spoken, drilled. Behavioral mock #2.
 - **Logistics:** interviews likely live this stage. After each real round, write a retro in `PROGRESS.md`.
 
-### Stage 6 — May 24 → Jun 30, 2027: Execution
+**Stage 6 — Execution** (projected Jun 2027)
 - Interview execution + spaced review. No new material — only targeted patching of weaknesses exposed by real loops.
 - Company-specific tuning per scheduled onsite (Meta: speed + 2 problems/round; Google: depth + follow-ups; Amazon: LP-heavy).
 - Keep one build thread alive for sanity — you think better when you're building.
@@ -225,26 +275,29 @@ compress Stages 2–6 by roughly half.
 
 ## 6. Weekly cadence (season-driven, ~5–8 hrs)
 
-WEEK.md owns the calendar; this only says what the slots hold.
+WEEK.md owns the calendar; this only says what the slots hold. Every slot gets a clock time
+in the day's plan or it doesn't happen.
 
 **Contest season (Sep 4–13):**
 
 | Slot | Block | ~Time |
 |---|---|---|
-| Daily ~09:00 | DSA: 2 timed problems, log in PROGRESS.md | 45 min |
-| Sunday morning | System-design deep-dive (Sep 6: Fly.io Sprites) | half-day |
+| Daily ~09:00 | DSA queue: 2 timed problems, logged in PROGRESS.md | 45 min |
+| Sunday morning | Sunday queue S0: Fly.io Sprites deep-dive | half-day |
 
 **From Sep 14 (work back; one rotating sharpening slot per day + Sunday):**
 
 | Slot | Block | ~Time |
 |---|---|---|
-| Rotating daily slot, DSA days (3–4×/wk) | 2 timed problems, or spaced re-solves | 45–60 min |
-| Rotating daily slot, other days | Security track (separate plan, not counted here) | 45–60 min |
-| Sunday morning, alternating weeks | Design deep-dive / exploration (§8) ↔ Glomers challenge in Python | half-day |
-| Sunday tail | DDIA note wrap-up + weekly review in PROGRESS.md + behavioral (from Stage 2) | 45 min |
+| Rotating slot, DSA days (3–4×/wk) | DSA queue: 2 timed problems, or spaced re-solves | 45–60 min |
+| Rotating slot, system-design days | Read the DDIA chapter the next Sunday needs; from Stage 2, story drafting | 45–60 min |
+| Rotating slot, security days | Security track (separate plan, not counted here) | 45–60 min |
+| Sunday morning | Sunday queue: next session in order (A ↔ B) | half-day |
+| Sunday tail | Note wrap-up + quiz questions + review entry in PROGRESS.md + export the roadmap.html backup | 45 min |
 
 Miss a day? The DSA slot is the one that survives. Drop re-solves and polish first, never
-timed practice; a skipped Sunday gets written in the WEEK.md Log, not silently absorbed.
+timed practice; a skipped Sunday gets written in the WEEK.md Log, not silently absorbed,
+and the queue shifts by a week.
 
 The old ~13 hr template returns verbatim if a dedicated prep season gets scheduled.
 
