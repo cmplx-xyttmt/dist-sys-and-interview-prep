@@ -6,7 +6,7 @@
 
 | Metric | Target | Current |
 |---|---|---|
-| DSA problems solved (Python, timed) | 130+ | 0 |
+| DSA problems solved (Python, timed) | 130+ | 2 (untimed so far) |
 | DDIA chapters done (with note) | all | 0 |
 | Written system designs | 10+ | 0 |
 | Design mocks (verbal, timed) | 6+ | 0 |
@@ -30,7 +30,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 
 | Date | Problems (pattern) | Time | Result | Re-solve due |
 |---|---|---|---|---|
-| | | | | |
+| 2026-09-05 | Group Anagrams (arrays/hashing: canonical key) · Top K Frequent Elements (arrays/hashing: count then select) | untimed | both solved; complexity narration wrong on both (per-word sort is m·n log n; sort is over d distinct, not n); heaps rusty — didn't know the heap or bucket versions | 2026-09-12 |
 
 ## Sunday reviews
 
