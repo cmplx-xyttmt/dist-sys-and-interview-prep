@@ -7,3 +7,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | Problem | Pattern | Solved | Next re-solve |
 |---|---|---|---|
 | [Group Anagrams](./group-anagrams.md) | canonical key | 2026-09-05 | 2026-09-12 |
+| [Top K Frequent Elements](./top-k-frequent-elements.md) | count, then select | 2026-09-05 | 2026-09-12 |
