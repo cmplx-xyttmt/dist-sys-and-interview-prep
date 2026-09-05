@@ -316,13 +316,16 @@ const CHECKPOINTS=[
 const TRACK_COLORS={A:'var(--tA)',B:'var(--tB)',C:'var(--tC)',D:'var(--tD)',E:'var(--tE)',X:'var(--tX)'};
 const TRACK_NAMES={A:'DSA',B:'Sys design',C:'Dist-sys/Go',D:'Behavioral',E:'Logistics',X:'AI / writing'};
 const LC=s=>'https://leetcode.com/problems/'+s+'/';
+const NC=s=>'https://neetcode.io/problems/'+s;
+/* premium-on-LeetCode problems link to NeetCode's free editor instead */
+const PURL=it=>it[2]?NC(it[2]):LC(it[1]);
 
-/* NeetCode 150 — [name, leetcode-slug, premium?] ; group month = which plan month it belongs to */
+/* NeetCode 150 — [name, leetcode-slug, neetcode-slug if LeetCode-premium] ; group month = which plan month it belongs to */
 const DSA_GROUPS=[
  {g:'Arrays & Hashing',month:1,items:[
   ['Contains Duplicate','contains-duplicate'],['Valid Anagram','valid-anagram'],['Two Sum','two-sum'],
   ['Group Anagrams','group-anagrams'],['Top K Frequent Elements','top-k-frequent-elements'],
-  ['Encode and Decode Strings','encode-and-decode-strings',1],['Product of Array Except Self','product-of-array-except-self'],
+  ['Encode and Decode Strings','encode-and-decode-strings','string-encode-and-decode'],['Product of Array Except Self','product-of-array-except-self'],
   ['Valid Sudoku','valid-sudoku'],['Longest Consecutive Sequence','longest-consecutive-sequence']]},
  {g:'Two Pointers',month:1,items:[
   ['Valid Palindrome','valid-palindrome'],['Two Sum II','two-sum-ii-input-array-is-sorted'],['3Sum','3sum'],
@@ -374,15 +377,15 @@ const DSA_GROUPS=[
  {g:'Graphs',month:3,items:[
   ['Number of Islands','number-of-islands'],['Clone Graph','clone-graph'],['Max Area of Island','max-area-of-island'],
   ['Pacific Atlantic Water Flow','pacific-atlantic-water-flow'],['Surrounded Regions','surrounded-regions'],
-  ['Rotting Oranges','rotting-oranges'],['Walls and Gates','walls-and-gates',1],
+  ['Rotting Oranges','rotting-oranges'],['Walls and Gates','walls-and-gates','islands-and-treasure'],
   ['Course Schedule','course-schedule'],['Course Schedule II','course-schedule-ii'],
   ['Redundant Connection','redundant-connection'],
-  ['Number of Connected Components','number-of-connected-components-in-an-undirected-graph',1],
-  ['Graph Valid Tree','graph-valid-tree',1],['Word Ladder','word-ladder']]},
+  ['Number of Connected Components','number-of-connected-components-in-an-undirected-graph','count-connected-components'],
+  ['Graph Valid Tree','graph-valid-tree','valid-tree'],['Word Ladder','word-ladder']]},
  {g:'Advanced Graphs',month:3,items:[
   ['Reconstruct Itinerary','reconstruct-itinerary'],['Min Cost to Connect All Points','min-cost-to-connect-all-points'],
   ['Network Delay Time','network-delay-time'],['Swim in Rising Water','swim-in-rising-water'],
-  ['Alien Dictionary','alien-dictionary',1],['Cheapest Flights Within K Stops','cheapest-flights-within-k-stops']]},
+  ['Alien Dictionary','alien-dictionary','foreign-dictionary'],['Cheapest Flights Within K Stops','cheapest-flights-within-k-stops']]},
  {g:'Backtracking',month:3,items:[
   ['Subsets','subsets'],['Combination Sum','combination-sum'],['Permutations','permutations'],
   ['Subsets II','subsets-ii'],['Combination Sum II','combination-sum-ii'],['Word Search','word-search'],
@@ -409,8 +412,8 @@ const DSA_GROUPS=[
   ['Valid Parenthesis String','valid-parenthesis-string']]},
  {g:'Intervals',month:4,items:[
   ['Insert Interval','insert-interval'],['Merge Intervals','merge-intervals'],
-  ['Non-overlapping Intervals','non-overlapping-intervals'],['Meeting Rooms','meeting-rooms',1],
-  ['Meeting Rooms II','meeting-rooms-ii',1],['Minimum Interval to Include Each Query','minimum-interval-to-include-each-query']]},
+  ['Non-overlapping Intervals','non-overlapping-intervals'],['Meeting Rooms','meeting-rooms','meeting-schedule'],
+  ['Meeting Rooms II','meeting-rooms-ii','meeting-schedule-ii'],['Minimum Interval to Include Each Query','minimum-interval-to-include-each-query']]},
  {g:'Math & Geometry',month:5,items:[
   ['Rotate Image','rotate-image'],['Spiral Matrix','spiral-matrix'],['Set Matrix Zeroes','set-matrix-zeroes'],
   ['Happy Number','happy-number'],['Plus One','plus-one'],['Pow(x, n)','powx-n'],
@@ -732,7 +735,7 @@ function renderWork(){
   const dsaEl=document.getElementById('work-dsa');
   dsaEl.innerHTML=DSA_GROUPS.map(g=>{
     const ids=g.items.map(it=>pid(it[1]));
-    const body=g.items.map(it=>rowHTML(pid(it[1]),it[0],LC(it[1]),it[2]?'☆ premium':'')).join('');
+    const body=g.items.map(it=>rowHTML(pid(it[1]),it[0],PURL(it),it[2]?'☆ LC premium → NeetCode':'')).join('');
     return groupHTML(g.g,ids,'M'+g.month,body);
   }).join('');
   document.getElementById('work-ddia').innerHTML=(()=>{
@@ -809,7 +812,7 @@ const KIND_LABEL={A:'A · design',B:'B · Glomers',buffer:'buffer','—':'no slo
 const STAGE0={name:'Stage 0 — Re-entry (contest season)',start:'2026-09-04',end:'2026-09-13'};
 function nextProblems(n){
   const out=[];
-  for(const g of DSA_GROUPS)for(const it of g.items){const id=pid(it[1]);if(!isDone(id)){out.push({id,name:g.g+' · '+it[0],url:LC(it[1])});if(out.length>=n)return out}}
+  for(const g of DSA_GROUPS)for(const it of g.items){const id=pid(it[1]);if(!isDone(id)){out.push({id,name:g.g+' · '+it[0],url:PURL(it)});if(out.length>=n)return out}}
   return out;
 }
 function renderSchedule(){
@@ -821,7 +824,7 @@ function renderSchedule(){
   const allProbs=DSA_GROUPS.flatMap(g=>g.items.map(it=>pid(it[1])));
   const solved=countIds(allProbs),remaining=allProbs.length-solved;
   const nxt=nextProblems(6);
-  const probById={};DSA_GROUPS.forEach(g=>g.items.forEach(it=>{probById[pid(it[1])]={name:g.g+' · '+it[0],url:LC(it[1])}}));
+  const probById={};DSA_GROUPS.forEach(g=>g.items.forEach(it=>{probById[pid(it[1])]={name:g.g+' · '+it[0],url:PURL(it)}}));
   const recent=S.recent.filter(id=>isDone(id)&&probById[id]).slice(0,3);
   let html=`<details class="sched-month dsa-queue" data-k="dsa"${openState.dsa===undefined||openState.dsa?' open':''}>
     <summary>Queue 1 — DSA (daily slot)<span class="dates">${solved}/${allProbs.length} solved · ~${Math.ceil(remaining/7)} weeks left at 7/week</span></summary>
