@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview-Ready Roadmap — Isaac</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161c25; --panel2:#1d2530; --line:#2a3441;
+    --text:#dbe2ea; --muted:#8a94a3; --accent:#5eead4; --amber:#f0a35e;
+    --tA:#60a5fa; --tB:#f472b6; --tC:#5eead4; --tD:#f0a35e; --tE:#a78bfa; --tX:#94a3b8;
+    --good:#4ade80; --bad:#f87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding-bottom:60px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 20px}
+  header{padding:28px 0 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#131a23,var(--bg))}
+  h1{font-size:22px;letter-spacing:.3px}
+  h1 .dim{color:var(--muted);font-weight:400}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .countdowns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+  .cd{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:150px}
+  .cd .n{font-size:22px;font-weight:700;color:var(--accent)}
+  .cd .n.past{color:var(--muted)}
+  .cd .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+  nav{position:sticky;top:0;z-index:5;background:rgba(14,17,22,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .tabs{display:flex;gap:4px;overflow-x:auto;padding:8px 0}
+  .tab{background:none;border:1px solid transparent;color:var(--muted);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:14px;white-space:nowrap}
+  .tab:hover{color:var(--text)}
+  .tab.active{background:var(--panel2);color:var(--accent);border-color:var(--line)}
+  section.view{display:none;padding-top:22px}
+  section.view.active{display:block}
+  h2{font-size:17px;margin:18px 0 10px}
+  h3{font-size:15px;margin:14px 0 6px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .bar{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#38bdf8);border-radius:6px;transition:width .3s}
+  .metric{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .metric .lbl{font-size:13.5px}
+  .metric .val{font-weight:700;color:var(--accent);white-space:nowrap}
+  .tgt{color:var(--muted);font-size:12px}
+  .stepper{display:flex;align-items:center;gap:6px}
+  .stepper button{width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);color:var(--text);cursor:pointer;font-size:15px;line-height:1}
+  .stepper button:hover{border-color:var(--accent);color:var(--accent)}
+  .stepper .sval{min-width:34px;text-align:center;font-weight:700}
+  /* timeline */
+  .month{border-left:3px solid var(--line);padding-left:16px;margin:0 0 22px 6px;position:relative}
+  .month.current{border-color:var(--accent)}
+  .month.current::before{content:"● now";color:var(--accent);font-size:11px;position:absolute;left:-8px;top:-16px;background:var(--bg);padding:0 4px}
+  .month h3{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .month h3 .dates{color:var(--muted);font-size:12.5px;font-weight:400}
+  .month .mbar{max-width:300px}
+  .task{display:flex;gap:10px;align-items:flex-start;padding:5px 0;cursor:pointer;border-radius:6px}
+  .task:hover{background:rgba(255,255,255,.025)}
+  .task input{margin-top:4px;accent-color:var(--accent);cursor:pointer}
+  .task.done .txt{color:var(--muted);text-decoration:line-through}
+  .pill{font-size:10.5px;padding:1px 7px;border-radius:99px;border:1px solid;margin-top:3px;white-space:nowrap}
+  .track-card{border-top:3px solid var(--tX)}
+  ul{padding-left:20px}
+  li{margin:4px 0}
+  /* work groups */
+  details.group{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  details.group>summary{list-style:none;cursor:pointer;padding:13px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  details.group>summary::-webkit-details-marker{display:none}
+  details.group>summary:hover{background:var(--panel2)}
+  .gs-name{font-weight:600}
+  .gs-count{color:var(--muted);font-size:12.5px;margin-left:auto}
+  .gs-month{font-size:10.5px;color:var(--amber);border:1px solid var(--amber);border-radius:99px;padding:1px 7px}
+  .gs-bar{flex-basis:100%;height:5px;background:var(--panel2);border-radius:4px;overflow:hidden}
+  .gs-bar i{display:block;height:100%;background:var(--accent)}
+  .group .body{padding:4px 18px 14px}
+  .item{display:flex;gap:9px;align-items:center;padding:4px 0;font-size:14px}
+  .item input{accent-color:var(--accent);cursor:pointer;flex:none}
+  .item.done a,.item.done .itxt{color:var(--muted);text-decoration:line-through}
+  .item a{color:var(--text);text-decoration:none;border-bottom:1px dotted var(--muted)}
+  .item a:hover{color:var(--accent);border-color:var(--accent)}
+  .item .meta{color:var(--muted);font-size:12px;margin-left:auto;white-space:nowrap}
+  .duo{display:inline-flex;gap:10px;margin-left:auto;font-size:12px;color:var(--muted);align-items:center}
+  .duo label{display:inline-flex;gap:4px;align-items:center;cursor:pointer}
+  /* schedule */
+  details.sched-month{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;background:var(--panel)}
+  details.sched-month>summary{list-style:none;cursor:pointer;padding:13px 18px;font-weight:600;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  details.sched-month>summary::-webkit-details-marker{display:none}
+  details.sched-month>summary .dates{color:var(--muted);font-weight:400;font-size:12.5px}
+  details.week{border-top:1px solid var(--line)}
+  details.week>summary{list-style:none;cursor:pointer;padding:11px 18px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:13.5px;color:var(--accent);font-weight:600}
+  details.week>summary::-webkit-details-marker{display:none}
+  details.week>summary:hover{background:rgba(255,255,255,.02)}
+  details.week.currentweek{background:rgba(94,234,212,.045);border-left:3px solid var(--accent)}
+  .week .wbody{padding:2px 18px 14px}
+  .wkcount{margin-left:auto;color:var(--muted);font-weight:400;font-size:12px}
+  .youare{color:var(--amber);font-weight:400;font-size:12px}
+  .notedot{font-weight:400;font-size:12px}
+  .wknotes{width:100%;min-height:56px;margin-top:10px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;line-height:1.5;resize:vertical}
+  .wknotes:focus{outline:none;border-color:var(--accent)}
+  .task .aprog{color:var(--muted);font-size:12px;white-space:nowrap}
+  .task input:disabled{opacity:.9}
+  .day-row{display:flex;gap:10px;padding:4px 0;align-items:flex-start}
+  .dlabel{flex:none;width:40px;color:var(--muted);font-size:12.5px;font-weight:600;padding-top:4px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chipitem{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:13px}
+  .chipitem input{accent-color:var(--accent);cursor:pointer}
+  .chipitem a{color:var(--text);text-decoration:none}
+  .chipitem a:hover{color:var(--accent)}
+  .chipitem.done{opacity:.5}
+  .chipitem.done a,.chipitem.done span{text-decoration:line-through}
+  .chipitem.static{border-style:dashed;color:var(--muted)}
+  .chipitem.course{border-color:var(--amber)}
+  /* quiz */
+  .quiz-chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
+  .chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:99px;padding:5px 13px;cursor:pointer;font-size:13px}
+  .chip.active{color:var(--accent);border-color:var(--accent)}
+  .q .opts{display:grid;gap:8px;margin-top:10px}
+  .opt{text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:9px 13px;cursor:pointer;font-size:14px}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default;opacity:.75}
+  .opt.correct{border-color:var(--good);color:var(--good);opacity:1}
+  .opt.wrong{border-color:var(--bad);color:var(--bad);opacity:1}
+  .why{margin-top:10px;padding:10px 13px;border-left:3px solid var(--accent);background:var(--panel2);border-radius:0 8px 8px 0;font-size:13.5px;color:var(--muted);display:none}
+  .why.show{display:block}
+  .qcat{font-size:11px;color:var(--amber);text-transform:uppercase;letter-spacing:.7px}
+  .scorebox{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--muted);align-items:center}
+  .scorebox b{color:var(--accent);font-size:17px}
+  /* game + calc */
+  .game-items{display:grid;gap:8px;margin:12px 0}
+  .gi{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px 14px;cursor:pointer;text-align:left;font-size:14px}
+  .gi:hover:not(:disabled){border-color:var(--accent)}
+  .gi.picked-ok{border-color:var(--good);color:var(--good)}
+  .gi.picked-bad{border-color:var(--bad);color:var(--bad)}
+  .gi:disabled{cursor:default}
+  .gi .ans{float:right;color:var(--muted);font-size:12.5px}
+  .btn{background:var(--accent);color:#04211c;border:none;border-radius:9px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:14px}
+  .btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+  .btn:hover{filter:brightness(1.1)}
+  .slider-row{display:grid;grid-template-columns:180px 1fr 110px;gap:12px;align-items:center;margin:10px 0;font-size:13.5px}
+  .slider-row input[type=range]{width:100%;accent-color:var(--accent)}
+  .slider-row .out{text-align:right;color:var(--accent);font-weight:700}
+  .calc-out{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px;font-size:14px}
+  .calc-out .row{display:flex;justify-content:space-between;padding:3px 0}
+  .calc-out .row b{color:var(--accent)}
+  .hint{color:var(--amber);font-size:13px;margin-top:8px}
+  .note{color:var(--muted);font-size:13px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+  th{background:var(--panel2);font-weight:600}
+  .tablewrap{overflow-x:auto}
+  a{color:var(--accent)}
+  textarea{width:100%;min-height:80px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  footer{margin-top:40px;color:var(--muted);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>Interview-Ready Roadmap <span class="dim">· restarted Sep 4, 2026 · trigger-based</span></h1>
+  <div class="sub">Senior backend roles · Python for interviews, Go for depth · living doc &amp; testbed for 2brain + interactive explorations</div>
+  <div class="countdowns" id="countdowns"></div>
+</div></header>
+
+<nav><div class="wrap"><div class="tabs" id="tabs"></div></div></nav>
+
+<div class="wrap">
+
+<!-- ============ DASHBOARD ============ -->
+<section class="view" id="view-dashboard">
+  <div class="card">
+    <div class="metric"><span class="lbl"><b>Overall roadmap milestones</b></span><span class="tgt" id="overall-num"></span></div>
+    <div class="bar"><i id="overall-bar"></i></div>
+    <p style="margin-top:12px"><button class="btn ghost" onclick="exportState()">Export backup</button>
+    <button class="btn ghost" onclick="resetAll()">⚠ Reset all data</button></p>
+  </div>
+  <h2>Scoreboard <span class="note">— auto-computed from checked items in Work / Schedule (applications is the one manual counter)</span></h2>
+  <div class="grid" id="metrics"></div>
+  <h2>Weekly cadence (season-driven, ~5–8h — WEEK.md owns the calendar)</h2>
+  <div class="card tablewrap"><table>
+    <tr><th>Daily ~09:00</th><td>DSA slot: 2 timed problems (3–4 days/wk once the rotating slot returns Sep 14; re-solves on the light days)</td><td>45–60m</td></tr>
+    <tr><th>Sun (alt. A)</th><td>System-design deep-dive / exploration (Sep 6: Fly.io Sprites)</td><td>half-day</td></tr>
+    <tr><th>Sun (alt. B)</th><td>Glomers challenge — Python (Go deferred to Stage 4)</td><td>half-day</td></tr>
+    <tr><th>Sun tail</th><td>DDIA note wrap-up + weekly review in PROGRESS.md + <b>export backup</b> + behavioral (from Stage 2)</td><td>45m</td></tr>
+  </table>
+  <div class="note">Miss a day? The DSA slot survives; re-solves and polish flex first, timed practice never. The old ~13h template (ROADMAP §6) returns if a dedicated prep season is scheduled.</div></div>
+</section>
+
+<!-- ============ SCHEDULE ============ -->
+<section class="view" id="view-schedule">
+  <p class="note">Concrete assignments, day by day. Checking a chip here checks it everywhere (Work tab, scoreboard). The plan is deterministic — if you fall behind, just keep going in order; don't skip. Current week is highlighted. Day labels are a default spread — map them onto the real slots (daily DSA block; DDIA + Glomers/designs on Sundays, alternating).</p>
+  <div id="schedule"></div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section class="view" id="view-work">
+  <p class="note">Every concrete deliverable in the plan, grouped. Same checkboxes as the Schedule tab. ☆ = LeetCode premium (solve on NeetCode.io for free).</p>
+  <h2>DSA — NeetCode 150 by pattern</h2>
+  <div id="work-dsa"></div>
+  <h2>DDIA 2nd edition — chapters <span class="note">(numbering per early-release TOC; adjust to your copy)</span></h2>
+  <div id="work-ddia"></div>
+  <h2>Gossip Glomers <span class="note">(Python first, on alternating Sundays; Go backfill in Stage 4)</span></h2>
+  <div id="work-glomers"></div>
+  <h2>System designs, mocks &amp; the rest</h2>
+  <div id="work-rest"></div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="view" id="view-timeline">
+  <p class="note">The month-level view — milestones rather than individual problems. The highlighted month is where the calendar says you should be; adjust honestly, don't pretend.</p>
+  <div id="timeline"></div>
+</section>
+
+<!-- ============ TRACKS ============ -->
+<section class="view" id="view-tracks">
+  <div class="grid" id="tracks"></div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="view" id="view-quiz">
+  <h2>Test yourself</h2>
+  <p class="note">Active recall deck — seeded with month-1 material. Add questions as chapters land. This deck is the spaced-repetition fallback until 2brain Phase 2 ships, and a prototype of the exploration "test yourself" mechanic.</p>
+  <div class="scorebox card"><span>Answered: <b id="quiz-answered">0</b></span><span>Correct first try: <b id="quiz-correct">0</b></span><button class="btn ghost" onclick="resetQuiz()">Reset deck</button></div>
+  <div class="quiz-chips" id="quiz-chips"></div>
+  <div id="quiz-list"></div>
+</section>
+
+<!-- ============ LAB ============ -->
+<section class="view" id="view-lab">
+  <p class="note">The testbed: exploration mechanics get prototyped here before graduating to the blog or 2brain. Two live prototypes for exploration #1, <i>"How fast is fast?"</i>:</p>
+
+  <div class="card">
+    <h3>⚡ Latency Ladder <span class="note">(mini-game: ordering under pressure)</span></h3>
+    <p class="note">Click the operations from <b>fastest to slowest</b>. One mistake ends the round. Internalizing these numbers is what lets you say "that's a 40× penalty" out loud in a design interview.</p>
+    <div class="scorebox" style="margin:10px 0"><span>Streak: <b id="game-streak">0</b></span><span>Best: <b id="game-best">0</b></span></div>
+    <div class="game-items" id="game-items"></div>
+    <div id="game-msg" class="hint"></div>
+    <button class="btn" onclick="newRound()">New round</button>
+  </div>
+
+  <div class="card">
+    <h3>🧮 Back-of-envelope calculator <span class="note">(parameter sliders)</span></h3>
+    <p class="note">The step-1 scale-estimate arithmetic, live. Before moving a slider, <b>predict the output</b> — then check yourself.</p>
+    <div class="slider-row"><span>Writes per second</span><input type="range" id="c-qps" min="0" max="100" value="55"><span class="out" id="o-qps"></span></div>
+    <div class="slider-row"><span>Avg payload</span><input type="range" id="c-kb" min="0" max="100" value="40"><span class="out" id="o-kb"></span></div>
+    <div class="slider-row"><span>Replication factor</span><input type="range" id="c-rep" min="1" max="5" value="3"><span class="out" id="o-rep"></span></div>
+    <div class="slider-row"><span>Retention</span><input type="range" id="c-days" min="1" max="365" value="90"><span class="out" id="o-days"></span></div>
+    <div class="calc-out" id="calc-out"></div>
+  </div>
+
+  <div class="card">
+    <h3>Mechanics backlog <span class="note">(prototype next)</span></h3>
+    <ul class="note">
+      <li><b>Predict-then-reveal</b> — commit to a guess before the answer renders (forced retrieval)</li>
+      <li><b>Gossip simulator</b> — nodes on a canvas, rumor spread, partition toggle, fanout slider → exploration #2</li>
+      <li><b>Consistency-model matching</b> — pair guarantees with anomalies they prevent</li>
+      <li><b>Spot-the-race</b> — read a Go snippet, click the racy line</li>
+      <li><b>Export-to-2brain</b> — "save these as spaced-rep cards" button (once Phase 0 API exists)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ GUIDE ============ -->
+<section class="view" id="view-guide">
+  <div class="card">
+    <h3>Key resources</h3>
+    <ul>
+      <li><a href="https://neetcode.io/practice">NeetCode 150</a> · <a href="https://exercism.org/tracks/go">Exercism Go</a> · <a href="https://go.dev/tour/">Tour of Go</a> · <a href="https://go.dev/doc/effective_go">Effective Go</a></li>
+      <li><a href="https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction">Hello Interview — System Design in a Hurry</a> · <a href="https://www.hellointerview.com/learn/system-design/problem-breakdowns">problem breakdowns</a> · Alex Xu vol 1–2 · Jordan Has No Life (YT)</li>
+      <li><a href="https://fly.io/dist-sys/">Gossip Glomers</a> · <a href="https://github.com/jepsen-io/maelstrom">Maelstrom</a> · DDIA 2nd ed</li>
+      <li><a href="https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google">Kaggle × Google 5-Day AI Agents course</a> — <b>in work hours</b> (agent-building is the Tunga day job): one-week sprint after leave ends Sep 14, learnings tied to live work projects (self-paced; live run ended Jun 19, 2026)</li>
+      <li>Blog home for explorations: <a href="https://cmplx-xyttmt.github.io/">cmplx-xyttmt.github.io</a> · Retention engine: <span class="mono">../acu-2brain-cc/</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Exit criteria (definition of "interview-ready")</h3>
+    <ul class="note">
+      <li>130+ NeetCode solved · mediums ≤25 min at ~80% hit rate</li>
+      <li>10+ written designs · 6+ design mocks · DDIA finished, core chapters explainable without notes</li>
+      <li>Glomers 1–6 in Python · 1–3 + one of {4,5,6} in Go</li>
+      <li>8 STAR stories at 2–3 min spoken · 2 behavioral + 2 coding mocks</li>
+      <li>Both raw and AI-assisted coding modes comfortable · agents course done</li>
+      <li>3+ explorations published · 15+ applications live</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Backup / restore progress</h3>
+    <p class="note">State lives in this browser's localStorage — export weekly (Sunday review) and keep the JSON in the repo.</p>
+    <p style="margin:10px 0"><button class="btn" onclick="exportState()">Export JSON</button> <button class="btn ghost" onclick="document.getElementById('import-area').style.display='block'">Import…</button> <button class="btn ghost" onclick="resetAll()">Reset all</button></p>
+    <div id="import-area" style="display:none"><textarea id="import-text" placeholder="Paste exported JSON here"></textarea><p style="margin-top:8px"><button class="btn" onclick="importState()">Load</button></p></div>
+  </div>
+</section>
+
+</div>
+<footer>Living doc · v3 (restarted Sep 4, 2026 — trigger-based checkpoints, season-driven hours) · companion to ROADMAP.md / PROGRESS.md</footer>
+
+<script>
+'use strict';
+const KEY='dsprep-v1';
+let S; try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+S.tasks=S.tasks||{}; S.items=S.items||{}; S.metrics=S.metrics||{}; S.quiz=S.quiz||{}; S.game=S.game||{best:0}; S.notes=S.notes||{};
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+function resetAll(){if(confirm('Wipe ALL progress, notes and quiz answers from this browser? (Export a backup first if in doubt.)')){localStorage.removeItem(KEY);location.reload()}}
+
+/* ================= DATA ================= */
+/* Checkpoints are scoreboard TRIGGERS (see ROADMAP §5); dates are projections at the
+   current ~5–8h/wk cadence, re-estimated at each WEEK.md season boundary. */
+const CHECKPOINTS=[
+  {label:'Applications trigger (proj.)', date:'2027-02-01'},
+  {label:'Min. viable readiness (proj.)', date:'2027-03-01'},
+  {label:'Full readiness (proj.)', date:'2027-06-30'},
+];
+const TRACK_COLORS={A:'var(--tA)',B:'var(--tB)',C:'var(--tC)',D:'var(--tD)',E:'var(--tE)',X:'var(--tX)'};
+const TRACK_NAMES={A:'DSA',B:'Sys design',C:'Dist-sys/Go',D:'Behavioral',E:'Logistics',X:'AI / writing'};
+const LC=s=>'https://leetcode.com/problems/'+s+'/';
+
+/* NeetCode 150 — [name, leetcode-slug, premium?] ; group month = which plan month it belongs to */
+const DSA_GROUPS=[
+ {g:'Arrays & Hashing',month:1,items:[
+  ['Contains Duplicate','contains-duplicate'],['Valid Anagram','valid-anagram'],['Two Sum','two-sum'],
+  ['Group Anagrams','group-anagrams'],['Top K Frequent Elements','top-k-frequent-elements'],
+  ['Encode and Decode Strings','encode-and-decode-strings',1],['Product of Array Except Self','product-of-array-except-self'],
+  ['Valid Sudoku','valid-sudoku'],['Longest Consecutive Sequence','longest-consecutive-sequence']]},
+ {g:'Two Pointers',month:1,items:[
+  ['Valid Palindrome','valid-palindrome'],['Two Sum II','two-sum-ii-input-array-is-sorted'],['3Sum','3sum'],
+  ['Container With Most Water','container-with-most-water'],['Trapping Rain Water','trapping-rain-water']]},
+ {g:'Sliding Window',month:1,items:[
+  ['Best Time to Buy & Sell Stock','best-time-to-buy-and-sell-stock'],
+  ['Longest Substring Without Repeating Characters','longest-substring-without-repeating-characters'],
+  ['Longest Repeating Character Replacement','longest-repeating-character-replacement'],
+  ['Permutation in String','permutation-in-string'],['Minimum Window Substring','minimum-window-substring'],
+  ['Sliding Window Maximum','sliding-window-maximum']]},
+ {g:'Stack',month:1,items:[
+  ['Valid Parentheses','valid-parentheses'],['Min Stack','min-stack'],
+  ['Evaluate Reverse Polish Notation','evaluate-reverse-polish-notation'],['Generate Parentheses','generate-parentheses'],
+  ['Daily Temperatures','daily-temperatures'],['Car Fleet','car-fleet'],
+  ['Largest Rectangle in Histogram','largest-rectangle-in-histogram']]},
+ {g:'Binary Search',month:1,items:[
+  ['Binary Search','binary-search'],['Search a 2D Matrix','search-a-2d-matrix'],['Koko Eating Bananas','koko-eating-bananas'],
+  ['Find Minimum in Rotated Sorted Array','find-minimum-in-rotated-sorted-array'],
+  ['Search in Rotated Sorted Array','search-in-rotated-sorted-array'],
+  ['Time Based Key-Value Store','time-based-key-value-store'],['Median of Two Sorted Arrays','median-of-two-sorted-arrays']]},
+ {g:'Linked List',month:2,items:[
+  ['Reverse Linked List','reverse-linked-list'],['Merge Two Sorted Lists','merge-two-sorted-lists'],
+  ['Reorder List','reorder-list'],['Remove Nth Node From End of List','remove-nth-node-from-end-of-list'],
+  ['Copy List with Random Pointer','copy-list-with-random-pointer'],['Add Two Numbers','add-two-numbers'],
+  ['Linked List Cycle','linked-list-cycle'],['Find the Duplicate Number','find-the-duplicate-number'],
+  ['LRU Cache','lru-cache'],['Merge K Sorted Lists','merge-k-sorted-lists'],
+  ['Reverse Nodes in K-Group','reverse-nodes-in-k-group']]},
+ {g:'Trees',month:2,items:[
+  ['Invert Binary Tree','invert-binary-tree'],['Maximum Depth of Binary Tree','maximum-depth-of-binary-tree'],
+  ['Diameter of Binary Tree','diameter-of-binary-tree'],['Balanced Binary Tree','balanced-binary-tree'],
+  ['Same Tree','same-tree'],['Subtree of Another Tree','subtree-of-another-tree'],
+  ['Lowest Common Ancestor of a BST','lowest-common-ancestor-of-a-binary-search-tree'],
+  ['Binary Tree Level Order Traversal','binary-tree-level-order-traversal'],
+  ['Binary Tree Right Side View','binary-tree-right-side-view'],
+  ['Count Good Nodes in Binary Tree','count-good-nodes-in-binary-tree'],
+  ['Validate Binary Search Tree','validate-binary-search-tree'],
+  ['Kth Smallest Element in a BST','kth-smallest-element-in-a-bst'],
+  ['Construct Binary Tree from Preorder & Inorder','construct-binary-tree-from-preorder-and-inorder-traversal'],
+  ['Binary Tree Maximum Path Sum','binary-tree-maximum-path-sum'],
+  ['Serialize and Deserialize Binary Tree','serialize-and-deserialize-binary-tree']]},
+ {g:'Tries',month:2,items:[
+  ['Implement Trie (Prefix Tree)','implement-trie-prefix-tree'],
+  ['Design Add and Search Words','design-add-and-search-words-data-structure'],['Word Search II','word-search-ii']]},
+ {g:'Heap / Priority Queue',month:2,items:[
+  ['Kth Largest Element in a Stream','kth-largest-element-in-a-stream'],['Last Stone Weight','last-stone-weight'],
+  ['K Closest Points to Origin','k-closest-points-to-origin'],
+  ['Kth Largest Element in an Array','kth-largest-element-in-an-array'],['Task Scheduler','task-scheduler'],
+  ['Design Twitter','design-twitter'],['Find Median from Data Stream','find-median-from-data-stream']]},
+ {g:'Graphs',month:3,items:[
+  ['Number of Islands','number-of-islands'],['Clone Graph','clone-graph'],['Max Area of Island','max-area-of-island'],
+  ['Pacific Atlantic Water Flow','pacific-atlantic-water-flow'],['Surrounded Regions','surrounded-regions'],
+  ['Rotting Oranges','rotting-oranges'],['Walls and Gates','walls-and-gates',1],
+  ['Course Schedule','course-schedule'],['Course Schedule II','course-schedule-ii'],
+  ['Redundant Connection','redundant-connection'],
+  ['Number of Connected Components','number-of-connected-components-in-an-undirected-graph',1],
+  ['Graph Valid Tree','graph-valid-tree',1],['Word Ladder','word-ladder']]},
+ {g:'Advanced Graphs',month:3,items:[
+  ['Reconstruct Itinerary','reconstruct-itinerary'],['Min Cost to Connect All Points','min-cost-to-connect-all-points'],
+  ['Network Delay Time','network-delay-time'],['Swim in Rising Water','swim-in-rising-water'],
+  ['Alien Dictionary','alien-dictionary',1],['Cheapest Flights Within K Stops','cheapest-flights-within-k-stops']]},
+ {g:'Backtracking',month:3,items:[
+  ['Subsets','subsets'],['Combination Sum','combination-sum'],['Permutations','permutations'],
+  ['Subsets II','subsets-ii'],['Combination Sum II','combination-sum-ii'],['Word Search','word-search'],
+  ['Palindrome Partitioning','palindrome-partitioning'],
+  ['Letter Combinations of a Phone Number','letter-combinations-of-a-phone-number'],['N-Queens','n-queens']]},
+ {g:'1-D Dynamic Programming',month:4,items:[
+  ['Climbing Stairs','climbing-stairs'],['Min Cost Climbing Stairs','min-cost-climbing-stairs'],
+  ['House Robber','house-robber'],['House Robber II','house-robber-ii'],
+  ['Longest Palindromic Substring','longest-palindromic-substring'],['Palindromic Substrings','palindromic-substrings'],
+  ['Decode Ways','decode-ways'],['Coin Change','coin-change'],['Maximum Product Subarray','maximum-product-subarray'],
+  ['Word Break','word-break'],['Longest Increasing Subsequence','longest-increasing-subsequence'],
+  ['Partition Equal Subset Sum','partition-equal-subset-sum']]},
+ {g:'2-D Dynamic Programming',month:4,items:[
+  ['Unique Paths','unique-paths'],['Longest Common Subsequence','longest-common-subsequence'],
+  ['Buy & Sell Stock with Cooldown','best-time-to-buy-and-sell-stock-with-cooldown'],['Coin Change II','coin-change-ii'],
+  ['Target Sum','target-sum'],['Interleaving String','interleaving-string'],
+  ['Longest Increasing Path in a Matrix','longest-increasing-path-in-a-matrix'],
+  ['Distinct Subsequences','distinct-subsequences'],['Edit Distance','edit-distance'],
+  ['Burst Balloons','burst-balloons'],['Regular Expression Matching','regular-expression-matching']]},
+ {g:'Greedy',month:4,items:[
+  ['Maximum Subarray','maximum-subarray'],['Jump Game','jump-game'],['Jump Game II','jump-game-ii'],
+  ['Gas Station','gas-station'],['Hand of Straights','hand-of-straights'],
+  ['Merge Triplets to Form Target','merge-triplets-to-form-target-triplet'],['Partition Labels','partition-labels'],
+  ['Valid Parenthesis String','valid-parenthesis-string']]},
+ {g:'Intervals',month:4,items:[
+  ['Insert Interval','insert-interval'],['Merge Intervals','merge-intervals'],
+  ['Non-overlapping Intervals','non-overlapping-intervals'],['Meeting Rooms','meeting-rooms',1],
+  ['Meeting Rooms II','meeting-rooms-ii',1],['Minimum Interval to Include Each Query','minimum-interval-to-include-each-query']]},
+ {g:'Math & Geometry',month:5,items:[
+  ['Rotate Image','rotate-image'],['Spiral Matrix','spiral-matrix'],['Set Matrix Zeroes','set-matrix-zeroes'],
+  ['Happy Number','happy-number'],['Plus One','plus-one'],['Pow(x, n)','powx-n'],
+  ['Multiply Strings','multiply-strings'],['Detect Squares','detect-squares']]},
+ {g:'Bit Manipulation',month:5,items:[
+  ['Single Number','single-number'],['Number of 1 Bits','number-of-1-bits'],['Counting Bits','counting-bits'],
+  ['Reverse Bits','reverse-bits'],['Missing Number','missing-number'],
+  ['Sum of Two Integers','sum-of-two-integers'],['Reverse Integer','reverse-integer']]},
+];
+const pid=slug=>'p-'+slug;
+
+/* DDIA 2nd ed chapters — [n, name, month] */
+const DDIA_CH=[
+ [1,'Trade-offs in Data Systems Architecture',1],
+ [2,'Defining Nonfunctional Requirements',1],
+ [3,'Data Models and Query Languages',1],
+ [4,'Storage and Retrieval',1],
+ [5,'Encoding and Evolution',1],
+ [6,'Replication',2],
+ [7,'Sharding',2],
+ [8,'Transactions',3],
+ [9,'The Trouble with Distributed Systems',3],
+ [10,'Consistency and Consensus',3],
+ [11,'Batch Processing',4],
+ [12,'Stream Processing & Derived Data',4],
+];
+
+/* Gossip Glomers — [id, label, url, month] ; each gets a -py and -go checkbox */
+const GLOMERS=[
+ ['1','1 · Echo','https://fly.io/dist-sys/1/',1],
+ ['2','2 · Unique ID Generation','https://fly.io/dist-sys/2/',1],
+ ['3a','3a · Broadcast (single-node)','https://fly.io/dist-sys/3a/',2],
+ ['3b','3b · Multi-Node Broadcast','https://fly.io/dist-sys/3b/',2],
+ ['3c','3c · Fault-Tolerant Broadcast','https://fly.io/dist-sys/3c/',2],
+ ['3d','3d · Efficient Broadcast I','https://fly.io/dist-sys/3d/',2],
+ ['3e','3e · Efficient Broadcast II','https://fly.io/dist-sys/3e/',2],
+ ['4','4 · Grow-Only Counter (CRDT)','https://fly.io/dist-sys/4/',3],
+ ['5a','5a · Kafka-Style Log (single-node)','https://fly.io/dist-sys/5a/',3],
+ ['5b','5b · Multi-Node Kafka-Style Log','https://fly.io/dist-sys/5b/',3],
+ ['5c','5c · Efficient Kafka-Style Log','https://fly.io/dist-sys/5c/',3],
+ ['6a','6a · Totally-Available Transactions','https://fly.io/dist-sys/6a/',4],
+ ['6b','6b · TA Transactions: Read Uncommitted','https://fly.io/dist-sys/6b/',4],
+ ['6c','6c · TA Transactions: Read Committed','https://fly.io/dist-sys/6c/',4],
+];
+
+const HI='https://www.hellointerview.com/learn/system-design/problem-breakdowns';
+/* Written designs — [id, label, month] */
+const DESIGNS=[
+ ['d1','Distributed rate limiter',2],['d2','URL shortener (Bitly)',2],
+ ['d3','Chat system (WhatsApp-lite)',3],['d4','Ride-hailing backend (Uber-lite, geospatial)',3],
+ ['d5','Financial ledger',3],['d6','News feed / timeline',3],
+ ['d7','RAG pipeline (your home turf)',4],['d8','Semantic search service (embeddings + vector DB)',4],
+ ['d9','LLM inference gateway (routing, caching, cost)',4],['d10','Web crawler or Top-K leaderboard',4],
+];
+/* Mocks — [id, label, month] */
+const MOCKS=[
+ ['mock-c1','Coding mock #1',3],
+ ['mock-d1','Design mock #1',4],['mock-d2','Design mock #2',4],['mock-d3','Design mock #3',4],['mock-d4','Design mock #4',4],
+ ['mock-b1','Behavioral mock #1',4],
+ ['mock-d5','Design mock #5',5],['mock-d6','Design mock #6',5],
+ ['mock-b2','Behavioral mock #2',5],['mock-c2','Coding mock #2',5],
+];
+const COURSE_URL='https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google';
+const COURSE=[
+ ['course-1','Day 1 · Agents & vibe-coding fundamentals'],
+ ['course-2','Day 2 · Agent tools & interoperability (APIs, A2A)'],
+ ['course-3','Day 3 · Context engineering: sessions, skills, memory'],
+ ['course-4','Day 4 · Agent quality & security (testing, guardrails)'],
+ ['course-5','Day 5 · Prototype → production (deploy, observability)'],
+];
+const STORIES=[
+ ['story-1','Tunga-agent — end-to-end AI pipeline (ownership, ambiguity)'],
+ ['story-2','Hybrid LLM mode — 90% cost cut (trade-offs with data)'],
+ ['story-3','Lead-ID — expanding the product line (influence)'],
+ ['story-4','Sagemaker → Vertex AI migration (risk management)'],
+ ['story-5','Sunbird API + team lead (leadership, mentorship)'],
+ ['story-6','Noise monitoring → AWS IoT (reliability; the Mayor story)'],
+ ['story-7','Production incident story (mine your memory — gap)'],
+ ['story-8','Failure / conflict-with-data story (gap)'],
+];
+const EXPL=[
+ ['expl-5','#1 "Computers for agents" — Fly.io Sprites (seeded in sprites-explainer.html; deep-dive Sun Sep 6)',1],
+ ['expl-1','#2 "How fast is fast?" — latency game + calculator',2],
+ ['expl-2','#3 "Gossip" — broadcast simulator',4],
+ ['expl-3','#4 "Nobody agrees" — replication conflicts & unique IDs',5],
+ ['expl-4','#5 "The log" — partitioned log & consumers (stretch)',6],
+];
+
+/* Timeline months (milestone view) */
+const MONTHS=[
+ {name:'Stage 1 — Foundations (restart; Stage 0 = Sep 4–13 re-entry: daily DSA + Sprites Sunday)',start:'2026-09-14',end:'2026-11-08',tasks:[
+  ['m1-dsa1','34 problems: arrays/hashing, two pointers, sliding window, stack, binary search','A'],
+  ['m1-ddia1','DDIA ch.1–2 notes — trade-offs, nonfunctional requirements','B'],
+  ['m1-ddia2','DDIA ch.3 note — data models & query languages','B'],
+  ['m1-ddia3','DDIA ch.4 note — storage: LSM-tree vs B-tree, cold','B'],
+  ['m1-ddia4','DDIA ch.5 note — encoding & evolution (JSON/Avro/Protobuf)','B'],
+  ['m1-mael','Maelstrom environment set up + documented in glomers/README.md','C'],
+  ['m1-g1','Glomers 1 Echo — Python (Sunday slot; Go backfill in Stage 4)','C'],
+  ['m1-g2','Glomers 2 Unique IDs — Python (Sunday slot)','C'],
+  ['m1-expl','Exploration: "Computers for agents" (Fly.io Sprites) — deep-dive Sun Sep 6','X'],
+ ]},
+ {name:'Stage 2 — Replication',start:'2026-11-09',end:'2027-01-03',tasks:[
+  ['m2-dsa','36 problems: linked lists, trees, tries, heaps','A'],
+  ['m2-ddia5','DDIA ch.6 Replication — leaders, lag, conflicts','B'],
+  ['m2-ddia6','DDIA ch.7 Sharding','B'],
+  ['m2-frame','Learn the 4-step design framework (Hello Interview)','B'],
+  ['m2-d1','Written design #1: distributed rate limiter','B'],
+  ['m2-d2','Written design #2: URL shortener','B'],
+  ['m2-g3','Glomers 3a–c Broadcast — Python','C'],
+  ['m2-g3e','Glomers 3d–e efficient broadcast — Python (measure, don\'t guess)','C'],
+  ['m2-stories','Story bank: 8 stories drafted, gaps identified','D'],
+  ['m2-resume','Resume + LinkedIn updated; referral list drafted (Andela alumni!)','E'],
+  ['m2-expl1','Exploration: "How fast is fast?" published','X'],
+  ['m1-course','Kaggle 5-Day AI Agents course — in WORK hours (agent-building is the day job), tied to live Tunga projects','X'],
+  ['m1-retro','Course retro: change how I use Claude Code on this repo','X'],
+ ]},
+ {name:'Stage 3 — Transactions & consistency · applications trigger',start:'2027-01-04',end:'2027-02-28',tasks:[
+  ['m3-dsa','28 problems: graphs, advanced graphs, backtracking','A'],
+  ['m3-mock','First timed coding mock','A'],
+  ['m3-ddia7','DDIA ch.8 Transactions note','B'],
+  ['m3-ddia8','DDIA ch.9 The Trouble with Distributed Systems note','B'],
+  ['m3-ddia9','DDIA ch.10 Consistency & Consensus note (go slow — highest yield)','B'],
+  ['m3-designs','4 written + 4 timed-verbal designs (chat, Uber-lite, ledger, feed)','B'],
+  ['m3-g4','Glomers 4 G-counter — Python (+ CRDT reading)','C'],
+  ['m3-g5','Glomers 5a–c Kafka-style log — Python','C'],
+  ['m3-apply','🔓 Trigger: 60+ problems · DDIA ch.1–7 · 4 designs · 8 stories → warm-up applications out (5+)','E'],
+  ['m3-2brain','Prep notes captured in repo + quiz deck kept current (2brain parked)','X'],
+  ['m3-check','✅ Min-viable-readiness checkpoint: mediums ≤25min? coherent 40-min design?','E'],
+ ]},
+ {name:'Stage 4 — Interview simulation',start:'2027-03-01',end:'2027-04-11',tasks:[
+  ['m4-dsa','37 problems: 1-D/2-D DP, greedy, intervals + weekly timed sets','A'],
+  ['m4-ddia','DDIA ch.11–12 batch/stream/derived data (efficient pass)','B'],
+  ['m4-mocks','Weekly design mocks (4) — peer or paid','B'],
+  ['m4-ai-design','AI-system designs: RAG pipeline, semantic search, LLM gateway','B'],
+  ['m4-g6','Glomers 6a–c Totally-available transactions — Python','C'],
+  ['m1-go1','Go on-ramp: Tour of Go + Effective Go','C'],
+  ['m1-go2','~15 Exercism Go exercises (slices, maps, structs, errors)','C'],
+  ['m4-gobackfill','Backfill Go versions (1–3 complete + one of 4/5/6)','C'],
+  ['m4-drills','Weekly 45-min AI-assisted build drills','X'],
+  ['m4-bmock','Behavioral mock #1','D'],
+  ['m4-faang','FAANG applications + referrals out','E'],
+  ['m4-expl2','Exploration: "Gossip" (broadcast simulator) published','X'],
+ ]},
+ {name:'Stage 5 — Sharpening',start:'2027-04-12',end:'2027-05-23',tasks:[
+  ['m5-redo','Re-solve every previously-failed problem (+ math/bits patterns)','A'],
+  ['m5-mocks','2 design mocks per week; patch weak spots from feedback','B'],
+  ['m5-postmortems','Read 3–4 public postmortems (AWS, Cloudflare, SRE book)','B'],
+  ['m5-perf','Performance-tune broadcast 3e + log 5c in Go','C'],
+  ['m5-stories','All 8 stories drilled to 2–3 min spoken','D'],
+  ['m5-bmock','Behavioral mock #2','D'],
+  ['m5-retros','Interview retro logged after every real round','E'],
+  ['m5-expl3','Exploration: "Nobody agrees" published','X'],
+ ]},
+ {name:'Stage 6 — Execution',start:'2027-05-24',end:'2027-06-30',tasks:[
+  ['m6-exec','Interview execution — company-specific tuning per onsite','E'],
+  ['m6-review','Spaced review via this quiz deck (2brain Phase 2 if it has resumed)','X'],
+  ['m6-patch','Patch only weaknesses exposed by real loops — no new material','A'],
+  ['m6-build','Keep one build thread alive (Glomers) for sanity','C'],
+ ]},
+];
+
+const QUIZ=[
+ {cat:'Scale math',q:'Reading 1 MB sequentially from memory (~250 µs) vs over a 1 Gbps network (~10 ms). Roughly how much slower is the network?',opts:['~4×','~40×','~400×','~4000×'],correct:1,why:'10,000 µs ÷ 250 µs = 40×. This single ratio justifies caching layers: keeping hot data in memory beats refetching it over the network by more than an order of magnitude.'},
+ {cat:'Scale math',q:'A standard NVMe SSD vs a spinning HDD — random IOPS, roughly?',opts:['~10× more','~50× more','~500× more','About the same, SSDs only win on bandwidth'],correct:2,why:'NVMe ≈ 100,000+ IOPS vs HDD ≈ 200 → ~500×. HDDs die on random I/O (seek time); this is why LSM-trees (sequential writes) were invented for spinning disks and still win for write-heavy loads.'},
+ {cat:'Scale math',q:'50,000 writes/sec × 1 KB each. Can a single 1 Gbps NIC ingest this?',opts:['No — needs ~4 Gbps','Yes — ~40% of the link','Only with compression','Yes — under 5% of the link'],correct:1,why:'50k × 1 KB ≈ 50 MB/s. 1 Gbps ≈ 125 MB/s, so ~40% utilization. Doing this arithmetic out loud in the first 5 minutes of a design interview is a seniority signal.'},
+ {cat:'Storage',q:'A write-heavy logging system at 50k writes/sec bottlenecks on a B-tree index. Why does an LSM-tree fix it?',opts:['It keeps everything in RAM','It turns random writes into sequential appends','It compresses data better','It shards automatically'],correct:1,why:'B-trees update pages in place → random disk I/O. LSM-trees buffer in a memtable and flush sorted runs sequentially; compaction happens in the background. The trade: reads may check multiple levels (mitigated by Bloom filters).'},
+ {cat:'Storage',q:'When does a document model (vs relational) genuinely win?',opts:['When data is highly interconnected (many-to-many)','When you need multi-record transactions','When data is tree-shaped and read as a unit (locality)','When the schema changes never'],correct:2,why:'DDIA data-models chapter: document DBs win on locality for self-contained tree-shaped records (load the whole doc in one read) and schema flexibility. Many-to-many relationships push you back toward relational/graph models.'},
+ {cat:'Storage',q:'Why do Avro/Protobuf beat raw JSON for service-to-service data?',opts:['They are human-readable','Compactness + schema evolution rules (forward/backward compat)','They avoid needing a network protocol','JSON cannot encode numbers safely'],correct:1,why:'Binary encodings are smaller/faster, but the real win is explicit schemas with evolution rules — old readers handle new writers and vice versa. (JSON’s number precision issue is real but secondary.)'},
+ {cat:'Distributed',q:'Glomers challenge 2: why can’t each node just use an auto-incrementing counter for globally-unique IDs?',opts:['Counters overflow too fast','Two nodes will mint the same ID without coordination','It’s too slow','Maelstrom forbids integers'],correct:1,why:'Uniqueness across nodes needs either coordination (a bottleneck + availability risk) or structure that makes collision impossible: node-ID + local counter, or Snowflake-style timestamp + node + sequence bits.'},
+ {cat:'Distributed',q:'In gossip broadcast, increasing fanout (neighbors messaged per round) trades…',opts:['Consistency for availability','Propagation latency for message volume','Durability for speed','Nothing — higher fanout is strictly better'],correct:1,why:'Higher fanout → rumors spread in fewer hops (lower latency) but total messages grow. Glomers 3d/3e make this concrete: you must hit latency targets *under* a messages-per-op budget. There is no free lunch.'},
+ {cat:'Distributed',q:'Why can a grow-only counter (G-counter CRDT) stay correct without consensus?',opts:['It uses locks internally','Its merge (element-wise max of per-node counts) is commutative, associative, idempotent','Nodes never fail in this model','It relies on synchronized clocks'],correct:1,why:'Each node only increments its own slot; merging takes per-slot max. Apply merges in any order, any number of times — same result. That’s the CRDT trick: make convergence a property of the data structure, not of coordination.'},
+ {cat:'Plan & AI rounds',q:'In an AI-enabled coding round, the strongest signal you can send is…',opts:['Generating the full solution in one prompt','Typing speed','Catching and narrating a bug in the AI’s output','Refusing to use the AI to show skill'],correct:2,why:'These rounds grade judgment: task decomposition, verification, architecture ownership. Spotting the hallucinated edge case out loud is exactly what they’re designed to measure.'},
+ {cat:'Plan & AI rounds',q:'What language do you interview in, and what is Go for?',opts:['Go for interviews — it impresses','Whichever feels right that day','Python for interviews; Go only for learning distributed systems','Python early, switch to Go by month 4'],correct:2,why:'Rule from ROADMAP §1. Timed rounds run on your most fluent language (Python). Go exists to make DDIA concepts concrete via Gossip Glomers — never mix the goals in a timed setting.'},
+ {cat:'Plan & AI rounds',q:'A brutal work week leaves you 6 hours total. What does the plan say to cut first?',opts:['Timed DSA practice','The weekly design block','Review blocks and 2brain feature scope','Applications'],correct:2,why:'Protected minimums: timed practice + design blocks (prep) and the 2brain *habit*. Variance comes out of review blocks and 2brain *scope*. In a true months-4–6 crunch, live interviews win.'},
+ {cat:'Scale math',q:'Predict: how many random 4 KB reads/sec can one HDD sustain vs one NVMe SSD?',opts:['~200 vs ~100,000+','~2,000 vs ~50,000','~20 vs ~1,000,000','~200 vs ~5,000'],correct:0,why:'HDD: ~5–10 ms per seek → ~100–200 IOPS. NVMe: no moving parts, deep queues → 100k+. When an interviewer says "we’re on spinning disks," your whole design should tilt toward sequential access patterns.'},
+];
+
+const LAT=[
+ ['L1 cache reference',0.5,'0.5 ns'],
+ ['Branch mispredict',5,'5 ns'],
+ ['L2 cache reference',7,'7 ns'],
+ ['Mutex lock/unlock',25,'25 ns'],
+ ['Main memory reference',100,'100 ns'],
+ ['Compress 1 KB (Snappy)',3e3,'3 µs'],
+ ['Send 1 KB over 1 Gbps network',1e4,'10 µs'],
+ ['Random 4 KB read, NVMe SSD',1e5,'100 µs'],
+ ['Read 1 MB sequentially from memory',2.5e5,'250 µs'],
+ ['Round trip within datacenter',5e5,'500 µs'],
+ ['Read 1 MB sequentially from SSD',1e6,'1 ms'],
+ ['HDD disk seek',1e7,'10 ms'],
+ ['Read 1 MB sequentially from HDD',2e7,'20 ms'],
+ ['Packet CA → Netherlands → CA',1.5e8,'150 ms'],
+];
+
+/* ================= HELPERS ================= */
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const isDone=id=>!!S.items[id];
+function setItem(id,val){S.items[id]=val;save();renderAll()}
+function distribute(list,n){const out=Array.from({length:n},()=>[]);if(!list.length)return out;
+  list.forEach((x,i)=>out[Math.floor(i*n/list.length)].push(x));return out}
+function fmtBar(cur,tgt){return tgt?Math.min(100,Math.round(100*cur/tgt)):0}
+function countIds(ids){return ids.filter(isDone).length}
+
+/* item-chip HTML (shared by Work + Schedule). kind: link may be '' */
+function chipHTML(id,label,url,extraClass){
+  const done=isDone(id)?' done':'';
+  const inner=url?`<a href="${url}" target="_blank" rel="noopener">${esc(label)}</a>`:`<span>${esc(label)}</span>`;
+  return `<label class="chipitem${done} ${extraClass||''}"><input type="checkbox" data-item="${id}" ${isDone(id)?'checked':''}>${inner}</label>`;
+}
+function rowHTML(id,label,url,meta){
+  const done=isDone(id)?' done':'';
+  const inner=url?`<a href="${url}" target="_blank" rel="noopener">${esc(label)}</a>`:`<span class="itxt">${esc(label)}</span>`;
+  return `<label class="item${done}"><input type="checkbox" data-item="${id}" ${isDone(id)?'checked':''}>${inner}${meta?`<span class="meta">${meta}</span>`:''}</label>`;
+}
+/* delegate all item checkboxes */
+document.addEventListener('change',e=>{
+  const id=e.target.getAttribute&&e.target.getAttribute('data-item');
+  if(id)setItem(id,e.target.checked);
+});
+/* week notes: save on every keystroke, no re-render (would steal focus) */
+document.addEventListener('input',e=>{
+  if(e.target.classList&&e.target.classList.contains('wknotes')){
+    S.notes[e.target.dataset.wk]=e.target.value;save();
+  }
+});
+
+/* ================= TABS ================= */
+const TABS=[['dashboard','Dashboard'],['schedule','Schedule'],['work','Work'],['timeline','Timeline'],['tracks','Tracks'],['quiz','Quiz'],['lab','Lab'],['guide','Guide']];
+const tabsEl=document.getElementById('tabs');
+TABS.forEach(([id,label])=>{
+  const b=document.createElement('button');b.className='tab';b.textContent=label;b.id='tab-'+id;
+  b.onclick=()=>showTab(id);tabsEl.appendChild(b);
+});
+function showTab(id){
+  TABS.forEach(([t])=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===id);
+    document.getElementById('view-'+t).classList.toggle('active',t===id);
+  });
+  S.lastTab=id;save();
+}
+
+/* ================= HEADER ================= */
+(function(){
+  const now=new Date(); const start=new Date('2026-09-04');
+  const day=Math.max(1,Math.floor((now-start)/864e5)+1);
+  const el=document.getElementById('countdowns');
+  const mk=(n,l,past)=>`<div class="cd"><div class="n${past?' past':''}">${n}</div><div class="l">${l}</div></div>`;
+  let html=mk('Day '+day,'since Sep 4 restart',false);
+  CHECKPOINTS.forEach(c=>{
+    const d=Math.ceil((new Date(c.date)-now)/864e5);
+    html+=d>=0?mk(d+'d',c.label,false):mk('done?',c.label+' (passed)',true);
+  });
+  el.innerHTML=html;
+})();
+
+/* ================= SCOREBOARD (derived) ================= */
+function allProblemIds(){return DSA_GROUPS.flatMap(g=>g.items.map(it=>pid(it[1])))}
+function renderMetrics(){
+  const el=document.getElementById('metrics');el.innerHTML='';
+  const rows=[
+    ['DSA problems solved',countIds(allProblemIds()),150],
+    ['DDIA chapters noted',countIds(DDIA_CH.map(c=>'ch-'+c[0])),12],
+    ['Glomers — Python',countIds(GLOMERS.map(g=>'gl-'+g[0]+'-py')),14],
+    ['Glomers — Go (target ≥8)',countIds(GLOMERS.map(g=>'gl-'+g[0]+'-go')),14],
+    ['Written designs',countIds(DESIGNS.map(d=>d[0])),10],
+    ['Design mocks',countIds(MOCKS.filter(m=>m[0].startsWith('mock-d')).map(m=>m[0])),6],
+    ['Coding mocks',countIds(MOCKS.filter(m=>m[0].startsWith('mock-c')).map(m=>m[0])),2],
+    ['Behavioral mocks',countIds(MOCKS.filter(m=>m[0].startsWith('mock-b')).map(m=>m[0])),2],
+    ['STAR stories drilled',countIds(STORIES.map(s=>s[0])),8],
+    ['Agents course days',countIds(COURSE.map(c=>c[0])),5],
+    ['Explorations published',countIds(EXPL.map(e=>e[0])),4],
+  ];
+  rows.forEach(([label,v,tgt])=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="metric"><span class="lbl">${label}</span><span class="val">${v} / ${tgt}</span></div>
+      <div class="bar"><i style="width:${fmtBar(v,tgt)}%"></i></div>`;
+    el.appendChild(d);
+  });
+  const apps=S.metrics.apps||0;
+  const d=document.createElement('div');d.className='card';
+  d.innerHTML=`<div class="metric"><span class="lbl">Applications out</span>
+    <span class="stepper"><button onclick="bumpApps(-1)">−</button><span class="sval">${apps}</span><button onclick="bumpApps(1)">+</button></span></div>
+    <div class="bar"><i style="width:${fmtBar(apps,15)}%"></i></div><div class="tgt">target 15</div>`;
+  el.appendChild(d);
+}
+function bumpApps(delta){S.metrics.apps=Math.max(0,(S.metrics.apps||0)+delta);save();renderMetrics()}
+function renderOverall(){
+  const all=MONTHS.flatMap(m=>m.tasks);
+  const done=all.filter(t=>taskDone(t[0])).length;
+  document.getElementById('overall-num').textContent=done+' / '+all.length+' milestones';
+  document.getElementById('overall-bar').style.width=fmtBar(done,all.length)+'%';
+}
+
+/* ================= WORK TAB ================= */
+function groupHTML(title,ids,badge,bodyHTML,openIf){
+  const done=countIds(ids);
+  return `<details class="group"${openIf?' open':''}><summary>
+    <span class="gs-name">${title}</span>${badge?`<span class="gs-month">${badge}</span>`:''}
+    <span class="gs-count">${done} / ${ids.length}</span>
+    <span class="gs-bar"><i style="width:${fmtBar(done,ids.length)}%"></i></span></summary>
+    <div class="body">${bodyHTML}</div></details>`;
+}
+function renderWork(){
+  const openState={};document.querySelectorAll('details.group').forEach(d=>{openState[d.dataset.k]=d.open});
+  const dsaEl=document.getElementById('work-dsa');
+  dsaEl.innerHTML=DSA_GROUPS.map(g=>{
+    const ids=g.items.map(it=>pid(it[1]));
+    const body=g.items.map(it=>rowHTML(pid(it[1]),it[0],LC(it[1]),it[2]?'☆ premium':'')).join('');
+    return groupHTML(g.g,ids,'M'+g.month,body);
+  }).join('');
+  document.getElementById('work-ddia').innerHTML=(()=>{
+    const ids=DDIA_CH.map(c=>'ch-'+c[0]);
+    const body=DDIA_CH.map(c=>rowHTML('ch-'+c[0],'Ch.'+c[0]+' — '+c[1],'','M'+c[2]+' · note in notes/ddia/')).join('');
+    return groupHTML('DDIA 2nd ed — 12 chapters',ids,'',body,true);
+  })();
+  document.getElementById('work-glomers').innerHTML=(()=>{
+    const ids=GLOMERS.flatMap(g=>['gl-'+g[0]+'-py','gl-'+g[0]+'-go']);
+    const body=GLOMERS.map(g=>{
+      const py='gl-'+g[0]+'-py',go='gl-'+g[0]+'-go';
+      return `<div class="item"><a href="${g[2]}" target="_blank" rel="noopener">${esc(g[1])}</a>
+        <span class="duo">
+          <label><input type="checkbox" data-item="${py}" ${isDone(py)?'checked':''}>Py</label>
+          <label><input type="checkbox" data-item="${go}" ${isDone(go)?'checked':''}>Go</label>
+          <span>M${g[3]}</span></span></div>`;
+    }).join('');
+    return groupHTML('Challenges 1–6 (fly.io/dist-sys)',ids,'',body,true);
+  })();
+  document.getElementById('work-rest').innerHTML=
+    groupHTML('Written designs (framework: requirements → API → components → deep dives)',DESIGNS.map(d=>d[0]),'',
+      DESIGNS.map(d=>rowHTML(d[0],d[1],HI,'M'+d[2])).join(''))+
+    groupHTML('Mocks',MOCKS.map(m=>m[0]),'',
+      MOCKS.map(m=>rowHTML(m[0],m[1],'','M'+m[2])).join(''))+
+    groupHTML('Kaggle × Google agents course (self-paced sprint, wk of Jul 20)',COURSE.map(c=>c[0]),'M1',
+      COURSE.map(c=>rowHTML(c[0],c[1],COURSE_URL,'')).join('')+
+      rowHTML('course-cap','Kaggriculture capstone (check if submissions still open)',COURSE_URL,''))+
+    groupHTML('STAR stories (details in behavioral/story-bank.md)',STORIES.map(s=>s[0]),'',
+      STORIES.map(s=>rowHTML(s[0],s[1],'','')).join(''))+
+    groupHTML('Interactive explorations (blog)',EXPL.map(e=>e[0]),'',
+      EXPL.map(e=>rowHTML(e[0],e[1],'https://cmplx-xyttmt.github.io/','M'+e[2])).join(''));
+  document.querySelectorAll('details.group').forEach((d,i)=>{d.dataset.k=i;if(openState[i]!==undefined)d.open=openState[i]});
+}
+
+/* ================= SCHEDULE TAB ================= */
+const DAY_MS=864e5;
+const fmtD=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+function monthWeeks(m){ // array of week-start Dates (Mondays)
+  const out=[];let d=new Date(m.start+'T00:00');const end=new Date(m.end+'T00:00');
+  while(d<=end){out.push(new Date(d));d=new Date(d.getTime()+7*DAY_MS)}
+  return out;
+}
+function renderSchedule(){
+  const openState={};document.querySelectorAll('details.sched-month').forEach(d=>{openState[d.dataset.k]=d.open});
+  const openW={};document.querySelectorAll('details.week').forEach(d=>{openW[d.dataset.wk]=d.open});
+  const el=document.getElementById('schedule');const now=new Date();
+  let html='';
+  MONTHS.forEach((m,mi)=>{
+    const mNum=mi+1;
+    const weeks=monthWeeks(m);
+    const probs=DSA_GROUPS.filter(g=>g.month===mNum).flatMap(g=>g.items.map(it=>({id:pid(it[1]),name:it[0],url:LC(it[1])})));
+    const chaps=DDIA_CH.filter(c=>c[2]===mNum);
+    const gloms=GLOMERS.filter(g=>g[3]===mNum);
+    const dsgn=DESIGNS.filter(d=>d[2]===mNum).map(d=>({id:d[0],name:'Design: '+d[1],url:HI}))
+      .concat(MOCKS.filter(x=>x[2]===mNum).map(x=>({id:x[0],name:x[1],url:''})));
+    const wProbs=distribute(probs,weeks.length);
+    const wChaps=distribute(chaps,weeks.length);
+    const wGloms=distribute(gloms,weeks.length);
+    const wDsgn=distribute(dsgn,weeks.length);
+    const isCurM=now>=new Date(m.start)&&now<=new Date(m.end+'T23:59');
+    let body='';
+    weeks.forEach((wk,wi)=>{
+      const wkEnd=new Date(wk.getTime()+6*DAY_MS);
+      const wkKey='wk-'+wk.getFullYear()+'-'+String(wk.getMonth()+1).padStart(2,'0')+'-'+String(wk.getDate()).padStart(2,'0');
+      const isCurW=now>=wk&&now<wkEnd.getTime()+DAY_MS;
+      const courseWeek=false; /* course rescheduled to the first post-MVP gap — re-point this date when it's set */
+      const wkIds=[];
+      wProbs[wi].forEach(p=>wkIds.push(p.id));
+      wChaps[wi].forEach(c=>wkIds.push('ch-'+c[0]));
+      wGloms[wi].forEach(g=>wkIds.push('gl-'+g[0]+'-py','gl-'+g[0]+'-go'));
+      wDsgn[wi].forEach(d=>wkIds.push(d.id));
+      if(courseWeek)COURSE.forEach(c=>wkIds.push(c[0]));
+      const [mon,wed,fri]=distribute(wProbs[wi],3);
+      const probChips=arr=>arr.map(p=>chipHTML(p.id,p.name,p.url)).join('')||'<span class="chipitem static">re-solve failed problems</span>';
+      const dayRow=(lbl,chips)=>`<div class="day-row"><span class="dlabel">${lbl}</span><div class="chips">${chips}</div></div>`;
+      let rows='';
+      rows+=dayRow('Mon',probChips(mon)+(courseWeek?chipHTML('course-1',COURSE[0][1],COURSE_URL,'course'):''));
+      rows+=dayRow('Tue',(wChaps[wi].map(c=>chipHTML('ch-'+c[0],'DDIA Ch.'+c[0]+' — '+c[1],'')).join('')||'<span class="chipitem static">DDIA: continue / review notes</span>')+(courseWeek?chipHTML('course-2',COURSE[1][1],COURSE_URL,'course'):''));
+      rows+=dayRow('Wed',probChips(wed)+(courseWeek?chipHTML('course-3',COURSE[2][1],COURSE_URL,'course'):''));
+      let thu=wGloms[wi].map(g=>{
+        const py='gl-'+g[0]+'-py',go='gl-'+g[0]+'-go';
+        return `<span class="chipitem"><a href="${g[2]}" target="_blank" rel="noopener">Glomers ${esc(g[1])}</a>
+          <label><input type="checkbox" data-item="${py}" ${isDone(py)?'checked':''}>Py</label>
+          <label><input type="checkbox" data-item="${go}" ${isDone(go)?'checked':''}>Go</label></span>`;
+      }).join('');
+      if(mNum===1&&wi===0){thu=chipHTML('m1-mael-s','Set up Maelstrom (glomers/README.md)','https://github.com/jepsen-io/maelstrom')+thu;wkIds.push('m1-mael-s')}
+      if(mNum===1&&wi<2){thu+=chipHTML('m1-go-s'+wi,wi===0?'Tour of Go (½)':'Effective Go + Exercism','https://go.dev/tour/');wkIds.push('m1-go-s'+wi)}
+      rows+=dayRow('Thu',(thu||'<span class="chipitem static">Go practice / Glomers overflow</span>')+(courseWeek?chipHTML('course-4',COURSE[3][1],COURSE_URL,'course'):''));
+      rows+=dayRow('Fri',probChips(fri)+(courseWeek?chipHTML('course-5',COURSE[4][1],COURSE_URL,'course'):''));
+      rows+=dayRow('Sat',wDsgn[wi].map(d=>chipHTML(d.id,d.name,d.url)).join('')||'<span class="chipitem static">design practice / Glomers overflow / exploration</span>');
+      rows+=dayRow('Sun','<span class="chipitem static">behavioral 30min · weekly review · export backup · plan week</span>');
+      const noteVal=S.notes[wkKey]||'';
+      const wkDone=countIds(wkIds);
+      const openThis=openW[wkKey]!==undefined?openW[wkKey]:isCurW;
+      body+=`<details class="week${isCurW?' currentweek':''}" data-wk="${wkKey}"${openThis?' open':''}>
+        <summary><span>Week of ${fmtD(wk)} – ${fmtD(wkEnd)}</span>${courseWeek?'<span class="note">🤖 agents-course sprint (1–2h/day, amber chips)</span>':''}${isCurW?'<span class="youare">← you are here</span>':''}${noteVal.trim()?'<span class="notedot" title="has notes">📝</span>':''}<span class="wkcount">${wkDone}/${wkIds.length} done</span></summary>
+        <div class="wbody">${rows}
+        <textarea class="wknotes" data-wk="${wkKey}" placeholder="Week notes — what I learned, what tripped me up, what to revisit…">${esc(noteVal)}</textarea></div></details>`;
+    });
+    html+=`<details class="sched-month" data-k="${mi}"${(openState[mi]!==undefined?openState[mi]:isCurM)?' open':''}>
+      <summary>${m.name}<span class="dates">${m.start} → ${m.end}</span></summary>${body}</details>`;
+  });
+  el.innerHTML=html;
+}
+
+/* ================= TIMELINE ================= */
+/* Milestones that auto-derive from granular items: check a problem/chapter/challenge
+   anywhere and the corresponding milestone (and month bar) updates itself. */
+const monthProbIds=m=>DSA_GROUPS.filter(g=>g.month===m).flatMap(g=>g.items.map(it=>pid(it[1])));
+const AUTO={
+ 'm1-dsa1':()=>monthProbIds(1),
+ 'm1-ddia1':()=>['ch-1','ch-2'],'m1-ddia2':()=>['ch-3'],'m1-ddia3':()=>['ch-4'],'m1-ddia4':()=>['ch-5'],
+ 'm1-g1':()=>['gl-1-py'],'m1-g2':()=>['gl-2-py'],
+ 'm1-mael':()=>['m1-mael-s'],
+ 'm1-course':()=>COURSE.map(c=>c[0]),
+ 'm1-expl':()=>['expl-5'],
+ 'm2-dsa':()=>monthProbIds(2),
+ 'm2-ddia5':()=>['ch-6'],'m2-ddia6':()=>['ch-7'],
+ 'm2-d1':()=>['d1'],'m2-d2':()=>['d2'],
+ 'm2-g3':()=>['gl-3a-py','gl-3b-py','gl-3c-py'],'m2-g3e':()=>['gl-3d-py','gl-3e-py'],
+ 'm2-expl1':()=>['expl-1'],
+ 'm3-dsa':()=>monthProbIds(3),
+ 'm3-mock':()=>['mock-c1'],
+ 'm3-ddia7':()=>['ch-8'],'m3-ddia8':()=>['ch-9'],'m3-ddia9':()=>['ch-10'],
+ 'm3-designs':()=>['d3','d4','d5','d6'],
+ 'm3-g4':()=>['gl-4-py'],'m3-g5':()=>['gl-5a-py','gl-5b-py','gl-5c-py'],
+ 'm4-dsa':()=>monthProbIds(4),
+ 'm4-ddia':()=>['ch-11','ch-12'],
+ 'm4-mocks':()=>['mock-d1','mock-d2','mock-d3','mock-d4'],
+ 'm4-ai-design':()=>['d7','d8','d9'],
+ 'm4-g6':()=>['gl-6a-py','gl-6b-py','gl-6c-py'],
+ 'm4-bmock':()=>['mock-b1'],'m4-expl2':()=>['expl-2'],
+ 'm5-mocks':()=>['mock-d5','mock-d6'],'m5-bmock':()=>['mock-b2'],
+ 'm5-stories':()=>STORIES.map(s=>s[0]),'m5-expl3':()=>['expl-3'],
+};
+const taskDone=id=>AUTO[id]?AUTO[id]().every(isDone):!!S.tasks[id];
+function renderTimeline(){
+  const el=document.getElementById('timeline');el.innerHTML='';
+  const now=new Date();
+  MONTHS.forEach(m=>{
+    const cur=now>=new Date(m.start)&&now<=new Date(m.end+'T23:59');
+    const done=m.tasks.filter(t=>taskDone(t[0])).length;
+    const div=document.createElement('div');div.className='month'+(cur?' current':'');
+    div.innerHTML=`<h3>${m.name} <span class="dates">${m.start} → ${m.end}</span></h3>
+      <div class="bar mbar"><i style="width:${fmtBar(done,m.tasks.length)}%"></i></div>`;
+    m.tasks.forEach(([id,txt,tr])=>{
+      const auto=AUTO[id];
+      const isD=taskDone(id);
+      const lab=document.createElement('label');lab.className='task'+(isD?' done':'');
+      let prog='';
+      if(auto){
+        const ids=auto();
+        prog=`<span class="aprog">auto · ${countIds(ids)}/${ids.length}</span>`;
+      }
+      lab.innerHTML=`<input type="checkbox" ${isD?'checked':''} ${auto?'disabled title="auto-derived from Work/Schedule items"':''}>
+        <span class="pill" style="color:${TRACK_COLORS[tr]};border-color:${TRACK_COLORS[tr]}">${TRACK_NAMES[tr]}</span>
+        <span class="txt">${txt}</span>${prog}`;
+      if(!auto){
+        lab.querySelector('input').onchange=e=>{S.tasks[id]=e.target.checked;save();renderTimeline();renderOverall()};
+      }
+      div.appendChild(lab);
+    });
+    el.appendChild(div);
+  });
+}
+
+/* ================= TRACKS ================= */
+const TRACKS_INFO=[
+ ['A · Coding / DSA','var(--tA)','NeetCode 150 by pattern, in Python, timed from day one (25 min mediums). 2-line insight note per problem; spaced re-solves at +3d / +2w. ~15 easy problems in Go early, for syntax only.'],
+ ['B · System design','var(--tB)','DDIA 2nd ed actively (1-page note per chapter) + the 4-step interview skeleton: requirements &amp; scale math → API/data model → components (write/read/async paths) → deep dives. Lives in the Sunday half-day (alternating with Glomers): written designs from Stage 2, timed verbal from Stage 3. Unfair advantage: AI-system design (RAG, vector sharding, inference economics) — you’ve built these.'],
+ ['C · Distributed systems','var(--tC)','Gossip Glomers in Python on alternating Sundays, each paired with its DDIA chapters — theory before practice. Go deferred to Stage 4: on-ramp (Tour, Effective Go, Exercism) + Concurrency in Go, then backfill the concurrency-interesting challenges.'],
+ ['D · Behavioral','var(--tD)','8 STAR stories at senior bar: incident, disagreement-with-data, mentorship, ambiguity, failure, cross-team, deep technical, tech debt. Numbers in every story (90% cost cut, 97K plots…). Drilled out loud from month 4.'],
+ ['E · Applications','var(--tE)','Resume per role family; referral hunt (Andela alumni network). Warm-up tier opens on the trigger (60+ problems · DDIA ch.1–7 · 4 designs · 8 stories — proj. ~Feb 2027) = live calibration; FAANG + remote-first in parallel from Stage 4. Kampala reality: visa-sponsoring offices (Zurich, London, Dublin, Canada) + remote-first companies.'],
+ ['AI-era layer','var(--tX)','Two modes trained: raw (~70% early) and AI-assisted (~30%, →40% later). Kaggle × Google agents course rescheduled to the first post-MVP gap — supervise-the-agent skill, graded in AI rounds. In AI rounds: decompose, verify, narrate caught bugs.'],
+ ['Retention — WEEK.md now, 2brain later','var(--tX)','2brain-cc is parked (Sep 4). The anti-abandonment job runs on WEEK.md (/standup, /shutdown, seasons) + this repo: notes in notes/ &amp; dsa/, this quiz deck for spaced rep (add questions per finished chapter/challenge). When 2brain resumes, Phase 0 inherits it all; its /sync design doc still doubles as design practice.'],
+ ['Interactive explorations','var(--tX)','Output of the Sunday deep-dive, ~1 per 2–3 Sunday cycles, timeboxed 6–8h: "Computers for agents" (Fly.io Sprites — Sun Sep 6, seeded in sprites-explainer.html) → "How fast is fast?" → "Gossip" → "Nobody agrees" → "The log". Mechanics prototyped in this file’s Lab tab first. Publishing = retention + visibility ahead of applications.'],
+];
+(function(){
+  const el=document.getElementById('tracks');
+  TRACKS_INFO.forEach(([t,c,body])=>{
+    const d=document.createElement('div');d.className='card track-card';d.style.borderTopColor=c;
+    d.innerHTML=`<h3>${t}</h3><p class="note">${body}</p>`;el.appendChild(d);
+  });
+})();
+
+/* ================= QUIZ ================= */
+let quizFilter='All';
+function renderQuizChips(){
+  const cats=['All',...new Set(QUIZ.map(q=>q.cat))];
+  const el=document.getElementById('quiz-chips');el.innerHTML='';
+  cats.forEach(c=>{
+    const b=document.createElement('button');b.className='chip'+(quizFilter===c?' active':'');
+    b.textContent=c;b.onclick=()=>{quizFilter=c;renderQuizChips();renderQuiz()};el.appendChild(b);
+  });
+}
+function renderQuiz(){
+  const el=document.getElementById('quiz-list');el.innerHTML='';
+  QUIZ.forEach((q,i)=>{
+    if(quizFilter!=='All'&&q.cat!==quizFilter)return;
+    const st=S.quiz[i];
+    const d=document.createElement('div');d.className='card q';
+    d.innerHTML=`<div class="qcat">${q.cat}</div><div style="margin-top:4px">${q.q}</div>`;
+    const opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach((o,j)=>{
+      const b=document.createElement('button');b.className='opt';b.textContent=o;
+      if(st){b.disabled=true;
+        if(j===q.correct)b.classList.add('correct');
+        else if(j===st.pick)b.classList.add('wrong');
+      } else {
+        b.onclick=()=>{S.quiz[i]={pick:j,firstCorrect:j===q.correct};save();renderQuiz();renderQuizScore()};
+      }
+      opts.appendChild(b);
+    });
+    d.appendChild(opts);
+    const why=document.createElement('div');why.className='why'+(st?' show':'');why.textContent=q.why;
+    d.appendChild(why);
+    el.appendChild(d);
+  });
+}
+function renderQuizScore(){
+  const vals=Object.values(S.quiz);
+  document.getElementById('quiz-answered').textContent=vals.length;
+  document.getElementById('quiz-correct').textContent=vals.filter(v=>v.firstCorrect).length;
+}
+function resetQuiz(){S.quiz={};save();renderQuiz();renderQuizScore()}
+
+/* ================= LATENCY GAME ================= */
+let round=[],expected=[],streak=0;
+function newRound(msg){
+  const pool=[...LAT];round=[];
+  for(let k=0;k<4;k++)round.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  expected=[...round].sort((a,b)=>a[1]-b[1]).map(x=>x[0]);
+  const el=document.getElementById('game-items');el.innerHTML='';
+  round.sort(()=>Math.random()-0.5).forEach(item=>{
+    const b=document.createElement('button');b.className='gi';b.textContent=item[0];
+    b.onclick=()=>pick(b,item);el.appendChild(b);
+  });
+  document.getElementById('game-msg').textContent=msg||'Fastest first…';
+  updateGameScore();
+}
+function pick(btn,item){
+  if(item[0]===expected[0]){
+    expected.shift();btn.disabled=true;btn.classList.add('picked-ok');
+    btn.innerHTML=esc(item[0])+`<span class="ans">${item[2]} ✓</span>`;
+    if(expected.length===0){streak++;S.game.best=Math.max(S.game.best,streak);save();
+      setTimeout(()=>newRound('Round clear! Streak '+streak+' 🔥'),650);}
+  } else {
+    btn.classList.add('picked-bad');
+    document.querySelectorAll('.gi').forEach(b=>b.disabled=true);
+    const order=[...round].sort((a,b)=>a[1]-b[1]).map(x=>`${x[0]} — ${x[2]}`).join('  →  ');
+    document.getElementById('game-msg').textContent='✗ Correct order: '+order;
+    streak=0;updateGameScore();
+  }
+}
+function updateGameScore(){
+  document.getElementById('game-streak').textContent=streak;
+  document.getElementById('game-best').textContent=S.game.best;
+}
+
+/* ================= CALCULATOR ================= */
+const logVal=(t,min,max)=>Math.round(Math.pow(10,min+(t/100)*(max-min)));
+function fmtNum(n){
+  if(n>=1e6)return(n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
+  if(n>=1e3)return(n/1e3).toFixed(1).replace(/\.0$/,'')+'k';
+  return''+n;
+}
+function fmtBytes(gb){
+  if(gb>=1e6)return(gb/1e6).toFixed(2)+' PB';
+  if(gb>=1e3)return(gb/1e3).toFixed(2)+' TB';
+  if(gb>=1)return gb.toFixed(1)+' GB';
+  return(gb*1024).toFixed(0)+' MB';
+}
+function calc(){
+  const qps=logVal(+document.getElementById('c-qps').value,2,6);
+  const kbT=+document.getElementById('c-kb').value;
+  const kb=Math.pow(10,-1+(kbT/100)*3);
+  const rep=+document.getElementById('c-rep').value;
+  const days=+document.getElementById('c-days').value;
+  document.getElementById('o-qps').textContent=fmtNum(qps)+'/s';
+  document.getElementById('o-kb').textContent=kb<1?(kb*1024).toFixed(0)+' B':kb.toFixed(1)+' KB';
+  document.getElementById('o-rep').textContent='×'+rep;
+  document.getElementById('o-days').textContent=days+' d';
+  const mbps=qps*kb/1024;
+  const nic=100*mbps/125;
+  const gbDay=mbps*86400/1024*rep;
+  const totalGb=gbDay*days;
+  const out=document.getElementById('calc-out');
+  out.innerHTML=
+    `<div class="row"><span>Ingest bandwidth</span><b>${mbps.toFixed(1)} MB/s</b></div>
+     <div class="row"><span>One 1 Gbps NIC (~125 MB/s)</span><b>${nic.toFixed(0)}% ${nic>100?'— need '+Math.ceil(nic/100)+' NICs / LB fan-out':''}</b></div>
+     <div class="row"><span>Storage per day (×${rep} replication)</span><b>${fmtBytes(gbDay)}</b></div>
+     <div class="row"><span>Storage for ${days} days</span><b>${fmtBytes(totalGb)}</b></div>`+
+    (qps>20000?`<div class="hint">⚠ ${fmtNum(qps)} writes/s of random I/O will hurt a B-tree — say “LSM-tree storage engine, sequential appends” out loud.</div>`:'')+
+    (totalGb>10240?`<div class="hint">⚠ ${fmtBytes(totalGb)} won’t fit one node — talk partitioning strategy (key range vs hash) and rebalancing.</div>`:'');
+}
+['c-qps','c-kb','c-rep','c-days'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+
+/* ================= EXPORT / IMPORT ================= */
+function exportState(){
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='dsprep-progress.json';a.click();URL.revokeObjectURL(a.href);
+}
+function importState(){
+  try{
+    const obj=JSON.parse(document.getElementById('import-text').value);
+    if(!obj.tasks&&!obj.items&&!obj.metrics)throw new Error('not a progress export');
+    S=obj;S.tasks=S.tasks||{};S.items=S.items||{};S.metrics=S.metrics||{};S.quiz=S.quiz||{};S.game=S.game||{best:0};S.notes=S.notes||{};
+    save();location.reload();
+  }catch(e){alert('Import failed: '+e.message)}
+}
+
+/* ================= BOOT ================= */
+function renderAll(){renderMetrics();renderOverall();renderWork();renderSchedule();renderTimeline()}
+renderAll();renderQuizChips();renderQuiz();renderQuizScore();newRound();calc();
+showTab(S.lastTab&&TABS.some(t=>t[0]===S.lastTab)?S.lastTab:'dashboard');
+</script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprites — an interactive explainer</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161c25; --panel2:#1d2530; --line:#2a3441;
+    --text:#dbe2ea; --muted:#8a94a3; --accent:#5eead4; --amber:#f0a35e;
+    --blue:#60a5fa; --pink:#f472b6; --violet:#a78bfa; --slate:#94a3b8;
+    --good:#4ade80; --bad:#f87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding-bottom:80px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  a{color:var(--accent)}
+  header{padding:40px 0 26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#131a23,var(--bg))}
+  .eyebrow{color:var(--amber);font-size:12.5px;text-transform:uppercase;letter-spacing:1.4px;font-weight:700}
+  h1{font-size:30px;letter-spacing:.2px;margin:10px 0 8px}
+  h1 .dim{color:var(--muted);font-weight:400}
+  .lede{color:var(--muted);font-size:16px;max-width:680px}
+  .lede b{color:var(--text)}
+  nav{position:sticky;top:0;z-index:20;background:rgba(14,17,22,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .tabs{display:flex;gap:4px;overflow-x:auto;padding:9px 0}
+  .tab{background:none;border:1px solid transparent;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13.5px;white-space:nowrap;text-decoration:none}
+  .tab:hover{color:var(--text)}
+  .tab.on{background:var(--panel2);color:var(--accent);border-color:var(--line)}
+  section{padding:34px 0 8px;scroll-margin-top:56px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  h2{font-size:22px;margin:0 0 6px}
+  h2 .num{color:var(--accent);font-size:15px;font-weight:700;margin-right:8px}
+  .sectsub{color:var(--muted);margin-bottom:18px;max-width:680px}
+  h3{font-size:16px;margin:20px 0 8px}
+  p{margin:10px 0;max-width:720px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.4px;text-transform:uppercase}
+  .pill.blue{background:rgba(96,165,250,.16);color:var(--blue)}
+  .pill.teal{background:rgba(94,234,212,.15);color:var(--accent)}
+  .pill.amber{background:rgba(240,163,94,.16);color:var(--amber)}
+  .pill.violet{background:rgba(167,139,250,.16);color:var(--violet)}
+  .pill.pink{background:rgba(244,114,182,.16);color:var(--pink)}
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:132px;flex:1}
+  .stat .n{font-size:20px;font-weight:800;color:var(--accent)}
+  .stat .l{font-size:12px;color:var(--muted)}
+  .metaphor{border-left:3px solid var(--amber);padding:6px 0 6px 14px;margin:14px 0;color:var(--muted);font-style:italic}
+  .metaphor b{color:var(--text);font-style:normal}
+  /* progressive depth */
+  .dig{border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden;background:var(--panel)}
+  .dig>summary{cursor:pointer;padding:14px 16px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+  .dig>summary::-webkit-details-marker{display:none}
+  .dig>summary .chev{color:var(--muted);transition:transform .2s;margin-left:auto}
+  .dig[open]>summary .chev{transform:rotate(90deg)}
+  .dig>summary .idx{color:var(--accent);font-weight:800;font-family:ui-monospace,monospace}
+  .dig .body{padding:0 16px 16px;color:var(--muted)}
+  .dig .body b{color:var(--text)}
+  .dig .body .why{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:13.5px}
+  .dig .body .why b{color:var(--accent)}
+  /* storage stack */
+  .stack{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+  .layer{border:1px solid var(--line);border-radius:9px;padding:12px 14px;cursor:pointer;transition:.15s;background:var(--panel)}
+  .layer:hover{border-color:var(--accent)}
+  .layer.sel{border-color:var(--accent);background:var(--panel2)}
+  .layer .lt{font-weight:700;display:flex;align-items:center;gap:8px}
+  .layer .ld{font-size:13px;color:var(--muted);margin-top:3px}
+  .layer .detail{font-size:13.5px;color:var(--muted);margin-top:10px;display:none;border-top:1px dashed var(--line);padding-top:10px}
+  .layer.sel .detail{display:block}
+  .layer .detail b{color:var(--text)}
+  /* predict-reveal */
+  .pr{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0}
+  .pr .q{font-weight:600}
+  .pr .rev{display:none;margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;color:var(--muted)}
+  .pr.open .rev{display:block}
+  .pr .rev b{color:var(--accent)}
+  .btn{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13.5px;margin-top:10px}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  /* table */
+  .tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;overflow-x:auto;display:block}
+  .tbl th,.tbl td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  .tbl td:first-child{font-weight:600;white-space:nowrap}
+  /* concept map */
+  .map{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:640px){.map{grid-template-columns:1fr}}
+  .concept{border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s;background:var(--panel)}
+  .concept:hover{border-color:var(--accent)}
+  .concept.sel{border-color:var(--accent);background:var(--panel2)}
+  .concept .ct{font-weight:700}
+  .concept .cx{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .concept .link{font-size:12.5px;margin-top:9px;display:none}
+  .concept.sel .link{display:block}
+  .concept .link .to{color:var(--accent);font-weight:600}
+  /* projects */
+  .proj{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;background:var(--panel)}
+  .proj .ph{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .proj .ph .lvl{font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px}
+  .lvl.l1{background:rgba(74,222,128,.16);color:var(--good)}
+  .lvl.l2{background:rgba(96,165,250,.16);color:var(--blue)}
+  .lvl.l3{background:rgba(240,163,94,.16);color:var(--amber)}
+  .lvl.l4{background:rgba(167,139,250,.16);color:var(--violet)}
+  .proj .pgoal{font-size:13px;color:var(--muted);margin-top:8px}
+  .proj .pgoal b{color:var(--text)}
+  .proj .teaches{font-size:12.5px;color:var(--accent);margin-top:8px}
+  /* quiz */
+  .quiz .q{font-weight:600;margin:16px 0 8px}
+  .quiz .opt{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:10px 13px;border-radius:8px;margin:6px 0;cursor:pointer;font-size:14px}
+  .quiz .opt:hover{border-color:var(--accent)}
+  .quiz .opt.correct{border-color:var(--good);background:rgba(74,222,128,.1)}
+  .quiz .opt.wrong{border-color:var(--bad);background:rgba(248,113,113,.1)}
+  .quiz .exp{display:none;font-size:13.5px;color:var(--muted);background:var(--panel2);border-radius:8px;padding:10px 12px;margin:6px 0 4px}
+  .quiz .exp.show{display:block}
+  .quiz .exp b{color:var(--accent)}
+  .callout{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:16px 18px;margin:16px 0}
+  .callout h3{margin-top:0}
+  ul{margin:10px 0 10px 22px}
+  li{margin:5px 0}
+  .src{font-size:13px;color:var(--muted)}
+  .foot{color:var(--muted);font-size:12.5px;text-align:center;padding-top:26px}
+  code{background:var(--panel2);padding:1px 6px;border-radius:5px;font-size:13px;font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Interactive explainer · dist-sys prep</div>
+    <h1>Sprites <span class="dim">— computers for agents</span></h1>
+    <p class="lede">Fly.io's bet on what infrastructure looks like when <b>agents</b>, not humans, are the ones spinning up computers. A guided read of the design — and a map of exactly what <b>you</b> need to learn to understand it, with small projects to build along the way.</p>
+    <div class="meta-row">
+      <div class="stat"><div class="n">1–2s</div><div class="l">to create one</div></div>
+      <div class="stat"><div class="n">100 GB</div><div class="l">durable root disk</div></div>
+      <div class="stat"><div class="n">$0-ish</div><div class="l">while asleep</div></div>
+      <div class="stat"><div class="n">a URL</div><div class="l">is the durable state</div></div>
+    </div>
+  </div>
+</header>
+
+<nav><div class="wrap"><div class="tabs" id="tabs">
+  <a class="tab" href="#what">What</a>
+  <a class="tab" href="#why">Why now</a>
+  <a class="tab" href="#design">The 3 design bets</a>
+  <a class="tab" href="#storage">Storage stack</a>
+  <a class="tab" href="#checkpoint">Checkpoint</a>
+  <a class="tab" href="#vs">vs Machines</a>
+  <a class="tab" href="#learn">What to learn</a>
+  <a class="tab" href="#build">Projects</a>
+  <a class="tab" href="#plan">Fits my plan</a>
+  <a class="tab" href="#quiz">Quiz</a>
+</div></div></nav>
+
+<div class="wrap">
+
+<!-- WHAT -->
+<section id="what">
+  <h2><span class="num">01</span>What is a Sprite?</h2>
+  <p class="sectsub">A Sprite is a full Linux VM (root access, real filesystem) that <b>creates in ~1–2 seconds, keeps its disk forever, and falls asleep when idle — billing you almost nothing while it sleeps.</b> You can scatter thousands of them without thinking about it.</p>
+
+  <div class="metaphor"><b>"Ball-point disposable computers."</b> Like cheap pens you stash in every drawer — you don't ration them, you don't name them, you grab one when you need it and forget it.</div>
+  <div class="metaphor"><b>"A semi-disposable cow"</b> (not a pet). It materializes exactly when needed and terminates when idle. The CEO's framing: they're <b>computers <i>for agents</i></b>, not sandboxes for humans.</div>
+
+  <p>The tension that makes them interesting: a normal cloud VM forces you to pre-allocate, name, and pay for it whether or not it's working. A serverless function is cheap-when-idle but dies fast and forgets everything. A Sprite is the <b>third thing</b> — instant and disposable <i>like</i> serverless, yet a persistent stateful computer <i>like</i> a VM. Getting all three at once is the whole engineering story below.</p>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <h2><span class="num">02</span>Why now — the agent framing</h2>
+  <p class="sectsub">Sprites exist because Fly.io made a "specific and probably polarizing bet": that agent-driven development is about to dominate, and agents want <b>different</b> infrastructure than humans do.</p>
+
+  <p>Kurt Mackey's core claim: the <b>"opinionated defaults"</b> we built to make clouds convenient <i>for humans</i> actively get in an agent's way. An agent doesn't want a curated PaaS experience — it wants an explicit, stateful, disposable computer it can drive directly, break, checkpoint, fork, and throw away. Give an agent a bare Linux box with root and a durable disk, and it's happy.</p>
+
+  <div class="callout">
+    <h3>🎯 Your direct hook: the lead-id agent harness</h3>
+    <p style="margin-bottom:0">This is <b>exactly</b> the problem an agent harness solves, from the platform side. Each agent run wants: an isolated environment, a durable working directory it can accumulate state in, the ability to pause/resume across a long task, and credentialed access to external systems <i>without handing the agent your secrets</i>. Sprites ship all four as primitives (durable fs, checkpoint/restore, <span class="mono">Connectors</span>). Reading how Fly built this is a blueprint for the harness you're building at work — and a source of real design questions to bring back.</p>
+  </div>
+</section>
+
+<!-- DESIGN -->
+<section id="design">
+  <h2><span class="num">03</span>The three design bets</h2>
+  <p class="sectsub">Sprites run <i>on</i> Fly Machines (Firecracker microVMs) but make three inverted assumptions. Each one trades a convention away to buy instant + durable + disposable. Click to dig into the reasoning.</p>
+
+  <details class="dig">
+    <summary><span class="idx">1</span> Kill the container image <span class="chev">›</span></summary>
+    <div class="body">
+      <p>"Most of what's slow about <i>creating</i> a Fly Machine is containers" — pulling and unpacking an OCI image is the 60-second tax. Sprites skip it entirely: every worker already has a <b>standard pre-positioned container</b>, and Fly keeps <b>pre-warmed pools of "empty" Sprites</b> ready. Creating one becomes just the fast startup step that was already optimized.</p>
+      <div class="why"><b>The lesson:</b> the fastest work is work you did ahead of time. Pre-warming + a shared base image turns "provision" into "claim." This is the same move behind connection pools, JIT-warmed lambdas, and object pools.</div>
+    </div>
+  </details>
+
+  <details class="dig">
+    <summary><span class="idx">2</span> Object storage is the source of truth <span class="chev">›</span></summary>
+    <div class="body">
+      <p>Instead of anchoring a Sprite to the NVMe of one physical server, its durable state lives in <b>S3-compatible object storage</b>. Consequence: <b>"the durable state of a Sprite is simply a URL."</b> No server binding, so migration is trivial and a dead physical doesn't mean a lost (or slowly-restored) Sprite — you just re-open the URL somewhere else.</p>
+      <div class="why"><b>The lesson:</b> separate <i>durability</i> (object storage, boringly reliable) from <i>performance</i> (local NVMe cache). Make the source of truth cheap, replicated, and location-independent; treat local disk as a disposable cache. This is <i>the</i> cloud-native storage pattern — see the storage-stack section.</div>
+    </div>
+  </details>
+
+  <details class="dig">
+    <summary><span class="idx">3</span> Inside-out orchestration <span class="chev">›</span></summary>
+    <div class="body">
+      <p>Most platform logic runs <b>inside the VM</b>, not on the host. Your code runs in an <b>inner container</b>; the VM's root namespace hosts the platform services — the storage stack, a service manager (restarts), logging, and network binding/proxy integration. The host stays dumb.</p>
+      <div class="why"><b>The lesson:</b> pushing logic into the guest <b>shrinks the host blast radius</b> (a bug isolates to one VM, not the fleet) and lets them ship platform changes without touching every physical. Ptacek: these decisions "make Sprites drastically easier for us to scale and manage."</div>
+    </div>
+  </details>
+</section>
+
+<!-- STORAGE -->
+<section id="storage">
+  <h2><span class="num">04</span>The storage stack — how a disk becomes a URL</h2>
+  <p class="sectsub">This is the technical heart, and it's a <b>distributed-systems master class</b> — you already have most of the vocabulary from DDIA. Click each layer.</p>
+
+  <div class="stack" id="stack">
+    <div class="layer" data-k="cache">
+      <div class="lt">🔥 NVMe cache <span class="pill teal">performance</span></div>
+      <div class="ld">Local disk, read-through — like <span class="mono">dm-cache</span>. Fast reads without being the source of truth.</div>
+      <div class="detail">Because the underlying data chunks are <b>immutable</b>, "nothing in that NVMe volume should matter" — you can lose it and re-fetch. That immutability is what kills the hardest problem in caching: invalidation. A chunk never changes, so a cached chunk is never stale.</div>
+    </div>
+    <div class="layer" data-k="meta">
+      <div class="lt">🗂️ Metadata: SQLite + Litestream <span class="pill blue">the index</span></div>
+      <div class="ld">Which chunks make up the filesystem, and where. A local SQLite DB, made durable by streaming its writes to object storage.</div>
+      <div class="detail"><b>Litestream</b> continuously ships SQLite's write-ahead log (WAL) to object storage. So the <i>metadata</i> gets the same "truth lives in S3" treatment as the data. This is <b>log-shipping replication</b> — the exact idea from DDIA's replication chapter, applied to a single-file database.</div>
+    </div>
+    <div class="layer" data-k="data">
+      <div class="lt">📦 Data chunks: object storage (S3) <span class="pill amber">durability</span></div>
+      <div class="ld">The filesystem's actual bytes, split into immutable chunks and stored in S3. Boringly, massively reliable.</div>
+      <div class="detail">This is the <b>JuiceFS model</b>: split files into content chunks, store chunks in object storage, keep a separate metadata index that maps files → chunks. Separating <b>data</b> from <b>metadata</b> is a pattern you'll recognize from GFS/HDFS. It's what lets the durable state be "just a URL."</div>
+    </div>
+  </div>
+
+  <p style="margin-top:16px">Put together: <b>data</b> (immutable chunks in S3) + <b>metadata</b> (SQLite, WAL-shipped to S3) + a throwaway <b>NVMe cache</b> in front. Durability comes from object storage; speed comes from the cache; and because chunks never mutate, the two never fight.</p>
+</section>
+
+<!-- CHECKPOINT -->
+<section id="checkpoint">
+  <h2><span class="num">05</span>Checkpoint & restore — cheap enough to use casually</h2>
+  <p class="sectsub">Sprites make checkpoint/restore a <b>first-class, everyday operation</b>, not an emergency escape hatch.</p>
+
+  <div class="pr" id="pr1">
+    <div class="q">🤔 Predict first: why can a Sprite checkpoint be so fast that Fly wants you to use it "like a <span class="mono">git restore</span>, not a system restore"?</div>
+    <button class="btn" onclick="document.getElementById('pr1').classList.add('open');this.style.display='none'">Reveal</button>
+    <div class="rev">
+      Because <b>both checkpoint and restore merely shuffle metadata around.</b> The data chunks are already immutable and already in object storage — a checkpoint doesn't copy gigabytes, it records <i>which chunks + which metadata snapshot</i> constitute this point in time. Restore reconstructs from that. It's the same reason a <span class="mono">git commit</span> is fast: content is content-addressed and shared; you're only writing a new pointer over an immutable object graph.
+    </div>
+  </div>
+
+  <p><b>Drive forking</b> extends this: clone a template Sprite cheaply via a copy-on-write <b>Sprite Block Device (SBD)</b> — spin up 100 agents from one warmed template without copying its disk 100 times. And <b>Connectors</b> give a Sprite authenticated access to external systems <i>without exposing the credentials to the code running inside</i> — the "give the agent capability, not secrets" pattern.</p>
+
+  <p class="src">Networking aside: public URLs propagate via <b>Corrosion</b>, Fly's gossip-based service-discovery layer — "a Corrosion update that propagates across our fleet instantly." Keep that word <b>gossip</b> in mind; it's a direct bridge to your Glomers track.</p>
+</section>
+
+<!-- VS -->
+<section id="vs">
+  <h2><span class="num">06</span>Sprites vs Fly Machines — and when NOT to use them</h2>
+  <table class="tbl">
+    <tr><th>Aspect</th><th>Fly Machine</th><th>Sprite</th></tr>
+    <tr><td>Creation</td><td>60+ seconds</td><td>1–2 seconds</td></tr>
+    <tr><td>Storage truth</td><td>Attached NVMe / Volume</td><td>Object storage + NVMe cache</td></tr>
+    <tr><td>Orchestration</td><td>Host-centric</td><td>Inside-out (in-VM)</td></tr>
+    <tr><td>Idle cost</td><td>You pay to keep it</td><td>Sleeps ≈ free</td></tr>
+    <tr><td>Best for</td><td>Production containerized apps</td><td>Interactive / agent / prototyping</td></tr>
+  </table>
+  <p><b>Honest limits</b> (Fly says so themselves): object storage is too slow to be "a hot Postgres node in production"; production CI/CD expects OCI containers; warm e-commerce workloads don't like aggressive sleep. The intended arc is <b>prototype on Sprites → containerize for production Machines</b>. Knowing where a tool <i>stops</i> working is exactly the judgment a senior interview probes for.</p>
+</section>
+
+<!-- LEARN -->
+<section id="learn">
+  <h2><span class="num">07</span>What you'd need to learn to <i>really</i> get it</h2>
+  <p class="sectsub">Good news: Sprites sit on top of primitives already on your roadmap. Click a Sprite concept to see what to study and where it already lives in your plan.</p>
+
+  <div class="map" id="map">
+    <div class="concept" data-k="obj">
+      <div class="ct">Object storage as source of truth</div>
+      <div class="cx">S3 semantics, immutability, content-addressing</div>
+      <div class="link">Learn: S3 consistency model, why immutable/content-addressed storage sidesteps cache invalidation. → <span class="to">DDIA Ch. 3 (storage engines) + your CDN/streaming note (immutable segments — same idea!)</span></div>
+    </div>
+    <div class="concept" data-k="wal">
+      <div class="ct">Litestream / WAL log-shipping</div>
+      <div class="cx">Making SQLite durable by streaming its WAL</div>
+      <div class="link">Learn: write-ahead logs, log-shipping replication, point-in-time restore. → <span class="to">DDIA Ch. 5 (replication) — this is literally the replication-log section, made concrete</span></div>
+    </div>
+    <div class="concept" data-k="chunk">
+      <div class="ct">Chunked / distributed filesystem</div>
+      <div class="cx">JuiceFS model: data chunks vs metadata index</div>
+      <div class="link">Learn: GFS/HDFS architecture, data/metadata separation, dedup. → <span class="to">DDIA Ch. 6 (partitioning) + read the JuiceFS design doc</span></div>
+    </div>
+    <div class="concept" data-k="gossip">
+      <div class="ct">Corrosion (gossip service discovery)</div>
+      <div class="cx">Fleet-wide state propagation via gossip + CRDTs</div>
+      <div class="link">Learn: gossip/SWIM membership, CRDTs, eventual consistency. → <span class="to">🎯 Gossip Glomers challenge 3 (broadcast) — you'll BUILD this. Then read Corrosion.</span></div>
+    </div>
+    <div class="concept" data-k="microvm">
+      <div class="ct">Firecracker microVMs</div>
+      <div class="cx">Lightweight VM isolation, fast boot</div>
+      <div class="link">Learn: microVMs vs containers, the isolation/overhead trade, why Firecracker boots in ms. → <span class="to">Read the Firecracker paper (NSDI '20) — great systems reading, light lift</span></div>
+    </div>
+    <div class="concept" data-k="ckpt">
+      <div class="ct">Checkpoint / restore & durable execution</div>
+      <div class="cx">Snapshotting state; pause/resume long work</div>
+      <div class="link">Learn: process/VM snapshots (CRIU, Firecracker snapshots), and how this compares to durable-execution frameworks. → <span class="to">Ties to a system-design flex: Temporal-style durable execution</span></div>
+    </div>
+    <div class="concept" data-k="cow">
+      <div class="ct">Copy-on-write / drive forking (SBD)</div>
+      <div class="cx">Cloning a disk without copying it</div>
+      <div class="link">Learn: CoW block devices, overlay filesystems, cheap cloning. → <span class="to">DDIA Ch. 3 (B-trees/LSM immutability) + play with <span class="mono">overlayfs</span></span></div>
+    </div>
+    <div class="concept" data-k="cap">
+      <div class="ct">Capability vs credential (Connectors)</div>
+      <div class="cx">Giving access without giving secrets</div>
+      <div class="link">Learn: capability-based security, token brokering, why agents shouldn't hold raw creds. → <span class="to">Direct to your streaming/security note's "trusted-client" thread + the lead-id harness</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD -->
+<section id="build">
+  <h2><span class="num">08</span>Small projects to get a hang of them</h2>
+  <p class="sectsub">Ordered easy → hard. Each isolates one Sprite primitive so you build the intuition from the ground up — in Python where it's for learning, Go where it doubles as Glomers.</p>
+
+  <div class="proj">
+    <div class="ph"><span class="lvl l1">Level 1 · feel</span><b>Drive a Sprite (or a Fly Machine) by hand</b></div>
+    <div class="pgoal"><b>Build:</b> spin one up, put files on the disk, checkpoint, kill it, restore, confirm the files survived. Fork a template into 3 and run a trivial agent in each.</div>
+    <div class="teaches">Teaches: the create→checkpoint→restore→fork loop as muscle memory. No theory yet — just the feel of "computers as pens."</div>
+  </div>
+
+  <div class="proj">
+    <div class="ph"><span class="lvl l2">Level 2 · storage</span><b>Toy content-addressed chunk store</b></div>
+    <div class="pgoal"><b>Build (Python):</b> split a file into fixed-size chunks, hash each, store chunks by hash in a dir (or MinIO/S3), keep a JSON manifest mapping file → ordered chunk hashes. Reconstruct the file from the manifest. Add a second file that shares chunks — watch dedup happen for free.</div>
+    <div class="teaches">Teaches: the JuiceFS core — data/metadata separation, immutability, content-addressing, why "the disk is a URL" is possible.</div>
+  </div>
+
+  <div class="proj">
+    <div class="ph"><span class="lvl l2">Level 2 · replication</span><b>WAL-ship a SQLite DB</b></div>
+    <div class="pgoal"><b>Build:</b> run Litestream against a SQLite DB replicating to MinIO; kill the DB, restore from object storage, verify. Stretch: hand-roll a tiny WAL tailer that ships frames yourself so you see the mechanism, not just the tool.</div>
+    <div class="teaches">Teaches: log-shipping replication + point-in-time restore — DDIA Ch. 5 made tangible. This is the Sprite metadata layer.</div>
+  </div>
+
+  <div class="proj">
+    <div class="ph"><span class="lvl l3">Level 3 · gossip</span><b>Broadcast → then read Corrosion</b></div>
+    <div class="pgoal"><b>Build (Go):</b> Gossip Glomers challenge 3a–3e — a gossip broadcast system over Maelstrom (already on your plan). Then read how Corrosion propagates fleet state and map your toy onto their real one.</div>
+    <div class="teaches">Teaches: gossip dissemination, fanout vs latency, partition tolerance — and it's <b>already a checkbox on your roadmap</b>. Double-counts.</div>
+  </div>
+
+  <div class="proj">
+    <div class="ph"><span class="lvl l4">Level 4 · capstone</span><b>Design (don't build) a mini agent-sandbox platform</b></div>
+    <div class="pgoal"><b>Write:</b> a system-design doc for "durable sandbox-per-agent-run" for lead-id — durable working dir, checkpoint on pause, fork from a warm template, credential brokering. Use your 4-step skeleton. Compare your design to how Sprites actually did it.</div>
+    <div class="teaches">Teaches: synthesis. Turns everything above into an <b>AI-era system-design answer</b> that plays to your unfair advantage — and feeds directly into real work.</div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan">
+  <h2><span class="num">09</span>How this fits your overall plan</h2>
+  <p class="sectsub">This isn't a detour. Sprites are a <b>convergence node</b> — nearly every track in your roadmap meets here.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <span class="pill teal">Dream company</span>
+      <p style="margin-bottom:0">Fly.io is a company you want to work for — <b>and they wrote the Gossip Glomers challenges</b> you're already doing (<span class="mono">fly.io/dist-sys</span>). Studying Sprites is studying your target employer's crown-jewel architecture. Walking into a conversation able to discuss the JuiceFS storage stack or Corrosion is enormous signal.</p>
+    </div>
+    <div class="card">
+      <span class="pill blue">System design (your weak area)</span>
+      <p style="margin-bottom:0">"Design a durable sandbox platform for agents" is a <b>novel, AI-era design question</b> that exercises replication, partitioning, caching, gossip, and consensus at once — and almost no candidate has thought about it. It targets your self-identified weakest track while leaning on your <b>unfair advantage</b> (you build agent infra at Tunga).</p>
+    </div>
+    <div class="card">
+      <span class="pill amber">Work: lead-id harness</span>
+      <p style="margin-bottom:0">The harness you're building <i>is</i> an agent-compute platform. Sprites are a reference design for the exact problems you face: isolation, durable state, pause/resume, credential brokering. Real work ↔ interview prep reinforcing each other is the best kind of study.</p>
+    </div>
+    <div class="card">
+      <span class="pill violet">2brain-cc</span>
+      <p style="margin-bottom:0">2brain already runs on Fly.io + Cloudflare. Sprites are a candidate for any future <b>ephemeral or agent-driven</b> compute — sandboxed execution, per-user background jobs, an agent that drills you. Worth a line in its <span class="mono">ideas.md</span>.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>📌 Suggested next actions (your call — I didn't touch source-of-truth docs)</h3>
+    <ul>
+      <li>Add a <b>5th interactive exploration</b> — "Computers for agents" — to <span class="mono">ROADMAP.md §8</span> + the <span class="mono">EXPL</span> array. This explainer is the seed.</li>
+      <li>When you do Glomers challenge 3, <b>read Corrosion right after</b> and note the mapping — it turns an abstract challenge into "how my dream company actually does it."</li>
+      <li>Do the <b>Level-4 capstone design</b> as one of your 10+ written designs, and drop a Sprites line in 2brain's <span class="mono">ideas.md</span>.</li>
+      <li>Log this study session in <span class="mono">PROGRESS.md</span>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <h2><span class="num">10</span>Check yourself</h2>
+  <p class="sectsub">Active recall — answer before you continue. Explanations on every option.</p>
+  <div class="quiz" id="quiz"></div>
+</section>
+
+<section style="border-bottom:none">
+  <h3>Sources</h3>
+  <p class="src">
+    · Fly.io — <a href="https://fly.io/blog/design-and-implementation/">Sprites: design and implementation</a><br>
+    · Kurt Mackey (Fly.io CEO) — <a href="https://fly.io/blog/kurt-scott-money-sprites/">on Sprites &amp; money</a><br>
+    · Related on your roadmap: <a href="https://fly.io/dist-sys/">Gossip Glomers</a> · <a href="https://github.com/superfly/corrosion">Corrosion</a> · <a href="https://juicefs.com/docs/community/architecture/">JuiceFS architecture</a> · <a href="https://litestream.io/">Litestream</a> · <a href="https://github.com/firecracker-microvm/firecracker">Firecracker</a>
+  </p>
+  <p class="foot">Self-contained explainer · works offline from <span class="mono">file://</span> · matches the dist-sys-prep theme · seeded from the two Fly.io articles above.</p>
+</section>
+
+</div>
+
+<script>
+// progressive-depth cards, storage layers, concept map — all vanilla, no deps
+document.querySelectorAll('#stack .layer').forEach(function(l){
+  l.onclick=function(){ l.classList.toggle('sel'); };
+});
+document.querySelectorAll('#map .concept').forEach(function(c){
+  c.onclick=function(){ c.classList.toggle('sel'); };
+});
+
+// scrollspy for the sticky nav
+var tabs=[].slice.call(document.querySelectorAll('#tabs .tab'));
+var secs=tabs.map(function(t){return document.querySelector(t.getAttribute('href'));});
+function spy(){
+  var y=window.scrollY+90, i=secs.length-1;
+  for(var k=0;k<secs.length;k++){ if(secs[k] && secs[k].offsetTop<=y) i=k; }
+  tabs.forEach(function(t,j){ t.classList.toggle('on', j===i); });
+}
+window.addEventListener('scroll',spy,{passive:true}); spy();
+
+// quiz — {q, opts:[...], correct, why}
+var QUIZ=[
+  {q:"Why is creating a Sprite ~1–2s vs 60+s for a Fly Machine?",
+   opts:["Sprites use a faster CPU tier","Sprites skip pulling/unpacking a container image, claiming a pre-warmed VM instead","Sprites run without isolation","Sprites are smaller VMs with less RAM"],
+   correct:1,
+   why:"The container image pull/unpack is the main tax. Sprites use a shared pre-positioned base image and pre-warmed pools, so 'create' becomes 'claim'."},
+  {q:"What does 'the durable state of a Sprite is simply a URL' actually mean?",
+   opts:["The Sprite is just a web page","Its truth lives in object storage, so it isn't anchored to any physical server and can be re-opened anywhere","Sprites can only serve HTTP","State is stored in the DNS record"],
+   correct:1,
+   why:"Durable state = data chunks in object storage + WAL-shipped metadata. Nothing binds it to one host, so migration and recovery are just re-referencing that state."},
+  {q:"Why can checkpoints be cheap enough to use 'like git restore, not system restore'?",
+   opts:["They compress the whole disk very fast","They only run at night","Checkpoint/restore just shuffle metadata; the immutable data chunks are already in object storage","They keep a full RAM copy on the host"],
+   correct:2,
+   why:"Content is immutable and already durable. A checkpoint records which chunks + metadata snapshot make this point in time — like a git commit over an immutable object graph."},
+  {q:"Immutability of the data chunks most directly solves which classic problem?",
+   opts:["Cache invalidation (a cached chunk can never go stale)","Deadlock","Clock skew","SQL injection"],
+   correct:0,
+   why:"A chunk never changes, so a cached copy is never stale — that's why 'nothing in the NVMe cache should matter' and the cache can be thrown away safely."},
+  {q:"Corrosion (used to propagate Sprite public URLs across the fleet) is based on which idea you're already studying?",
+   opts:["Two-phase commit","Gossip dissemination / eventually-consistent state","Leader election via Raft only","Synchronous replication"],
+   correct:1,
+   why:"Corrosion is gossip-based service discovery — a direct bridge to Gossip Glomers challenge 3. Build the toy, then read the real one."}
+];
+var qc=document.getElementById('quiz');
+QUIZ.forEach(function(item,qi){
+  var wrap=document.createElement('div');
+  var q=document.createElement('div'); q.className='q'; q.textContent=(qi+1)+'. '+item.q; wrap.appendChild(q);
+  var exp=document.createElement('div'); exp.className='exp';
+  item.opts.forEach(function(o,oi){
+    var b=document.createElement('button'); b.className='opt'; b.textContent=o;
+    b.onclick=function(){
+      if(wrap.dataset.done) return; wrap.dataset.done='1';
+      exp.innerHTML='<b>'+(oi===item.correct?'Correct.':'Not quite.')+'</b> '+item.why;
+      var opts=wrap.querySelectorAll('.opt');
+      opts[item.correct].classList.add('correct');
+      if(oi!==item.correct) b.classList.add('wrong');
+      exp.classList.add('show');
+    };
+    wrap.appendChild(b);
+  });
+  wrap.appendChild(exp); qc.appendChild(wrap);
+});
+</script>
+</body>
+</html>
