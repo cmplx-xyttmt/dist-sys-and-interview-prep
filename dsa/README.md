@@ -9,3 +9,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | [Group Anagrams](./group-anagrams.md) | canonical key | 2026-09-05 | 2026-09-12 |
 | [Top K Frequent Elements](./top-k-frequent-elements.md) | count, then select | 2026-09-05 | 2026-09-12 |
 | [Encode and Decode Strings](./encode-and-decode-strings.md) | length-prefix framing | 2026-09-06 | 2026-09-13 |
+| [Product of Array Except Self](./product-of-array-except-self.md) | prefix/suffix | 2026-09-06 | 2026-09-13 |
