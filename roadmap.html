@@ -161,6 +161,11 @@
 <header><div class="wrap">
   <h1>Interview-Ready Roadmap <span class="dim">· restarted Sep 4, 2026 · trigger-based</span></h1>
   <div class="sub">Senior backend roles · Python for interviews, Go for depth · living doc &amp; testbed for 2brain + interactive explorations</div>
+  <div class="card" id="total-card" style="margin-top:16px">
+    <div class="metric"><span class="lbl"><b>All roadmap tasks</b> <span class="note">— every checkbox in Work / Schedule, counted once</span></span><span class="val" id="total-num"></span></div>
+    <div class="bar"><i id="total-bar"></i></div>
+    <div class="tgt" id="total-breakdown"></div>
+  </div>
   <div class="countdowns" id="countdowns"></div>
 </div></header>
 
@@ -721,6 +726,31 @@ function renderOverall(){
   document.getElementById('overall-bar').style.width=fmtBar(done,all.length)+'%';
 }
 
+/* ================= ALL TASKS (Schedule tab bar) ================= */
+/* The union of every id the Work tab renders a checkbox for. The dashboard's bar counts
+   MONTHS milestones; this one counts individual tasks, so the two numbers differ on purpose. */
+function allItemGroups(){
+  return [
+    ['DSA',allProblemIds()],
+    ['DDIA',DDIA_CH.map(c=>'ch-'+c[0])],
+    ['Glomers',GLOMERS.flatMap(g=>['gl-'+g[0]+'-py','gl-'+g[0]+'-go'])],
+    ['Designs',DESIGNS.map(d=>d[0])],
+    ['Mocks',MOCKS.map(m=>m[0])],
+    ['Course',COURSE.map(c=>c[0]).concat(['course-cap'])],
+    ['Stories',STORIES.map(s=>s[0])],
+    ['Explorations',EXPL.map(e=>e[0])],
+  ];
+}
+function renderTotal(){
+  const groups=allItemGroups();
+  const all=[...new Set(groups.flatMap(g=>g[1]))];
+  const done=countIds(all);
+  const pct=all.length?Math.round(100*done/all.length):0;
+  document.getElementById('total-num').textContent=done+' / '+all.length+' · '+pct+'%';
+  document.getElementById('total-bar').style.width=fmtBar(done,all.length)+'%';
+  document.getElementById('total-breakdown').textContent=groups.map(([n,ids])=>n+' '+countIds(ids)+'/'+ids.length).join(' · ');
+}
+
 /* ================= WORK TAB ================= */
 function groupHTML(title,ids,badge,bodyHTML,openIf){
   const done=countIds(ids);
@@ -1085,7 +1115,7 @@ function importState(){
 }
 
 /* ================= BOOT ================= */
-function renderAll(){renderMetrics();renderOverall();renderWork();renderSchedule();renderTimeline()}
+function renderAll(){renderMetrics();renderOverall();renderTotal();renderWork();renderSchedule();renderTimeline()}
 renderAll();renderQuizChips();renderQuiz();renderQuizScore();newRound();calc();
 showTab(S.lastTab&&TABS.some(t=>t[0]===S.lastTab)?S.lastTab:'dashboard');
 </script>
