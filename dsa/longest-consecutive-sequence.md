@@ -10,13 +10,21 @@ alone (Tarjan); union by rank gets near-constant. Descending inserts (5,4,3,2,1)
 a chain with no find called, so it is not obviously constant. Comes back by name in
 Graphs: Number of Connected Components, Redundant Connection.
 
-**Intended O(n) pattern:** set + start-of-run test. _Pending: derive from the hint
-"how do you know n starts a run in O(1)?" then "how many times is each number
-visited across all upward scans?"_
+**Second version (after hint):** set + walk upward, but memoized (`lengths` dict,
+`seen` set) instead of using the start test. Correct, O(n) (each value marked seen
+once, then only an O(1) break point). 200k values in any order: ~0.04s. Got TLE first
+without the seen-set: walking from every n is O(n²) on one long run.
 
-**Missed insight:** reached for a linking structure when a membership test was
-enough. Check first whether the set alone answers "is this a start?" before building
-anything with pointers.
+**Intended version:** n is a start iff `n - 1 not in s`. Walk up only from starts;
+each number is visited by exactly one walk (its own run's), so O(n) with no memo,
+no seen-set, no empty guard. Iterate over the set, so duplicates are free.
+
+**Missed insight:** twice reached for structure (parent pointers, then a memo)
+before asking what a bare membership test answers. The neighbour's absence *is* the
+boundary. Habit: before adding pointers or a memo, ask what the simplest structure
+already tells you. The analysis itself (count touches per element, not loop
+iterations) was fine; the gap is in the design step. Same touched-once argument
+recurs in Two Pointers, Sliding Window, and monotonic Stack.
 
 **Next re-solve:** 2026-09-15 (set version cold, state the each-number-visited-once
 argument; then explain union-find's amortized bound in two sentences).
