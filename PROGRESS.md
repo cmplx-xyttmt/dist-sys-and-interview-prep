@@ -33,6 +33,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 | 2026-09-05 | Group Anagrams (arrays/hashing: canonical key) · Top K Frequent Elements (arrays/hashing: count then select) | untimed | both solved; complexity narration wrong on both (per-word sort is m·n log n; sort is over d distinct, not n); heaps rusty — didn't know the heap or bucket versions | 2026-09-12 |
 | 2026-09-06 | Encode and Decode Strings (arrays/hashing: length-prefix framing) | untimed | solved, correct incl. empty-string edge; shadowed builtin `str`; decoder indexing clunky (use `s.index(",", i)` + two named positions) | 2026-09-13 |
 | 2026-09-06 | Product of Array Except Self (arrays/hashing: prefix/suffix) | untimed, "a few minutes" to find the idea | solved, O(n) extra; suffix array built reversed so combine indexing got confused; O(1)-extra version done after a hint, with off-by-one offsets (fix: use-then-update ordering) | 2026-09-13 |
+| 2026-09-08 | Valid Sudoku (arrays/hashing: sets per constraint) | untimed | solved first try; box key written as corner coords instead of `// 3`; redundant `int()` | 2026-09-22 |
 
 ## Sunday reviews
 
