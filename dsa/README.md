@@ -12,3 +12,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | [Product of Array Except Self](./product-of-array-except-self.md) | prefix/suffix | 2026-09-06 | 2026-09-13 |
 | [Valid Sudoku](./valid-sudoku.md) | hash sets per constraint | 2026-09-08 | 2026-09-22 |
 | [Longest Consecutive Sequence](./longest-consecutive-sequence.md) | set + start-of-run test | 2026-09-08 | 2026-09-15 |
+| [Valid Palindrome](./valid-palindrome.md) | two pointers | 2026-09-09 | 2026-09-16 |
