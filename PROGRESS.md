@@ -37,6 +37,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 | 2026-09-08 | Longest Consecutive Sequence (arrays/hashing: set + start test) | untimed | solved via reinvented union-find w/ path compression (correct, O(n log n) amortized bound); then a memoized set-walk (O(n), TLE first w/o seen-set); didn't use the start test even after the hint | 2026-09-15 |
 | 2026-09-09 | Valid Palindrome (two pointers) | untimed | solved; WA first (`isalpha` vs `isalnum`); loop stop `i == j` lets pointers cross on even lengths (2× comparisons); debug print left in; O(n) extra, in-place version pending | 2026-09-16 |
 | 2026-09-10 | Two Sum II (two pointers, sorted) | untimed | solved, O(n) nested-loop variant; `i < j` guard on wrong loop (IndexError without guaranteed solution); first idea was both pointers from 0; wants practice stating invariants in plain English | 2026-09-17 |
+| 2026-09-11 | 3Sum (two pointers: sort + fix one) | untimed | solved, O(n²) but i from 0 (every triplet found 3×, deduped via set of tuples + seen_targets); TLE on all zeros first; chased a linear solution first; break-at-first-match bug | 2026-09-18 |
 
 ## Sunday reviews
 

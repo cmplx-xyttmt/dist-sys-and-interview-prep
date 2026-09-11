@@ -14,3 +14,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | [Longest Consecutive Sequence](./longest-consecutive-sequence.md) | set + start-of-run test | 2026-09-08 | 2026-09-15 |
 | [Valid Palindrome](./valid-palindrome.md) | two pointers | 2026-09-09 | 2026-09-16 |
 | [Two Sum II](./two-sum-ii-input-array-is-sorted.md) | two pointers, sorted | 2026-09-10 | 2026-09-17 |
+| [3Sum](./3sum.md) | sort + fix one + two pointers | 2026-09-11 | 2026-09-18 |
