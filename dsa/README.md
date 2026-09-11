@@ -15,3 +15,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | [Valid Palindrome](./valid-palindrome.md) | two pointers | 2026-09-09 | 2026-09-16 |
 | [Two Sum II](./two-sum-ii-input-array-is-sorted.md) | two pointers, sorted | 2026-09-10 | 2026-09-17 |
 | [3Sum](./3sum.md) | sort + fix one + two pointers | 2026-09-11 | 2026-09-18 |
+| [Container With Most Water](./container-with-most-water.md) | two pointers, elimination | 2026-09-11 | 2026-09-18 |
