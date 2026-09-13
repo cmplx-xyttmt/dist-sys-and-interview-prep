@@ -18,14 +18,22 @@ position inside the segment. 4812/20000 random inputs wrong. The bounding-walls
 instinct itself is sound; it is the monotonic-stack solution, which comes back in the
 Stack group. It is not the two-pointer solution.
 
-**Two-pointer O(1)-extra version:** _pending. Hint in play: at the left pointer you
-know the left max exactly and only a lower bound on the right max (the running max
-from the right end). When is a lower bound enough to pin down the min?_
+**Two-pointer O(1)-extra version (coded 2026-09-13 after a hint):** at the left
+pointer the left max is exact and the right max is only a lower bound (running max
+from the right end). If `max_left <= max_right` that bound is enough: the true right
+max is at least `max_right >= max_left`, so `min(L, R) = max_left` exactly and the
+left position is settled. Symmetric on the other side. The reusable idea: a bound is
+as good as the exact value when it can't change the min. 50k random tests OK.
+My version accounted for the current position then moved, which forced a
+`left == right` special case and two non-exclusive `if`s. Standard shape: `while l < r`,
+pick the side, move the pointer first, then update that side's max and add its water;
+ends 0 and n-1 hold nothing, so no special case.
 
 **Missed insight:** wrote the water formula wrong (nearest taller vs highest) and built
 an algorithm on it. Verify the per-position formula on a 5-element example before
 designing anything. Second: an hour of debugging with no reference implementation;
 write the O(n)-space version first and test against it.
 
-**Next re-solve:** 2026-09-20 (state the formula first; array version cold; then the
-two-pointer version with the lower-bound argument said aloud).
+**Next re-solve:** 2026-09-20 (state the formula first; array version cold with
+inclusive maxes; then the move-first two-pointer version, `while l < r`, no special
+case, with the lower-bound argument said aloud).
