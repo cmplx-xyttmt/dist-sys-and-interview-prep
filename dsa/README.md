@@ -17,3 +17,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | [3Sum](./3sum.md) | sort + fix one + two pointers | 2026-09-11 | 2026-09-18 |
 | [Container With Most Water](./container-with-most-water.md) | two pointers, elimination | 2026-09-11 | 2026-09-18 |
 | [Trapping Rain Water](./trapping-rain-water.md) | prefix/suffix max, two pointers | 2026-09-13 | 2026-09-20 |
+| [Best Time to Buy and Sell Stock](./best-time-to-buy-and-sell-stock.md) | running min | 2026-09-13 | 2026-09-27 |

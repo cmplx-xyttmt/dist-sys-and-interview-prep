@@ -40,6 +40,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 | 2026-09-11 | 3Sum (two pointers: sort + fix one) | untimed | solved, O(n²) but i from 0 (every triplet found 3×, deduped via set of tuples + seen_targets); TLE on all zeros first; chased a linear solution first; break-at-first-match bug | 2026-09-18 |
 | 2026-09-11 | Container With Most Water (two pointers) | untimed | solved via sort-by-height dominance walk, O(n log n); correct; linear two-pointer version done after a hint (couldn't find the move condition unaided); shadowed `height` param | 2026-09-18 |
 | 2026-09-13 | Trapping Rain Water (two pointers / prefix-suffix) | ~1h+ | prefix/suffix version passed; an hour lost on a segment-scan attempt built on the wrong formula (nearest taller vs highest); two-pointer version done after a hint (wouldn't have found it unaided); account-then-move shape forced a `left == right` special case | 2026-09-20 |
+| 2026-09-13 | Best Time to Buy and Sell Stock (sliding window: running min) | untimed | solved clean first try; asked what "sliding window" means | 2026-09-27 |
 
 ## Sunday reviews
 
