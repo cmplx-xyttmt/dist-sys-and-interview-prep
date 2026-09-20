@@ -34,6 +34,11 @@ an algorithm on it. Verify the per-position formula on a 5-element example befor
 designing anything. Second: an hour of debugging with no reference implementation;
 write the O(n)-space version first and test against it.
 
-**Next re-solve:** 2026-09-20 (state the formula first; array version cold with
-inclusive maxes; then the move-first two-pointer version, `while l < r`, no special
-case, with the lower-bound argument said aloud).
+**Re-solve 2026-09-20: DNF** (late, tired). Compared `height[left]` to
+`height[right]` to pick the side, and updated the *other* side's max. The decision
+has to be about the running maxes: the side whose max is smaller is the side whose
+water is already determined, because the other side's max is a lower bound that
+can't drop the min. Self-diagnosed the miss.
+
+**Next re-solve:** 2026-09-24 (rested; formula first, then say "which side's max is
+smaller, and why does that settle it?" before writing the branch).

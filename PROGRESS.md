@@ -43,6 +43,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 | 2026-09-13 | Best Time to Buy and Sell Stock (sliding window: running min) | untimed | solved clean first try; asked what "sliding window" means | 2026-09-27 |
 | 2026-09-15 | Longest Substring Without Repeating Characters (sliding window + set) | untimed | solved first try, left-driven window, O(n); used defaultdict(bool) for a set; right-driven shape and last-index jump to learn | 2026-09-22 |
 | 2026-09-20 | Longest Repeating Character Replacement (sliding window + 26 counts) | untimed | hint needed to see the window and the 26-slot max; then solved first try, left-driven with add-check-undo; print left in | 2026-09-27 |
+| 2026-09-20 | RE-SOLVE Trapping Rain Water (two pointers) | DNF | picked the side by comparing heights instead of running maxes; late-night attempt; self-diagnosed | 2026-09-24 |
 
 ## Sunday reviews
 
