@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprites ladder · L0 · A computer from the inside</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  li.tick label { display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; }
+  li.tick input { margin: .3rem 0 0; flex: 0 0 auto; }
+  li.tick label > span { flex: 1 1 auto; min-width: 0; }
+  li.tick.ticked > label { color: var(--muted); }
+  li.tick.ticked > label a { color: var(--muted); }
+  li.tick .why { color: var(--muted); font-size: .92em; }
+  ul.plain { list-style: none; padding-left: 0; }
+  ul.plain li { margin: .45rem 0; }
+  .spec ol { padding-left: 1.2rem; }
+  .spec ol li { margin: .55rem 0; }
+  details.active { margin: .35rem 0 .6rem 1.8rem; font-size: .86rem; background: #f7f9fc; border-color: #d3ddea; }
+  details.active summary { color: var(--accent); }
+  details.active ol { margin: .2rem 0 .4rem; padding-left: 1.2rem; }
+  details.active .before { margin: 0; }
+  details.active .trace { margin: .3rem 0; color: var(--muted); }
+  details.active textarea, details.active input[type=text] { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .84rem; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }
+</style>
+</head>
+<body>
+<nav id="sidebar"></nav>
+<main>
+<p class="kicker">Rung 0 of 8 · operating systems · about 2 h (reading 1 h, mission 1 h)</p>
+<h1>A computer from the inside</h1>
+
+<p class="srcnote">One rung per week: the reading in the Thursday 19:30 system-design slot, the mission the following Tuesday 19:30.
+Tick as you go; the checkpoint at the bottom is what marks the rung passed.</p>
+
+<h2 id="say">1 · After this rung you can say</h2>
+<ul><li>what a <b>process</b> is, and what the <b>kernel</b> does that a process can't (talk to hardware, hand out memory, decide who runs)</li><li>what a <b>filesystem</b> is (names, directories, an index of which blocks hold which file) versus the <b>block device</b> under it (a disk seen as a numbered array of fixed-size blocks, typically 4 KB). The first reading below covers this</li><li>why a <b>container</b> is a normal process with a restricted view of the machine (the kernel features are called namespaces and cgroups; the second reading defines them) and a <b>virtual machine</b> is a whole second kernel with its own emulated hardware</li><li>what a <b>container image</b> is: a stack of tar archives plus a JSON manifest, in the format the Open Container Initiative (OCI) standardised; and why pulling and unpacking one is the slow part of starting a container</li><li>what a <b>microVM</b> is: a virtual machine with almost no emulated hardware, so it boots in milliseconds. Firecracker is the one Fly uses under every Sprite</li></ul>
+
+<h2 id="read">2 · Read, in this order</h2>
+<p class="srcnote">Each reading has a "Read actively" block: write your answers to its prompts <i>before</i> reading, run the
+command alongside if there is one, and afterwards write one quiz question you would have failed. The last field asks for a
+better way to read that piece actively; those ideas are raw material for the showcase's course generator. All boxes save in this browser.</p>
+<ul class="plain"><li class="tick"><label><input type="checkbox" data-tick="L0-read-1"> <span><a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener"><i>Operating Systems: Three Easy Pieces</i>, chapter "File System Implementation", the first four pages (up to and including the inode section)</a> <span class="tag core">core</span><span class="why"> — 15 min. Blocks, the inode table, how a name becomes a list of blocks. This is the filesystem-versus-block-device distinction.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>How does the filesystem get from the name <code>notes.txt</code> to the disk blocks holding its bytes? Guess how many disk reads that takes.</li><li>What is stored about a file besides its bytes?</li></ol><p class="trace"><b>Alongside:</b> <code>ls -i notes.txt</code> shows the inode number; <code>stat notes.txt</code> shows the block count. Match them to the chapter's picture.</p><textarea data-note="L0-read-1-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L0-read-1-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L0-read-2"> <span><a href="https://jvns.ca/blog/2016/10/10/what-even-is-a-container/" target="_blank" rel="noopener">Julia Evans, <i>What even is a container: namespaces and cgroups</i></a> <span class="tag core">core</span><span class="why"> — 15 min. The clearest statement that a container is a process with a restricted view.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>Is a container a process, a virtual machine, or a third thing? What stops it from seeing your files?</li><li>Three containers are running: how many kernels are running?</li></ol><p class="trace"><b>Alongside:</b> <code>docker run -d alpine sleep 300</code>, then from the Linux VM shell (the <code>nsenter</code> command in the mission) run <code>ps aux | grep sleep</code>. The container's process is right there in the host's list.</p><textarea data-note="L0-read-2-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L0-read-2-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L0-read-3"> <span><a href="https://www.usenix.org/conference/nsdi20/presentation/agache" target="_blank" rel="noopener"><i>Firecracker: lightweight virtualization for serverless applications</i> (NSDI 2020), sections 1 and 2 only (about three pages)</a> <span class="tag core">core</span><span class="why"> — 25 min. Why Amazon wanted something between a container and a virtual machine.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>Why wasn't a container good enough for AWS Lambda? Why wasn't an ordinary VM?</li><li>What boot time does the paper aim for, and what did it remove to get there?</li></ol><textarea data-note="L0-read-3-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L0-read-3-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L0-read-4"> <span><a href="https://github.com/opencontainers/image-spec/blob/main/spec.md" target="_blank" rel="noopener">OCI image specification, the overview page</a> <span class="tag opt">optional</span><span class="why"> — 10 min skim: layers, manifest, config. Just enough to know what <code>docker pull</code> downloads.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>How many files is a container image? What is in the manifest?</li></ol><p class="trace"><b>Alongside:</b> <code>docker save python:3.12 -o img.tar &amp;&amp; tar tf img.tar | head -20</code>: the layers and the manifest, on your own disk.</p><textarea data-note="L0-read-4-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L0-read-4-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li></ul>
+
+<h2 id="mission">3 · Mission <span class="tag deep">estimate, then check</span></h2>
+<div class="spec">
+<strong>Do this</strong>
+<ol><li class="tick"><label><input type="checkbox" data-tick="L0-step-1"> <span>Before running anything, write two predictions in a text file: how long <code>docker pull python:3.12</code> will take on your connection (run <code>docker rmi python:3.12</code> first if you already have it, so the pull is real), and how long <code>docker run --rm python:3.12 python -c 'print(1)'</code> will take once the image is local. Write the ratio you expect.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L0-step-2"> <span>Time both with <code>time</code>. Run the second one three times and take the median.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L0-step-3"> <span>Compare the inside of a container with the Linux machine it runs on. Inside: <code>docker run --rm -it python:3.12 sh</code>, then <code>hostname</code>, <code>ls /proc | head</code> (<code>/proc</code> is the kernel's live view of processes, one directory per process id), <code>mount | wc -l</code>, <code>ps aux | wc -l</code>. Outside, on a Mac, means Docker Desktop's Linux virtual machine, not macOS; get a shell in it with <code>docker run --rm -it --privileged --pid=host alpine nsenter -t 1 -m -u -n -i sh</code> and run the same four commands.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L0-step-4"> <span>Write five lines: what the container shares with the kernel it runs on (the process list you could see from outside, the kernel version), and what it has its own copy of (hostname, mounts, the process tree it can see).</span></label></li></ol>
+<p><b>The check:</b> The two timings, your predicted ratio within 3x of the measured one, and the five lines. If the ratio surprised you by more than 3x, write one sentence on what you had wrong; that sentence is the point of the mission.</p>
+</div>
+<details class="hint"><summary>Hint · If the pull is fast anyway</summary><p>You are on a fast connection and the image is small. Pull something bigger, such as <code>pytorch/pytorch</code> (several GB), or read the pull's output: it lists the layers, and each is one of the tar archives from the say-list. The 60-second tax the explainer's first design bet removes is real on Fly's side because their images are bigger and their network path longer.</p></details>
+
+<div class="cpw" data-level="L0"></div>
+
+<h2 id="showcase">4 · In the showcase project</h2>
+<p>Phase P1 of the showcase creates one Sprite by hand with the CLI. Knowing what a virtual machine and a container image are is what makes <code>sprite create</code> finishing in one second surprising rather than magic. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
+
+<h2 id="unlocks">5 · Where this shows up in the explainer</h2>
+<p>Links go to the numbered sections of <a href="explainer.html">the explainer</a>, the page this ladder exists to make readable.</p>
+<ul><li><a href="explainer.html#what">01 · What is a Sprite?</a> — what "a full Linux VM that creates in 1 to 2 seconds" is claiming</li><li><a href="explainer.html#design">03 · The three design bets</a> — bet 1, <i>Kill the container image</i>, and bet 3, <i>Inside-out orchestration</i></li><li><a href="explainer.html#vs">06 · Sprites vs Fly Machines</a> — the creation-time row of the comparison table</li></ul>
+
+<h2 id="write">6 · Write about it</h2>
+<p>For the series on your site (plan and titles on the <a href="publishing.html">publishing page</a>). Sixty minutes of polish at most, the same week.</p>
+<ul><li><b>Post 1 · "A container is a process: measured on my laptop."</b> Standalone. The two timings and your prediction, the inside/outside comparison, and the surprise most Mac users never see: Docker Desktop is a hidden Linux VM. Figure: the timing table. Under 800 words.</li></ul>
+
+</main>
+<footer class="pager" data-auto></footer>
+<script src="assets/progress.js"></script>
+</body>
+</html>

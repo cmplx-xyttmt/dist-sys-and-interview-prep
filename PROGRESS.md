@@ -50,11 +50,12 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 _One per Sunday session, headed by queue position. Older weekly entries below kept as-is._
 
 ### S0 — Sun Sep 6, 2026 · A · Fly.io Sprites deep-dive
-- **Done:**
-- **What surprised me:**
-- **Note / quiz questions added:**
-- **What slipped & why:**
-- **Next Sunday (S1, Sep 20): Maelstrom set up + Glomers 1 Echo — prep: DDIA ch. 5 in the weekday slots**
+_Reading half done Thu Sep 17 21:00 (weekday slot; the Sunday half-day was retired Sep 6). Mini-visualization: [sprites-explainer.html](sprites-explainer.html), built in season 1 as exploration #5; the reading half is re-reading it as a stranger and filling the lines below._
+- **Done:** read `sprites-explainer.html` end to end, Thu Sep 17 ~22:15–23:30 (the last carry, after the Tue build half was missed).
+- **What surprised me:** Isaac: "didn't understand most of it (huge knowledge gaps)". Sections 03–07 assume ~20 ideas (block devices, WAL, content addressing, S3 semantics, CoW, gossip, capabilities) that were never built up.
+- **Note / quiz questions added:** none yet; the quiz waits for the re-read at L8.
+- **What slipped & why:** the "mini-visualization" deliverable is the explainer itself, but comprehension didn't follow, so the deep-dive becomes a ladder: `sprites-ladder.md` (L0–L8, one rung per Tue+Thu week, a mission each) and a showcase project, `curriculum-edtech/course-from-a-link-on-sprites.md`, replacing the Level-4 lead-id design.
+- **Next (proposed; Sep 18 standup decides):** L0 on Tue Sep 22 + Thu Sep 24; S1 Maelstrom set-up folds into L0's Tuesday as a 30-min install; Glomers returns as L6's mission.
 
 ### Older weekly entries (pre-Sep 5 format)
 

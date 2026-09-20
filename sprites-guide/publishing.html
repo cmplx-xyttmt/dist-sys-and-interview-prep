@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprites ladder · Publishing</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .draft { font-family: "Charter", Georgia, serif; background: var(--panel); border: 1px solid var(--border); border-left: 4px solid var(--accent-warm); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0; }
+  .draft p { margin: 0 0 .8rem; }
+  .draft .note { font-family: -apple-system, sans-serif; font-size: .8rem; color: var(--muted); }
+  .titles li { margin: .5rem 0; }
+  .titles b { font-family: -apple-system, sans-serif; }
+  textarea[data-note] { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .9rem; padding: .5rem .7rem; border: 1px solid var(--border); border-radius: 6px; margin-top: .5rem; background: #fff; min-height: 9rem; }
+</style>
+</head>
+<body>
+<nav id="sidebar"></nav>
+<main>
+<p class="kicker">Reference · the series on cmplx-xyttmt.github.io</p>
+<h1>Publishing the ladder</h1>
+
+<p>Every rung page ends with a "Write about it" section naming its post. This page holds the parts that belong to
+the series as a whole: the title, the introductory post, the post plan, and what would change if the ladder itself
+went public. Section 8 of the <a href="../ROADMAP.md">dist-sys roadmap</a> sets the two rules that apply throughout:
+interactive explorations rather than plain prose where a mechanism is central, and at most sixty minutes of polish
+per post so writing never displaces the prep.</p>
+
+<h2>What to call it</h2>
+
+<p>You asked for something broader than Sprites, since the Sprites design is the capstone and a public version would
+swap some content. Three candidates, with the case for each:</p>
+
+<ul class="titles">
+<li><b>From the disk up</b> (recommended). Names what the ladder does: it starts at blocks on a disk and climbs
+to a cloud product. It says nothing about Sprites, so the capstone can change. It reads as a series title and as
+a site section. Subtitle for the series page: <i>the systems knowledge underneath one cloud product, one rung at a
+time</i>.</li>
+<li><b>Ladder to a blog post</b>. Names the method instead of the content: pick a post you cannot read, build the
+prerequisites as a ladder, climb, re-read. This is the reusable idea (the heuristic-contests guide is a second
+ladder), and it fits your introduction's opening sentence exactly. Weaker as a title for a reader who has not read
+the introduction, so better as the name of the site section that holds several ladders, with "From the disk up"
+as this ladder's title inside it.</li>
+<li><b>Computers for agents, from scratch</b>. Tied to the capstone; strongest hook for a Fly.io or agents-infra
+reader, weakest if the capstone changes. Keep it for the capstone post's own title.</li>
+</ul>
+
+<p>Recommendation: the site gets a section called <b>Ladders</b>; this one is <b>From the disk up</b>; the
+introduction is titled <b>How I read a blog post I couldn't understand</b>; the capstone is <b>Computers for
+agents, from scratch: re-reading the Sprites post</b>.</p>
+
+<h2>The introduction, post 0</h2>
+
+<p>Your draft, kept in your words, with two additions marked: the ladder's shape so readers know what they are
+signing up for, and the honest line about the checkpoints, which is what makes the series different from a reading
+list.</p>
+
+<div class="draft">
+<p>I often come across technical blog posts that present an interesting-seeming idea, but I can't quite understand
+the details. It's usually because of a knowledge gap, by virtue of not having spent time working in that particular
+technology. I've always wanted to learn more about distributed systems and systems programming in general, but often
+didn't know where to start, or felt overwhelmed by the sheer amount of things I didn't know.</p>
+<p>I recently came across such a blog post: <a href="https://fly.io/blog/design-and-implementation/">The design and
+implementation of Sprites</a>, Fly.io's account of building a Linux computer that starts in a second, keeps its disk
+forever, and sleeps for free. I read it and understood very little of it. So I decided to use it as a starting point.
+My goal was to understand the design of Sprites, and along the way learn about containerisation, filesystems,
+virtualisation, object storage, replication and gossip: the things the post assumed I already knew.</p>
+<p class="note">Addition 1, the shape:</p>
+<p>The method was a ladder. I listed everything the post assumed, put the items in the order each one needs the one
+before, and gave each rung a small program to write with a check it had to pass. Nine rungs, one a week, about
+three hours each. The last rung is re-reading the post.</p>
+<p class="note">Addition 2, the honest line:</p>
+<p>Each post in this series is one rung: what I had to learn, the small program, the number it produced, and the
+thing that surprised me. I'm writing them as I go, so the early ones are written by someone who does not yet
+understand the later ones. That's the point. If you can't read the Sprites post either, the ladder is here, and you
+can climb it beside me.</p>
+</div>
+
+<p>Two suggestions for the draft itself. Cut "e.t.c." and name the topics (done above); a reader trusts a list more
+than an etcetera. And put the Sprites post's own one-line promise in the first paragraph, so a reader who has never
+heard of Sprites knows why the design is worth eight weeks.</p>
+
+<h2>The post plan</h2>
+
+<table>
+<tr><th>Post</th><th>Title (working)</th><th>From</th><th>The one figure or interactive</th></tr>
+<tr><td>0</td><td>How I read a blog post I couldn't understand</td><td>this page</td><td>the ladder as a picture: nine rungs, the post at the top</td></tr>
+<tr><td>1</td><td>A container is a process: measured on my laptop</td><td><a href="l0-a-computer-from-the-inside.html">L0</a></td><td>the timing table, prediction beside measurement</td></tr>
+<tr><td>2</td><td>Three places a byte can hide</td><td><a href="l1-bytes-files-and-the-log.html">L1</a></td><td>program buffer, page cache, disk; which crash loses which</td></tr>
+<tr><td>3</td><td>A disk that is just a URL</td><td><a href="l2-hashing-and-immutability.html">L2</a> + <a href="l3-object-storage-and-caches.html">L3</a></td><td>interactive: two manifests with shared chunks highlighted; cache hit ratio vs cache size</td></tr>
+<tr><td>4</td><td>Replication is shipping a log</td><td><a href="l4-replication-by-shipping-a-log.html">L4</a></td><td>acknowledged rows vs restored rows across sync intervals</td></tr>
+<tr><td>5</td><td>Copy-on-write, from overlayfs to forking a machine</td><td><a href="l5-snapshots-and-copy-on-write.html">L5</a></td><td>lower / upper1 / upper2 / upper3 as a tree, with the whiteout</td></tr>
+<tr><td>6</td><td>Gossip, simulated then built</td><td><a href="l6-gossip-and-service-discovery.html">L6</a></td><td>interactive: fanout and fleet-size sliders, rounds to full spread</td></tr>
+<tr><td>7</td><td>Give the agent a capability, not the key</td><td><a href="l7-capabilities-not-credentials.html">L7</a></td><td>the broker diagram and the failed leak attempts</td></tr>
+<tr><td>8</td><td>Computers for agents, from scratch: re-reading the Sprites post</td><td><a href="l8-read-it-again.html">L8</a></td><td>the annotated re-read; quiz then vs now</td></tr>
+<tr><td>9+</td><td>Course from a link, on Sprites (five posts)</td><td><a href="showcase.html">showcase</a></td><td>one per phase, listed on that page</td></tr>
+</table>
+
+<p>Combining is allowed where the rung pages say so (L2 with L3; L4 as a sequel to L1 if it is short). Nothing is
+published before its rung's checkpoint is marked passed: the number in the post has to be one you produced.</p>
+
+<h2>If the ladder itself goes public</h2>
+
+<p>The pages work from <code>file://</code> with no server, so the folder can be copied into the Hugo site's
+<code>static/ladders/from-the-disk-up/</code> and served as is; progress stays in each reader's own browser. Before
+that, five changes:</p>
+
+<ol>
+<li><b>Strip what is yours.</b> Season dates, WEEK.md, the Tuesday and Thursday slots, "Isaac", the roadmap links,
+the showcase's Tunga references. A reader has their own calendar; the guide should say "one rung a week" and stop.</li>
+<li><b>Make the capstone swappable.</b> The explainer page is Sprites-specific and stays as this ladder's top. But
+the index should say the method plainly: pick a post, list what it assumes, order the list, give each item a mission.
+A second ladder (the heuristic-contests guide already exists) makes the section credible.</li>
+<li><b>Keep the checkpoints as they are.</b> Labeled evidence fields and pass conditions are what separate this from a
+reading list. Add an "export your progress" note and nothing else.</li>
+<li><b>Own the readings' framing.</b> Some "why" notes say "you own the book"; a public version says "chapter 3 of
+DDIA, 60 minutes" and offers a free alternative where one exists (the SQLite posts and OSTEP chapters already are).</li>
+<li><b>Rename the files.</b> <code>sprites-guide/</code> becomes <code>from-the-disk-up/</code>; rung slugs stay.
+Add a licence line (CC BY for the text, MIT for the scripts) and a "found a mistake" link.</li>
+</ol>
+
+<p>Not before the season ends. Publishing the ladder is a post 8 decision; publishing the posts starts at post 0,
+this week, in the sixty minutes the roadmap allows.</p>
+
+<h2>Your notes for the series</h2>
+<p class="srcnote">Title ideas, sentences for the introduction, a reader you have in mind. Saves in this browser.</p>
+<textarea data-note="publishing-notes" placeholder="..."></textarea>
+
+</main>
+<script src="assets/progress.js"></script>
+</body>
+</html>

@@ -33,3 +33,9 @@ This repo is Isaac's FAANG-tier **senior interview prep + distributed systems le
 - DSA notes in `dsa/` are terse: problem, pattern, the missed insight, next re-solve date.
 - Maelstrom binary + workloads: document setup in `glomers/README.md` once installed.
 - Related project: `../acu-2brain-cc/` (his app build, separate time budget — see ROADMAP §7).
+
+## sprites-guide/ — the Sprites ladder (added Sep 18, 2026)
+
+- An interactive prerequisite guide in the shape of `../optimization-competitions/learning/guide/`: nine rung pages (L0–L8) with a checkpoint widget and tick boxes, `index.html` (start page + glossary), `explainer-map.html`, `showcase.html`, and `explainer.html` (the former `sprites-explainer.html`, restyled light and given a sidebar; the old path redirects). Progress state: `localStorage` key `sprites-ladder-v1`, JSON export/import from the sidebar; Isaac drops exports at `sprites-guide/progress-export.json` when he wants a session to read them.
+- `build.py` generates the rung pages, the map, `showcase.html` (from `../curriculum-edtech/course-from-a-link-on-sprites.md`, which stays the source text) and refreshes the "Rungs that make this section readable" line under each `explainer.html` heading. Edit `RUNGS` in `build.py`, then run it. `assets/progress.js` holds the sidebar's copy of the curriculum; keep slugs and checkpoint sentences in step.
+- **Spell every label out.** Isaac flagged (Sep 18) that first drafts leaned on coined shorthand ("S-queue", "§03 bets 1 and 3"). Name the file and section, or link the anchor.

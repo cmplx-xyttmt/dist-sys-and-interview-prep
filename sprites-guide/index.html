@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprites ladder · Start here</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  dl.gloss dt { font-family: -apple-system, "Segoe UI", sans-serif; font-weight: 650; margin-top: .9rem; }
+  dl.gloss dd { margin: .15rem 0 0 0; color: var(--muted); }
+</style>
+</head>
+<body>
+<nav id="sidebar"></nav>
+<main>
+<p class="kicker">Nine rungs, one mission each, then the explainer again</p>
+<h1>Start here</h1>
+
+<p>On Thursday Sep 17, 2026 you read <a href="explainer.html">sprites-explainer.html</a>, a page
+about how Fly.io built Sprites, and reported: "didn't understand most of it, huge knowledge gaps". That was the
+page's fault, not yours. It was written as a summary for someone who already had the vocabulary. Go to its
+<a href="explainer.html#storage">section 04</a> and count what it assumes: block device, filesystem,
+NVMe, read-through cache, dm-cache, immutability, content addressing, object storage, S3, SQLite, write-ahead
+log, log shipping, metadata versus data, JuiceFS, GFS. Fifteen ideas in six paragraphs, each mentioned once and
+never built up.</p>
+
+<p>None of them is hard on its own. They stack, and the explainer starts at the top. So this guide is the stack:
+nine rungs, in the order each one needs the one before. Every rung ends with a mission (a measurement in L0, a
+small program in L1 to L7, a paragraph in L8) and a check it has to pass. When the check passes, you tick the rung, and the sidebar fills. This is the same
+shape as the <a href="../../optimization-competitions/learning/guide/index.html">heuristic contests guide</a>,
+with missions instead of scored solvers.</p>
+
+<div class="callout">
+<strong>How to use it</strong>
+Rungs are never locked; read ahead whenever you like. A rung counts as passed when its mission's check passed,
+not when the reading is done. Every reading and every mission step has a checkbox that remembers itself (this
+browser only; use Export in the sidebar before clearing browser data, and paste the file into
+<code>dist-sys-interview-prep/sprites-guide/progress-export.json</code> so a Claude session can read it).
+</div>
+
+<h2>The rungs</h2>
+<div class="tree" id="tree"></div>
+
+<h2>Words this guide uses, spelled out</h2>
+
+<p>Every label below was invented in one of your own planning files, so it means nothing until you know which
+file. Here is each one with the place it comes from.</p>
+
+<dl class="gloss">
+<dt>The explainer</dt>
+<dd><a href="explainer.html">explainer.html</a> in this guide (it was <code>dist-sys-interview-prep/sprites-explainer.html</code> until Sep 18; that path now redirects here), the interactive page
+written Sep 6, 2026 about Fly.io Sprites, restyled light. It has ten numbered sections (01 What is a Sprite, 02 Why now, 03 The
+three design bets, 04 The storage stack, 05 Checkpoint and restore, 06 Sprites vs Fly Machines, 07 What you'd
+need to learn, 08 Small projects, 09 How this fits your plan, 10 Check yourself). When a rung says "section 04"
+it means that page's section 04. The <a href="explainer-map.html">map page</a> lists which rungs each section
+needs.</dd>
+
+<dt>"Bet 1, bet 2, bet 3"</dt>
+<dd>The three items in the explainer's section 03, <i>The three design bets</i>: (1) kill the container image,
+(2) object storage is the source of truth, (3) inside-out orchestration. Spelled out on the
+<a href="explainer-map.html">map page</a>.</dd>
+
+<dt>Sprites</dt>
+<dd>Fly.io's product, launched January 2026: a Linux virtual machine that creates in one to two seconds, keeps
+its disk, sleeps when idle and costs almost nothing asleep. Docs at <a href="https://fly.io/sprites/">fly.io/sprites</a>.</dd>
+
+<dt>Fly Machines</dt>
+<dd>Fly.io's older product: a container-based virtual machine that takes about a minute to create and whose
+disk lives on one physical server. The explainer's section 06 compares the two.</dd>
+
+<dt>DDIA</dt>
+<dd><i>Designing Data-Intensive Applications</i> by Martin Kleppmann, the textbook your
+<a href="../ROADMAP.md">dist-sys roadmap</a> is built around. Chapter 3 is storage engines, chapter 5 is
+replication, chapter 6 is partitioning.</dd>
+
+<dt>Gossip Glomers, Maelstrom</dt>
+<dd><a href="https://fly.io/dist-sys/">Gossip Glomers</a> is Fly.io's set of distributed-systems programming
+challenges (echo, unique ids, broadcast, counters, logs, transactions). Maelstrom is the test harness they
+run on: it starts your program as several nodes, sends them messages, injects partitions and checks the
+results. Both were already on your roadmap; here they are rung L6's mission.</dd>
+
+<dt>Corrosion</dt>
+<dd>Fly.io's open-source service that gossips fleet state (which Sprite lives on which host) between all
+their servers, using SQLite plus conflict-free replicated data types. <a href="https://github.com/superfly/corrosion">github.com/superfly/corrosion</a>. Rung L6.</dd>
+
+<dt>Litestream</dt>
+<dd>A tool by Ben Johnson (now at Fly.io) that continuously copies a SQLite database's write-ahead log to
+object storage, so the database can be restored from there. <a href="https://litestream.io/">litestream.io</a>.
+Rungs L1 and L4.</dd>
+
+<dt>The Sunday session queue (what an earlier draft called "the S-queue")</dt>
+<dd>Section 5 of <a href="../ROADMAP.md">dist-sys-interview-prep/ROADMAP.md</a>, titled <i>The two queues</i>,
+lists the system-design sessions in order and numbers them S0, S1, S2 and so on. Each session is either type
+A (write a design note or an exploration from a DDIA chapter) or type B (a Gossip Glomers challenge), and the
+roadmap alternates them. S0 was "Fly.io Sprites deep-dive"; S1 is "Maelstrom set up plus Glomers 1 Echo". The
+proposal in this guide is that the queue pauses while the ladder runs, one rung a week, and Glomers comes
+back as L6. The Fri Sep 18 standup decides.</dd>
+
+<dt>Mission</dt>
+<dd>A task with a check at the end that you can't pass without the target knowledge. In this guide a mission is
+1 to 2 hours; the 20-to-40-minute size in the missions document is for the checkpoints a generated course would
+attach to a reading. The idea and the types (model it, estimate then check, teach it back) are in
+<a href="../../curriculum-edtech/learning-through-code-and-maths.html">curriculum-edtech/learning-through-code-and-maths.html</a>,
+written the same night. Each mission you do gets a row in
+<code>curriculum-edtech/missions/LOG.md</code>.</dd>
+
+<dt>The showcase project</dt>
+<dd><a href="showcase.html">Course from a link, on Sprites</a>, a page of this guide (source text: <code>curriculum-edtech/course-from-a-link-on-sprites.md</code>):
+paste a link, get a course with quizzes and runnable checkpoint missions, served from your own Sprite. It
+replaces the explainer's old Level 4 project (a design document for the lead-identification agent harness
+at Tunga), because you asked for something you can show publicly. Its five build phases are named P0 to P4
+in that document's table.</dd>
+
+<dt>The season, the slots</dt>
+<dd>Season 2 (Sep 14 to Oct 11, 2026) in <a href="../../WEEK.md">WEEK.md</a> gives system design two evening
+slots: Tuesday 19:30 to 21:00 (the build half) and Thursday 19:30 (the reading half). One rung uses one
+Thursday for the reading and the next Tuesday for the mission.</dd>
+</dl>
+
+<h2>How it maps onto the calendar</h2>
+
+<p>Each rung is one Thursday reading (the season's "reading half", fine when tired) and the following Tuesday's
+mission (the "build half"). A rung's budget is on its page: 2 to 4 hours.</p>
+
+<table>
+<tr><th>Slot</th><th>What</th><th>Rung</th></tr>
+<tr><td>Tue Sep 22</td><td>No rung yet (no Thursday before it). Use it for the Maelstrom install and Echo from the roadmap's S1, which L6 needs later, or rest.</td><td>—</td></tr>
+<tr><td>Thu Sep 24</td><td>Reading: OSTEP file-system pages, Julia Evans on containers, Firecracker sections 1 and 2</td><td>L0</td></tr>
+<tr><td>Tue Sep 29</td><td>Mission: the docker timings and the inside/outside comparison</td><td>L0</td></tr>
+<tr><td>Thu Oct 1</td><td>Reading: SQLite internals (two posts), the WAL page, DDIA chapter 3 first half</td><td>L1</td></tr>
+<tr><td>Tue Oct 6</td><td>Mission: the key-value store, three kill trials</td><td>L1</td></tr>
+<tr><td>Thu Oct 8</td><td>Reading: Pro Git internals, JuiceFS architecture</td><td>L2</td></tr>
+<tr><td>Tue Oct 13 (season 3)</td><td>Mission: the chunk store</td><td>L2</td></tr>
+<tr><td>Season 3</td><td>L3 to L8, one a week in whatever slots season 3 gives system design; L6 takes two</td><td>L3 to L8</td></tr>
+</table>
+
+<p><b>What "shipped" means for the system-design bet this season, if the standup takes this plan:</b> L0 and L1
+passed with their missions logged, L2's reading done, two posts published (L0 and L1), and the explainer
+re-read at the Oct 11 season wrap with the quiz score recorded as a baseline for L8.</p>
+
+<h2>The explainer's own project list, reviewed</h2>
+
+<p>The explainer's <a href="explainer.html#build">section 08</a> suggested five projects. Here is
+what happened to each.</p>
+
+<table>
+<tr><th>Explainer project</th><th>Verdict</th><th>Where it is now</th></tr>
+<tr><td>Level 1: drive a Sprite by hand (create, checkpoint, kill, restore; the explainer also says "fork", which Sprites cannot do natively as of mid-2026, see L5)</td><td>Keep, but after L2. Without the model, "checkpoint" is a button. It also needs a Sprites account; plans have concurrency limits, check the free allowance first.</td><td>First step of the showcase project's phase P1</td></tr>
+<tr><td>Level 2: toy content-addressed chunk store</td><td>Keep, as written</td><td>L2's mission, extended in L3 and L5</td></tr>
+<tr><td>Level 2: replicate a SQLite database with Litestream</td><td>Keep, as written</td><td>L4's mission</td></tr>
+<tr><td>Level 3: Gossip Glomers broadcast, then read Corrosion</td><td>Keep, as written</td><td>L6's mission</td></tr>
+<tr><td>Level 4: design (don't build) a sandbox platform for the lead-identification harness</td><td>Replaced. A design document about work can't be published. The design-first step stays, but the subject is the showcase project.</td><td>Phase P0 of <a href="showcase.html">Course from a link</a></td></tr>
+<tr><td>New</td><td>L0 container-versus-VM timing; L3 read-through cache; L5 overlay filesystem and fork; L7 token broker</td><td>Added</td></tr>
+</table>
+
+<h2>Publishing: the series on your site</h2>
+
+<p>The full plan, the introduction draft, the title options and what a public version of the ladder would change are on the
+<a href="publishing.html">publishing page</a>. Each rung page ends with a "Write about it" section naming its post. The short version:</p>
+
+<p>Your site is the Hugo repository (Hugo is the static-site generator that turns Markdown into the pages) at <code>~/Projects/cmplx-xyttmt.github.io</code>
+(<a href="https://cmplx-xyttmt.github.io/">cmplx-xyttmt.github.io</a>). Section 8 of the
+<a href="../ROADMAP.md">dist-sys roadmap</a> already says what goes there: interactive explorations rather
+than prose posts, with a fixed limit on polishing time (60 minutes a post) so writing never displaces the prep itself.</p>
+
+<ul>
+<li><b>Series title:</b> "What I had to learn to understand Sprites". One post per rung, L0 to L7. Each post is
+the rung's mission: the code (small enough to read whole), the check, the surprise, and where the idea sits
+in the Sprites design. Where a rung has a natural interactive (L2's manifest, L3's cache hit ratio, L6's
+gossip rounds) the post gets one; otherwise code and a figure.</li>
+<li><b>Cadence:</b> the post is written the same week as the rung, 60 minutes at most. If it doesn't fit, it
+waits for the next rung and ships as a pair.</li>
+<li><b>Closing post:</b> the explainer itself, republished once you can annotate it, with this ladder as its
+"start here".</li>
+<li><b>The showcase project</b> gets its own five posts, one per phase, listed in its document.</li>
+</ul>
+
+<h2>For the Fri Sep 18 standup to decide</h2>
+<ol>
+<li>Does the Sunday session queue pause for the ladder, with L0's reading on Thu Sep 24 and its mission on Tue Sep 29?</li>
+<li>Does Tue Sep 22 take S1 (Maelstrom install plus Echo, about an hour), so L6 has no set-up cost later?</li>
+<li>Does the season's "shipped" for the system-design bet become the sentence above (L0 and L1 passed, L2 read, two posts, quiz baseline)?</li>
+</ol>
+
+<p class="srcnote">Built Fri Sep 18, 2026, 06:30, from <code>sprites-ladder.md</code> after Isaac's note that the first draft leaned on
+labels he had never seen; revised 09:30 after an independent read-through (schedule, L1 and L5 missions, vocabulary). Pages are generated by <code>build.py</code> in this folder; edit the data there, not the HTML.</p>
+
+</main>
+<script src="assets/progress.js"></script>
+</body>
+</html>

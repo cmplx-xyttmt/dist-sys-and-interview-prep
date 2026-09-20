@@ -1,0 +1,60 @@
+/* Sidebar only: extracted from style.css so the explainer (which keeps its own stylesheet) can carry the same menu. */
+#sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar);
+  overflow-y: auto; background: var(--panel);
+  border-right: 1px solid var(--border);
+  font-family: -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: 0.83rem; padding: 1rem 0 3rem; z-index: 20;
+}
+#sidebar .brand {
+  display: block; padding: 0 1rem 0.6rem; text-decoration: none;
+  color: var(--fg); font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em;
+}
+#sidebar .brand span { display: block; font-weight: 400; font-size: 0.74rem; color: var(--faint); }
+#sidebar .meter { margin: 0 1rem 0.9rem; }
+#sidebar .meter .bar {
+  height: 5px; background: var(--code-bg); border-radius: 3px; overflow: hidden;
+}
+#sidebar .meter .bar i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+#sidebar .meter .txt { font-size: 0.72rem; color: var(--faint); margin-top: 0.3rem; display: flex; justify-content: space-between; }
+#sidebar h4 {
+  margin: 1.1rem 1rem 0.35rem; font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.09em; color: var(--faint); font-weight: 600;
+}
+#sidebar a.lvl, #sidebar a.pg {
+  display: flex; align-items: baseline; gap: 0.5rem;
+  padding: 0.3rem 1rem; text-decoration: none; color: var(--muted);
+  border-left: 3px solid transparent;
+}
+#sidebar a.lvl:hover, #sidebar a.pg:hover { background: var(--code-bg); color: var(--fg); }
+#sidebar a.current { border-left-color: var(--accent); background: var(--callout-bg); color: var(--fg); font-weight: 600; }
+#sidebar a.lvl .dot {
+  flex: 0 0 auto; width: 0.95rem; text-align: center; font-size: 0.8rem; color: var(--faint);
+}
+#sidebar a.lvl .n { flex: 0 0 auto; color: var(--faint); font-variant-numeric: tabular-nums; }
+#sidebar a.lvl.done { color: var(--fg); }
+#sidebar a.lvl.done .dot { color: var(--accent); }
+#sidebar a.lvl.ready .dot { color: var(--accent-warm); }
+#sidebar a.lvl.locked { color: var(--faint); }
+#sidebar a.lvl.stub .t::after {
+  content: "outline"; font-size: 0.62rem; text-transform: uppercase; letter-spacing: .06em;
+  background: var(--code-bg); color: var(--faint); border-radius: 3px;
+  padding: 0.05rem 0.3rem; margin-left: 0.35rem; vertical-align: 1px;
+}
+#sidebar .tools { margin: 1.4rem 1rem 0; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+#sidebar .tools button {
+  font: inherit; font-size: 0.74rem; background: none; border: 1px solid var(--border);
+  border-radius: 5px; padding: 0.2rem 0.5rem; color: var(--muted); cursor: pointer; margin: 0 0.2rem 0.3rem 0;
+}
+#sidebar .tools button:hover { background: var(--code-bg); color: var(--fg); }
+#navtoggle {
+  display: none; position: fixed; top: 0.6rem; left: 0.6rem; z-index: 30;
+  font: 600 0.8rem -apple-system, sans-serif; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 6px; padding: 0.35rem 0.6rem; cursor: pointer;
+}
+@media (max-width: 900px) {
+  #sidebar { transform: translateX(-100%); transition: transform .2s; box-shadow: 0 0 30px rgba(0,0,0,.15); }
+  #sidebar.open { transform: none; }
+  #navtoggle { display: block; }
+  body.has-sidebar main, body.has-sidebar footer.pager { margin-left: 0; }
+}

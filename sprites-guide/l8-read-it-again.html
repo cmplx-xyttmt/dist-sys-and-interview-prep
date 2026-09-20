@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprites ladder · L8 · Read it again, then the sources</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  li.tick label { display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; }
+  li.tick input { margin: .3rem 0 0; flex: 0 0 auto; }
+  li.tick label > span { flex: 1 1 auto; min-width: 0; }
+  li.tick.ticked > label { color: var(--muted); }
+  li.tick.ticked > label a { color: var(--muted); }
+  li.tick .why { color: var(--muted); font-size: .92em; }
+  ul.plain { list-style: none; padding-left: 0; }
+  ul.plain li { margin: .45rem 0; }
+  .spec ol { padding-left: 1.2rem; }
+  .spec ol li { margin: .55rem 0; }
+  details.active { margin: .35rem 0 .6rem 1.8rem; font-size: .86rem; background: #f7f9fc; border-color: #d3ddea; }
+  details.active summary { color: var(--accent); }
+  details.active ol { margin: .2rem 0 .4rem; padding-left: 1.2rem; }
+  details.active .before { margin: 0; }
+  details.active .trace { margin: .3rem 0; color: var(--muted); }
+  details.active textarea, details.active input[type=text] { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .84rem; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }
+</style>
+</head>
+<body>
+<nav id="sidebar"></nav>
+<main>
+<p class="kicker">Rung 8 of 8 · synthesis · about 4 h, reading-heavy (sources 3 h, mission 1 h); split over two slots</p>
+<h1>Read it again, then the sources</h1>
+
+<p class="srcnote">One rung per week: the reading in the Thursday 19:30 system-design slot, the mission the following Tuesday 19:30.
+Tick as you go; the checkpoint at the bottom is what marks the rung passed.</p>
+
+<h2 id="say">1 · After this rung you can say</h2>
+<ul><li>every sentence in the explainer's sections 03 to 07, in your own words</li><li>the storage stack from memory: immutable chunks in object storage, a SQLite index whose write-ahead log is shipped to object storage, a throwaway NVMe cache in front, and why the three don't fight</li><li>where Sprites stop working (the explainer's section 06) and why; what "running, warm, cold" mean in the docs (billed and awake; asleep with its memory kept; asleep with only the disk kept); and what the S3 block device in early access is (the disk itself served from object storage, the next step of design bet 2)</li></ul>
+
+<h2 id="read">2 · Read, in this order</h2>
+<p class="srcnote">Each reading has a "Read actively" block: write your answers to its prompts <i>before</i> reading, run the
+command alongside if there is one, and afterwards write one quiz question you would have failed. The last field asks for a
+better way to read that piece actively; those ideas are raw material for the showcase's course generator. All boxes save in this browser.</p>
+<ul class="plain"><li class="tick"><label><input type="checkbox" data-tick="L8-read-1"> <span><a href="explainer.html" target="_blank" rel="noopener">The explainer, end to end, then the quiz in section 10</a> <span class="tag core">core</span><span class="why"> — 60 min. Record the quiz score in the checkpoint below; it has five questions.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>Take the quiz first, cold. Write the score down before reading anything.</li></ol><textarea data-note="L8-read-1-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L8-read-1-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L8-read-2"> <span><a href="https://fly.io/blog/code-and-let-live/" target="_blank" rel="noopener">Kurt Mackey, <i>Code and let live</i></a> <span class="tag core">core</span><span class="why"> — 15 min. The why: "ephemeral sandboxes are obsolete" (a sandbox that forgets everything when the task ends).</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>What is wrong with ephemeral sandboxes for agents, in the author's view?</li></ol><textarea data-note="L8-read-2-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L8-read-2-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L8-read-3"> <span><a href="https://fly.io/blog/design-and-implementation/" target="_blank" rel="noopener">Thomas Ptacek, <i>The design and implementation of Sprites</i></a> <span class="tag core">core</span><span class="why"> — 40 min. The how, and the explainer's main source.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>Name the three design decisions from memory before reading. Then find what the post says the hardest part was.</li></ol><textarea data-note="L8-read-3-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L8-read-3-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L8-read-4"> <span><a href="https://fly.io/sprites/" target="_blank" rel="noopener">The Sprites product page and docs</a> <span class="tag core">core</span><span class="why"> — 30 min: checkpoints, the HTTPS URL per Sprite, Connectors, the running / warm / cold states, the S3 block device in early access.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>What is the difference between warm and cold? Which states are billed?</li></ol><textarea data-note="L8-read-4-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L8-read-4-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L8-read-5"> <span><a href="https://fly.io/sprites-blog/" target="_blank" rel="noopener">The Sprites blog: <i>Run any code fearlessly</i>, <i>Make computers make computers</i>, <i>Agent swarms on Sprites</i>, <i>Slack bots on Sprites</i></a> <span class="tag core">core</span><span class="why"> — 40 min. The four that map onto the showcase project.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>Which showcase phase does each of the four posts map to?</li></ol><textarea data-note="L8-read-5-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L8-read-5-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li><li class="tick"><label><input type="checkbox" data-tick="L8-read-6"> <span><a href="https://simonwillison.net/2026/Jan/9/sprites-dev/" target="_blank" rel="noopener">Simon Willison, note on sprites.dev (Jan 9, 2026)</a> <span class="tag opt">optional</span><span class="why"> — 5 min. An outside view.</span></span></label><details class="active"><summary>Read actively</summary><p class="before"><b>Before you read, answer in the box:</b></p><ol><li>What did an outsider notice that Fly did not say?</li></ol><textarea data-note="L8-read-6-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea><input type="text" data-note="L8-read-6-idea" placeholder="A better way to read this one actively? (feeds the course generator)"></details></li></ul>
+
+<h2 id="mission">3 · Mission <span class="tag deep">teach it back</span></h2>
+<div class="spec">
+<strong>Do this</strong>
+<ol><li class="tick"><label><input type="checkbox" data-tick="L8-step-1"> <span>Take the explainer's quiz cold. Write the score down before reading the explanations. Four of five is the pass line; below that, the wrong answers name the rung to revisit.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L8-step-2"> <span>Close everything and write one paragraph explaining the storage stack to someone who has done L0 to L2 but nothing after. Then check it against section 04.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L8-step-3"> <span>Test the paragraph on a stranger: paste it to Claude with the explainer closed and ask what is unclear. Two or fewer sentences questioned is the pass line.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L8-step-4"> <span>Write the list of things you still can't explain. That list is season 3's reading.</span></label></li></ol>
+<p><b>The check:</b> Quiz at least 4 of 5, taken cold. The paragraph exists and drew at most two clarifying questions. The remaining gaps are listed by name.</p>
+</div>
+
+
+<div class="cpw" data-level="L8"></div>
+
+<h2 id="showcase">4 · In the showcase project</h2>
+<p>Read the four Sprites blog posts with the showcase's five phases open beside them; each post is one phase seen from Fly's side. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
+
+<h2 id="unlocks">5 · Where this shows up in the explainer</h2>
+<p>Links go to the numbered sections of <a href="explainer.html">the explainer</a>, the page this ladder exists to make readable.</p>
+<ul><li><a href="explainer.html#quiz">10 · Check yourself (the quiz)</a> — the quiz</li><li><a href="explainer.html#learn">07 · What you'd need to learn</a> — every card, now as a checklist of things you can explain</li><li><a href="explainer.html#plan">09 · How this fits your plan</a> — the plan section, which the showcase project replaces</li></ul>
+
+<h2 id="write">6 · Write about it</h2>
+<p>For the series on your site (plan and titles on the <a href="publishing.html">publishing page</a>). Sixty minutes of polish at most, the same week.</p>
+<ul><li><b>Post 8, the capstone · "Re-reading the Sprites post after eight rungs."</b> The annotated re-read: which sentences became obvious, which still don't land, the storage-stack paragraph from memory, and the quiz score then versus now. Link every earlier post from the sentence it explains.</li><li><b>Post 0, the introduction</b>, is written before post 1; the draft and the title options are on the <a href="publishing.html">publishing page</a>.</li></ul>
+
+</main>
+<footer class="pager" data-auto></footer>
+<script src="assets/progress.js"></script>
+</body>
+</html>

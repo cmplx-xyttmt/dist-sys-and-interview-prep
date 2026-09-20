@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprites ladder · Map of the explainer</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav id="sidebar"></nav>
+<main>
+<p class="kicker">Reference</p>
+<h1>Map of the explainer</h1>
+<p><a href="explainer.html">The explainer</a> has ten numbered sections. This table says which rungs each section needs. If a section reads as noise, do its rungs and come back.</p>
+<table>
+<tr><th>Explainer section</th><th>Rungs that make it readable</th></tr>
+<tr><td><a href="explainer.html#what">01 · What is a Sprite?</a></td><td><a href="l0-a-computer-from-the-inside.html">L0 A computer from the inside</a></td></tr><tr><td><a href="explainer.html#why">02 · Why now: the agent framing</a></td><td><a href="l7-capabilities-not-credentials.html">L7 Capabilities, not credentials</a></td></tr><tr><td><a href="explainer.html#design">03 · The three design bets</a></td><td><a href="l0-a-computer-from-the-inside.html">L0 A computer from the inside</a>, <a href="l2-hashing-and-immutability.html">L2 Hashing, immutability, content addressing</a>, <a href="l3-object-storage-and-caches.html">L3 Object storage, caches, and easy invalidation</a></td></tr><tr><td><a href="explainer.html#storage">04 · The storage stack: how a disk becomes a URL</a></td><td><a href="l1-bytes-files-and-the-log.html">L1 Bytes, files, and why the log comes first</a>, <a href="l2-hashing-and-immutability.html">L2 Hashing, immutability, content addressing</a>, <a href="l3-object-storage-and-caches.html">L3 Object storage, caches, and easy invalidation</a>, <a href="l4-replication-by-shipping-a-log.html">L4 Replication by shipping a log</a></td></tr><tr><td><a href="explainer.html#checkpoint">05 · Checkpoint and restore</a></td><td><a href="l2-hashing-and-immutability.html">L2 Hashing, immutability, content addressing</a>, <a href="l5-snapshots-and-copy-on-write.html">L5 Snapshots, copy-on-write, forking</a>, <a href="l6-gossip-and-service-discovery.html">L6 Gossip, membership, service discovery</a>, <a href="l7-capabilities-not-credentials.html">L7 Capabilities, not credentials</a></td></tr><tr><td><a href="explainer.html#vs">06 · Sprites vs Fly Machines</a></td><td><a href="l0-a-computer-from-the-inside.html">L0 A computer from the inside</a>, <a href="l3-object-storage-and-caches.html">L3 Object storage, caches, and easy invalidation</a></td></tr><tr><td><a href="explainer.html#learn">07 · What you'd need to learn</a></td><td><a href="l1-bytes-files-and-the-log.html">L1 Bytes, files, and why the log comes first</a>, <a href="l2-hashing-and-immutability.html">L2 Hashing, immutability, content addressing</a>, <a href="l4-replication-by-shipping-a-log.html">L4 Replication by shipping a log</a>, <a href="l5-snapshots-and-copy-on-write.html">L5 Snapshots, copy-on-write, forking</a>, <a href="l6-gossip-and-service-discovery.html">L6 Gossip, membership, service discovery</a>, <a href="l7-capabilities-not-credentials.html">L7 Capabilities, not credentials</a>, <a href="l8-read-it-again.html">L8 Read it again, then the sources</a></td></tr><tr><td><a href="explainer.html#build">08 · Small projects</a></td><td><a href="l2-hashing-and-immutability.html">L2 Hashing, immutability, content addressing</a>, <a href="l4-replication-by-shipping-a-log.html">L4 Replication by shipping a log</a>, <a href="l6-gossip-and-service-discovery.html">L6 Gossip, membership, service discovery</a></td></tr><tr><td><a href="explainer.html#plan">09 · How this fits your plan</a></td><td><a href="l8-read-it-again.html">L8 Read it again, then the sources</a></td></tr><tr><td><a href="explainer.html#quiz">10 · Check yourself (the quiz)</a></td><td><a href="l8-read-it-again.html">L8 Read it again, then the sources</a></td></tr>
+</table>
+
+<h2>The "three design bets" in section 03</h2>
+<p>Section 03 of the explainer is titled <i>The three design bets</i>. Each bet is one thing Fly chose to do differently from their older product, Fly Machines, and each has a click-to-open box on that page. When a rung says "bet 1" it means this list:</p>
+<ol>
+<li><b>Kill the container image.</b> Sprites don't start from a downloaded container image; every host already has one standard base image and a pool of pre-warmed empty Sprites, so creating one is claiming one. Needs <a href="l0-a-computer-from-the-inside.html">L0</a>.</li>
+<li><b>Object storage is the source of truth.</b> A Sprite's disk lives in S3-compatible object storage, not on one physical server's NVMe; "the durable state of a Sprite is simply a URL". Needs <a href="l2-hashing-and-immutability.html">L2</a> and <a href="l3-object-storage-and-caches.html">L3</a>.</li>
+<li><b>Inside-out orchestration.</b> The platform's services (storage, restarts, logging, networking) run inside the VM rather than on the host. Needs <a href="l0-a-computer-from-the-inside.html">L0</a>.</li>
+</ol>
+<p class="srcnote">The table above is generated from each rung's own "where this shows up in the explainer" list, so the two never disagree; this bets paragraph is hand-written in <code>build.py</code>.</p>
+</main>
+<script src="assets/progress.js"></script>
+</body>
+</html>
