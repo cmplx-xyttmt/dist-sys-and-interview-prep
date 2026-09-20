@@ -19,7 +19,9 @@ window of that size was already recorded. Same total work as the shrink-until-va
 form (n adds, at most n removals), simpler control flow, and one step from the O(n)
 version: replace `max(occ)` with a running max that never decreases.
 
-**Missed insight:** couldn't see what the window was or how to escape O(n²). The
+**Missed insight:** the never-decrease trick is learned, not derived; what to be able
+to derive is the argument above. The sliding structure that makes it possible I found
+unaided. Couldn't see what the window was or how to escape O(n²). The
 window's contents are summarized by a fixed-size count array, and the "max" is over
 26 slots, not n. Hint needed to get started. When a problem says "characters", ask
 what the alphabet size is before deciding anything is O(n) per step.
@@ -28,7 +30,12 @@ what the alphabet size is before deciding anything is O(n) per step.
 largest window size ever valid, and a window is at the frontier of size
 `max_count + k`; a later window whose true max is lower cannot be longer than one
 already recorded. So keep a running max, never rescan, and the window slides instead
-of shrinking. _Pending: state that argument in your own words._
+of shrinking. Coded 2026-09-20 after being pointed at it; 40k random tests OK. The
+sharper form of the argument: `best` only grows when the validity check passes at a
+new size, the size only reaches a new value when `max_count` has just gone up, and
+at that moment `max_count == occ[idx]` is the true max of the window, so every new
+`best` is a truly valid window. A stale `max_count` can only pass the check at a size
+already recorded. _Pending: say it in your own words on the re-solve._
 
 **Next re-solve:** 2026-09-27 (right-driven, no undo, no print; then the
 never-decrease version and the sentence that justifies it).
