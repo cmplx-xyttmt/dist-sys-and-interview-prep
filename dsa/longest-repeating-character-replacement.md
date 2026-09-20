@@ -10,7 +10,14 @@ O(26n) = O(n). Accepted as is.
 **What I wrote:** left-driven again (for `i`, extend `j`), which forced an
 add-check-undo dance: add `s[j]`, test, and if invalid subtract it back and break.
 Right-driven has no undo: add `s[r]`, `while invalid: remove s[l]; l += 1`, record.
-Debug `print` left in a third time.
+Debug `print` left in a third time. Right-driven rewrite done the same day, and it
+came out as the *sliding* form: on invalid, drop one from the left and move on, no
+inner while. The window is then allowed to stay invalid while it slides
+(`AABBBAA`, k=1: at j=6 the window `BBAA` slides and is still invalid). That is fine
+because sizes only grow through valid states, so `best` is never inflated, and a
+window of that size was already recorded. Same total work as the shrink-until-valid
+form (n adds, at most n removals), simpler control flow, and one step from the O(n)
+version: replace `max(occ)` with a running max that never decreases.
 
 **Missed insight:** couldn't see what the window was or how to escape O(n²). The
 window's contents are summarized by a fixed-size count array, and the "max" is over
