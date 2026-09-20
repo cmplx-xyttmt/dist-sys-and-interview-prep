@@ -155,8 +155,9 @@ Interviews now come in **two modes**, and you must train both:
    - **Verification discipline** — read every generated line; narrate the bugs you catch (edge cases, off-by-ones, concurrency). *Catching an AI bug out loud is the strongest signal you can send.*
    - **Architecture ownership** — you decide the structure; AI fills in walls.
 - **Practice ratio:** ~70% raw / 30% AI-assisted through Stage 3, then ~60/40. For AI-assisted drills, use Claude Code or Cursor on NeetCode problems *and* on small build-tasks ("build a rate limiter with tests in 45 min, AI allowed").
-- **Kaggle × Google "5-Day AI Agents: Intensive Vibe Coding" course** — **runs in work
-  hours (decision Sep 4):** building agents *is* the Tunga day job, so this and the other
+- **Kaggle × Google "5-Day AI Agents: Intensive Vibe Coding" course** — **plan moved Sep 14,
+  2026 to `~/Projects/agentic-engineering/ROADMAP.md`** (its L0; sessions 16:00–17:00 Mon–Thu,
+  Sep 15–23). The summary below stands for context. **Runs in work hours (decision Sep 4):** building agents *is* the Tunga day job, so this and the other
   agentic-engineering shelf material (ADK graph-engineering codelab, twotimespi.dev, the
   PI-agent and effective-agents talks) count as work learning, not prep hours. One-week
   sprint after leave ends (Sep 14+), ~1–2 h/day × 5 days inside the work block, with each
