@@ -44,6 +44,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 | 2026-09-15 | Longest Substring Without Repeating Characters (sliding window + set) | untimed | solved first try, left-driven window, O(n); used defaultdict(bool) for a set; right-driven shape and last-index jump to learn | 2026-09-22 |
 | 2026-09-20 | Longest Repeating Character Replacement (sliding window + 26 counts) | untimed | hint needed to see the window and the 26-slot max; then solved first try, left-driven with add-check-undo; print left in | 2026-09-27 |
 | 2026-09-20 | RE-SOLVE Trapping Rain Water (two pointers) | DNF | picked the side by comparing heights instead of running maxes; late-night attempt; self-diagnosed | 2026-09-24 |
+| 2026-09-21 | Permutation in String (fixed-size sliding window + 26 counts) | untimed | solved unaided, right-driven with no undo; tracked a left pointer by hand and shrank with `j - i + 2 > n`, a disguised "window is full"; missed that a fixed-size window needs no left pointer | 2026-09-28 |
 
 ## Sunday reviews
 
