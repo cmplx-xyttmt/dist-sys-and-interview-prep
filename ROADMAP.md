@@ -1,6 +1,6 @@
 # Interview Prep + Distributed Systems Roadmap
 
-> **Owner:** Isaac Owomugisha · **Started:** July 6, 2026 · **Restarted:** Sep 4, 2026 (see §0)
+> **Owner:** Isaac Owomugisha · **Started:** July 6, 2026 · **Restarted:** Sep 4, 2026 (see §0) · **System design re-planned Sep 23, 2026 (§5 Queue 2 → the Sprites ladder)**
 > **Goal:** Interview-ready for senior (L5/E5) backend roles at FAANG-tier and strong non-FAANG companies.
 > **Checkpoints are scoreboard triggers, not dates; the schedule is two queues, not weeks** (§5). Projections at the current
 > cadence: *applications open* ~Feb 2027 · *minimum viable readiness* ~Mar 2027 · *full
@@ -192,7 +192,14 @@ problem is the first unchecked one (roadmap.html's Schedule tab shows the next s
 that rate the 60-problem line of the applications trigger lands ~mid-Nov 2026 and the full
 150 ~Feb 2027. Failed problems get re-solve dates in `dsa/` and take the light days' slots.
 
-### Queue 2 — Sundays (the half-day)
+### Queue 2 — system design (was: Sundays, the half-day)
+
+**Re-planned Wed Sep 23, 2026.** Sundays stopped being half-days on Sep 6, and the two evenings that
+tried this queue's S1 (Maelstrom) overwhelmed. For the rest of season 2 the system-design slots
+(Tue + Thu 19:30) belong to the **Sprites ladder**, `sprites-guide/index.html`: one rung a week, each
+session interleaving reading and doing, Glomers arriving at rung L6 in Python. The tables below are
+the **backlog that resumes after L8**; the order stands, the dates are gone (re-projected at the
+Oct 11 season wrap). S0 was done Thu Sep 17 (reading) and became the ladder.
 
 **A** = design / DDIA note / exploration. **B** = Glomers in Python. The chapter a session
 needs is read ahead in the weekday rotating slot's system-design days (from Sep 14); the
@@ -200,52 +207,52 @@ Sunday finishes the reading, writes the 1-page note, and adds 1–3 quiz questio
 
 **Stage 0 — re-entry (contest season)**
 
-| # | Sunday (proj.) | Kind | Session |
+| # | When | Kind | Session |
 |---|---|---|---|
-| S0 | Sep 6, 2026 | A | Fly.io Sprites deep-dive → exploration #1 (§8) |
+| S0 | done Thu Sep 17 | A | Fly.io Sprites deep-dive → the ladder (`sprites-guide/`) |
 | — | Sep 13 | — | Contest Sunday + season wrap. No prep slot. |
 
 **Stage 1 — Foundations**
 
-| # | Sunday (proj.) | Kind | Session |
+| # | When | Kind | Session |
 |---|---|---|---|
-| S1 | Sep 20 | B | **Maelstrom set up** (document in `glomers/README.md`) + Glomers 1 Echo. Prep: DDIA ch. 5 Encoding in the weekday slots of Sep 14–19. If setup eats the half-day, Echo rides along with S3. |
-| S2 | Sep 27 | A | DDIA ch. 1–2 → notes (trade-offs, nonfunctional requirements) |
-| S3 | Oct 4 | B | Glomers 2 Unique IDs (Snowflake-style; ch. 6 re-explains the why later) |
-| S4 | Oct 11 | A | DDIA ch. 3 data models → note |
-| S5 | Oct 18 | A | DDIA ch. 4 storage engines → note (LSM vs B-tree, cold) |
-| S6 | Oct 25 | A | Exploration #2 "How fast is fast?" — build (needs ch. 1–4 ✓) |
-| S7 | Nov 1 | A | Exploration #2 — ship. Timebox: two Sundays, total. |
-| S8 | Nov 8 | buffer | Catch-up for whatever slipped. If nothing did, start ch. 6. |
+| S1 | = ladder L6 | B | **Maelstrom set up** (document in `glomers/README.md`) + Glomers 1 Echo. Prep: DDIA ch. 5 Encoding in the weekday slots of Sep 14–19. If setup eats the half-day, Echo rides along with S3. |
+| S2 | after the ladder | A | DDIA ch. 1–2 → notes (trade-offs, nonfunctional requirements) |
+| S3 | after the ladder | B | Glomers 2 Unique IDs (Snowflake-style; ch. 6 re-explains the why later) |
+| S4 | after the ladder | A | DDIA ch. 3 data models → note |
+| S5 | after the ladder | A | DDIA ch. 4 storage engines → note (LSM vs B-tree, cold) |
+| S6 | after the ladder | A | Exploration #2 "How fast is fast?" — build (needs ch. 1–4 ✓) |
+| S7 | after the ladder | A | Exploration #2 — ship. Timebox: two Sundays, total. |
+| S8 | after the ladder | buffer | Catch-up for whatever slipped. If nothing did, start ch. 6. |
 
 **Stage 2 — Replication**
 
-| # | Sunday (proj.) | Kind | Session |
+| # | When | Kind | Session |
 |---|---|---|---|
-| S9 | Nov 15 | A | DDIA ch. 6 Replication → note |
-| S10 | Nov 22 | B | Glomers 3a + 3b broadcast |
-| S11 | Nov 29 | A | DDIA ch. 7 Sharding → note |
-| S12 | Dec 6 | B | Glomers 3c fault-tolerant broadcast |
-| S13 | Dec 13 | A | Hello Interview 4-step framework + written design #1 (rate limiter) |
-| S14 | Dec 20 | B | Glomers 3d + 3e efficient broadcast (measure, don't guess) |
-| S15 | Dec 27 | buffer | Holidays |
-| S16 | Jan 3, 2027 | A | Written design #2 (URL shortener) |
+| S9 | after the ladder | A | DDIA ch. 6 Replication → note |
+| S10 | after the ladder | B | Glomers 3a + 3b broadcast |
+| S11 | after the ladder | A | DDIA ch. 7 Sharding → note |
+| S12 | after the ladder | B | Glomers 3c fault-tolerant broadcast |
+| S13 | after the ladder | A | Hello Interview 4-step framework + written design #1 (rate limiter) |
+| S14 | after the ladder | B | Glomers 3d + 3e efficient broadcast (measure, don't guess) |
+| S15 | after the ladder | buffer | Holidays |
+| S16 | after the ladder | A | Written design #2 (URL shortener) |
 
 Weekday slots during Stage 2: story bank to 8 drafts; resume + LinkedIn; referral list.
 The Kaggle agents course runs in work hours (§4), not here.
 
 **Stage 3 — Transactions & consistency**
 
-| # | Sunday (proj.) | Kind | Session |
+| # | When | Kind | Session |
 |---|---|---|---|
-| S17 | Jan 10 | A | DDIA ch. 8 Transactions → note |
-| S18 | Jan 17 | B | Glomers 4 G-counter (+ CRDT reading) |
-| S19 | Jan 24 | A | DDIA ch. 9 The trouble with distributed systems → note |
-| S20 | Jan 31 | B | Glomers 5a + 5b Kafka-style log |
-| S21 | Feb 7 | A | DDIA ch. 10 Consistency & consensus → note (go slow; may spill into S22's tail) |
-| S22 | Feb 14 | B | Glomers 5c efficient log |
-| S23 | Feb 21 | A | Written designs #3 chat + #4 Uber-lite. 🔓 **Applications trigger check:** 60+ problems · ch. 1–7 noted · 4 designs · 8 stories → warm-up tier goes out |
-| S24 | Feb 28 | A | Timed-verbal designs (ledger, feed) + first coding mock. ✅ **Minimum-viable-readiness check:** mediums in 25 min; coherent 40-min design; 8 stories; Glomers 1–5 in Python |
+| S17 | after the ladder | A | DDIA ch. 8 Transactions → note |
+| S18 | after the ladder | B | Glomers 4 G-counter (+ CRDT reading) |
+| S19 | after the ladder | A | DDIA ch. 9 The trouble with distributed systems → note |
+| S20 | after the ladder | B | Glomers 5a + 5b Kafka-style log |
+| S21 | after the ladder | A | DDIA ch. 10 Consistency & consensus → note (go slow; may spill into S22's tail) |
+| S22 | after the ladder | B | Glomers 5c efficient log |
+| S23 | after the ladder | A | Written designs #3 chat + #4 Uber-lite. 🔓 **Applications trigger check:** 60+ problems · ch. 1–7 noted · 4 designs · 8 stories → warm-up tier goes out |
+| S24 | after the ladder | A | Timed-verbal designs (ledger, feed) + first coding mock. ✅ **Minimum-viable-readiness check:** mediums in 25 min; coherent 40-min design; 8 stories; Glomers 1–5 in Python |
 
 ### Stages 4–6 — backlog, not yet queued
 

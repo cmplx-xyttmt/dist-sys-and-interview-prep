@@ -275,7 +275,8 @@
     <ul>
       <li><a href="https://neetcode.io/practice">NeetCode 150</a> · <a href="https://exercism.org/tracks/go">Exercism Go</a> · <a href="https://go.dev/tour/">Tour of Go</a> · <a href="https://go.dev/doc/effective_go">Effective Go</a></li>
       <li><a href="https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction">Hello Interview — System Design in a Hurry</a> · <a href="https://www.hellointerview.com/learn/system-design/problem-breakdowns">problem breakdowns</a> · Alex Xu vol 1–2 · Jordan Has No Life (YT)</li>
-      <li><a href="https://fly.io/dist-sys/">Gossip Glomers</a> · <a href="https://github.com/jepsen-io/maelstrom">Maelstrom</a> · DDIA 2nd ed</li>
+      <li><b>System design, season 2:</b> <a href="sprites-guide/index.html">the Sprites ladder</a> (L0–L8; calendar and decisions on its start page) · <a href="sprites-guide/explainer.html">the explainer</a></li>
+      <li><a href="https://fly.io/dist-sys/">Gossip Glomers</a> · <a href="https://github.com/jepsen-io/maelstrom">Maelstrom</a> (arrive at ladder rung L6, in Python) · DDIA 2nd ed</li>
       <li><a href="https://www.kaggle.com/learn-guide/5-day-agents-vibecoding">Kaggle × Google 5-Day AI Agents course</a> — <b>in work hours</b> (agent-building is the Tunga day job): one-week sprint after leave ends Sep 14, learnings tied to live work projects (self-paced; live run ended Jun 19, 2026)</li>
       <li>Blog home for explorations: <a href="https://cmplx-xyttmt.github.io/">cmplx-xyttmt.github.io</a> · Retention engine: <span class="mono">../acu-2brain-cc/</span></li>
     </ul>
@@ -500,7 +501,7 @@ const STORIES=[
  ['story-8','Failure / conflict-with-data story (gap)'],
 ];
 const EXPL=[
- ['expl-5','#1 "Computers for agents" — Fly.io Sprites (seeded in sprites-explainer.html; deep-dive Sun Sep 6)',1],
+ ['expl-5','#1 "Computers for agents" — Fly.io Sprites (explainer: sprites-guide/explainer.html; read Thu Sep 17; ladder: sprites-guide/index.html)',1,'sprites-guide/index.html'],
  ['expl-1','#2 "How fast is fast?" — latency game + calculator',2],
  ['expl-2','#3 "Gossip" — broadcast simulator',4],
  ['expl-3','#4 "Nobody agrees" — replication conflicts & unique IDs',5],
@@ -518,7 +519,7 @@ const MONTHS=[
   ['m1-mael','Maelstrom environment set up + documented in glomers/README.md','C'],
   ['m1-g1','Glomers 1 Echo — Python (Sunday slot; Go backfill in Stage 4)','C'],
   ['m1-g2','Glomers 2 Unique IDs — Python (Sunday slot)','C'],
-  ['m1-expl','Exploration: "Computers for agents" (Fly.io Sprites) — deep-dive Sun Sep 6','X'],
+  ['m1-expl','Exploration: "Computers for agents" (Fly.io Sprites) — read Thu Sep 17; continues as the Sprites ladder, sprites-guide/','X'],
  ]},
  {name:'Stage 2 — Replication',start:'2026-11-09',end:'2027-01-03',tasks:[
   ['m2-dsa','36 problems: linked lists, trees, tries, heaps','A'],
@@ -809,6 +810,11 @@ function renderWork(){
    rest by a week; re-project at each WEEK.md season boundary, never re-order to hide it.
    Session notes are keyed wk-<Monday of that week> so older week notes stay attached. */
 const SUNDAYS=[
+ {date:'2026-09-06',kind:'A',title:'Fly.io Sprites deep-dive → exploration #1 (read Thu Sep 17; became the Sprites ladder)',items:['expl-5'],pre:'the three Sprites posts (WEEK.md shelf)'},
+ {date:'2026-09-13',kind:'—',title:'Contest Sunday + season wrap — no prep slot',items:[]},
+ {date:'2026-09-27',kind:'A',title:'From Sep 23 the system-design slots (Tue + Thu 19:30) run on the Sprites ladder: sprites-guide/index.html. One rung a week, reading and doing interleaved; Glomers arrive at rung L6 in Python. This queue resumes after L8; dates set at the Oct 11 season wrap (ROADMAP §5).',items:[],note:'Backlog kept in order in ROADMAP.md §5 Queue 2: DDIA ch.1–4 notes, Glomers 2, exploration #2, then Stage 2 onward. The Sep 20/22 Maelstrom item is dropped (it is L6).'},
+];
+/* Former Sunday projections (Sep 5, 2026), kept for reference, not rendered:
  {date:'2026-09-06',kind:'A',title:'Fly.io Sprites deep-dive → exploration #1',items:['expl-5'],pre:'the three Sprites posts (WEEK.md shelf)'},
  {date:'2026-09-13',kind:'—',title:'Contest Sunday + season wrap — no prep slot',items:[]},
  {date:'2026-09-20',kind:'B',title:'Maelstrom set up + Glomers 1 Echo',items:['m1-mael-s','gl-1-py'],pre:'DDIA ch.5 Encoding (weekday slots Sep 14–19)',note:'If setup eats the half-day, Echo rides along with S3.'},
@@ -835,7 +841,8 @@ const SUNDAYS=[
  {date:'2027-02-14',kind:'B',title:'Glomers 5c efficient log',items:['gl-5c-py']},
  {date:'2027-02-21',kind:'A',title:'Written designs #3 chat + #4 Uber-lite · 🔓 applications-trigger check',items:['d3','d4'],note:'Trigger: 60+ problems · ch.1–7 noted · 4 designs · 8 stories → warm-up tier goes out.'},
  {date:'2027-02-28',kind:'A',title:'Timed-verbal designs (ledger, feed) + coding mock #1 · ✅ min-viable-readiness check',items:['d5','d6','mock-c1']},
-];
+*/
+
 const DAY_MS=864e5;
 const fmtD=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 const KIND_LABEL={A:'A · design',B:'B · Glomers',buffer:'buffer','—':'no slot'};
@@ -884,7 +891,7 @@ function renderSchedule(){
         const gl=GLOMERS.find(g=>'gl-'+g[0]+'-py'===id);if(gl)return chipHTML(id,'Glomers '+gl[1]+' — Py',gl[2]);
         const ch=DDIA_CH.find(c=>'ch-'+c[0]===id);if(ch)return chipHTML(id,'DDIA ch.'+ch[0]+' — '+ch[1],'');
         const ds=DESIGNS.find(x=>x[0]===id);if(ds)return chipHTML(id,'Design: '+ds[1],HI);
-        const ex=EXPL.find(x=>x[0]===id);if(ex)return chipHTML(id,ex[1],'https://cmplx-xyttmt.github.io/');
+        const ex=EXPL.find(x=>x[0]===id);if(ex)return chipHTML(id,ex[1],ex[3]||'https://cmplx-xyttmt.github.io/');
         const mk=MOCKS.find(x=>x[0]===id);if(mk)return chipHTML(id,mk[1],'');
         if(id==='m1-mael-s')return chipHTML(id,'Set up Maelstrom (glomers/README.md)','https://github.com/jepsen-io/maelstrom');
         if(id==='frame-hi')return chipHTML(id,'Hello Interview 4-step framework',HI);
@@ -972,7 +979,7 @@ function renderTimeline(){
 const TRACKS_INFO=[
  ['A · Coding / DSA','var(--tA)','NeetCode 150 by pattern, in Python, timed from day one (25 min mediums). 2-line insight note per problem; spaced re-solves at +3d / +2w. ~15 easy problems in Go early, for syntax only.'],
  ['B · System design','var(--tB)','DDIA 2nd ed actively (1-page note per chapter) + the 4-step interview skeleton: requirements &amp; scale math → API/data model → components (write/read/async paths) → deep dives. Lives in the Sunday half-day (alternating with Glomers): written designs from Stage 2, timed verbal from Stage 3. Unfair advantage: AI-system design (RAG, vector sharding, inference economics) — you’ve built these.'],
- ['C · Distributed systems','var(--tC)','Gossip Glomers in Python on alternating Sundays, each paired with its DDIA chapters — theory before practice. Go deferred to Stage 4: on-ramp (Tour, Effective Go, Exercism) + Concurrency in Go, then backfill the concurrency-interesting challenges.'],
+ ['C · Distributed systems','var(--tC)','From Sep 23: Gossip Glomers arrive at Sprites-ladder rung L6 (sprites-guide/index.html), in Python, guided. Before that plan: Glomers on alternating Sundays, each paired with its DDIA chapters — theory before practice. Go deferred to Stage 4: on-ramp (Tour, Effective Go, Exercism) + Concurrency in Go, then backfill the concurrency-interesting challenges.'],
  ['D · Behavioral','var(--tD)','8 STAR stories at senior bar: incident, disagreement-with-data, mentorship, ambiguity, failure, cross-team, deep technical, tech debt. Numbers in every story (90% cost cut, 97K plots…). Drilled out loud from month 4.'],
  ['E · Applications','var(--tE)','Resume per role family; referral hunt (Andela alumni network). Warm-up tier opens on the trigger (60+ problems · DDIA ch.1–7 · 4 designs · 8 stories — proj. ~Feb 2027) = live calibration; FAANG + remote-first in parallel from Stage 4. Kampala reality: visa-sponsoring offices (Zurich, London, Dublin, Canada) + remote-first companies.'],
  ['AI-era layer','var(--tX)','Two modes trained: raw (~70% early) and AI-assisted (~30%, →40% later). Kaggle × Google agents course rescheduled to the first post-MVP gap — supervise-the-agent skill, graded in AI rounds. In AI rounds: decompose, verify, narrate caught bugs.'],

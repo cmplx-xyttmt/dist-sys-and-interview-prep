@@ -34,7 +34,9 @@ This repo is Isaac's FAANG-tier **senior interview prep + distributed systems le
 - Maelstrom binary + workloads: document setup in `glomers/README.md` once installed.
 - Related project: `../acu-2brain-cc/` (his app build, separate time budget — see ROADMAP §7).
 
-## sprites-guide/ — the Sprites ladder (added Sep 18, 2026)
+## sprites-guide/ — the Sprites ladder (added Sep 18, 2026; owns system design from Sep 23)
+
+- **From Sep 23, 2026 the guide is the system-design track for season 2** (WEEK.md bet 3): Tue + Thu 19:30, one rung a week in two halves, every session interleaving reading and doing (Isaac cannot sustain reading-only sessions; two evenings proved it). Before each Thursday, re-cut the rung's page into the two-half script in `build.py` and pre-stage `rungs/<lN>/` (commands, check script). ROADMAP §5 Queue 2 is the backlog after L8; Glomers/Maelstrom = rung L6, Python, guided. Calendar and decisions live on `index.html`; `sprites-ladder.md` was folded in and deleted Sep 23.
 
 - An interactive prerequisite guide in the shape of `../optimization-competitions/learning/guide/`: nine rung pages (L0–L8) with a checkpoint widget and tick boxes, `index.html` (start page + glossary), `explainer-map.html`, `showcase.html`, and `explainer.html` (the former `sprites-explainer.html`, restyled light and given a sidebar; the old path redirects). Progress state: `localStorage` key `sprites-ladder-v1`, JSON export/import from the sidebar; Isaac drops exports at `sprites-guide/progress-export.json` when he wants a session to read them.
 - `build.py` generates the rung pages, the map, `showcase.html` (from `../curriculum-edtech/course-from-a-link-on-sprites.md`, which stays the source text) and refreshes the "Rungs that make this section readable" line under each `explainer.html` heading. Edit `RUNGS` in `build.py`, then run it. `assets/progress.js` holds the sidebar's copy of the curriculum; keep slugs and checkpoint sentences in step.

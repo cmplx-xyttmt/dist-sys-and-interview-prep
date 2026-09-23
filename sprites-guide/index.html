@@ -119,24 +119,32 @@ Thursday for the reading and the next Tuesday for the mission.</dd>
 
 <h2>How it maps onto the calendar</h2>
 
-<p>Each rung is one Thursday reading (the season's "reading half", fine when tired) and the following Tuesday's
-mission (the "build half"). A rung's budget is on its page: 2 to 4 hours.</p>
+<p><b>Decided Wed Sep 23, 2026, 01:00, with Isaac, after two evenings where "reading first, mission after" did not
+land.</b> A rung is one session script walked top to bottom in two halves: read one item, do the mission step that
+uses it, read the next, do the next, check at the end. Never a reading-only evening. Both halves sit in the season's
+system-design slots, <b>Thu 19:30 and the following Tue 19:30</b> (90 minutes each). Before each Thursday, Claude
+re-cuts the rung's page into that two-half script (in <code>build.py</code>) and pre-stages the working folder
+(<code>rungs/l0/</code> and so on: the commands, a check script, the one page to read open), so the first ten
+minutes of a session are copy and paste, not orientation.</p>
 
 <table>
 <tr><th>Slot</th><th>What</th><th>Rung</th></tr>
-<tr><td>Tue Sep 22</td><td>No rung yet (no Thursday before it). Use it for the Maelstrom install and Echo from the roadmap's S1, which L6 needs later, or rest.</td><td>—</td></tr>
-<tr><td>Thu Sep 24</td><td>Reading: OSTEP file-system pages, Julia Evans on containers, Firecracker sections 1 and 2</td><td>L0</td></tr>
-<tr><td>Tue Sep 29</td><td>Mission: the docker timings and the inside/outside comparison</td><td>L0</td></tr>
-<tr><td>Thu Oct 1</td><td>Reading: SQLite internals (two posts), the WAL page, DDIA chapter 3 first half</td><td>L1</td></tr>
-<tr><td>Tue Oct 6</td><td>Mission: the key-value store, three kill trials</td><td>L1</td></tr>
-<tr><td>Thu Oct 8</td><td>Reading: Pro Git internals, JuiceFS architecture</td><td>L2</td></tr>
-<tr><td>Tue Oct 13 (season 3)</td><td>Mission: the chunk store</td><td>L2</td></tr>
-<tr><td>Season 3</td><td>L3 to L8, one a week in whatever slots season 3 gives system design; L6 takes two</td><td>L3 to L8</td></tr>
+<tr><td>Thu Sep 24</td><td>First half: the "after this rung you can say" list, OSTEP's file-system pages → prediction file and the <code>docker pull</code> timing, Julia Evans on containers → the inside/outside comparison</td><td>L0</td></tr>
+<tr><td>Tue Sep 29</td><td>Second half: Firecracker sections 1 and 2 → the five lines, the OCI overview skim → check</td><td>L0</td></tr>
+<tr><td>Thu Oct 1 · Tue Oct 6</td><td>Two halves: SQLite internals and the WAL page → the key-value store and its three kill trials</td><td>L1</td></tr>
+<tr><td>Thu Oct 8</td><td>First half: Pro Git internals → the chunk store's byte-identical rebuild</td><td>L2</td></tr>
+<tr><td>Tue Oct 13 (season 3)</td><td>Second half: JuiceFS architecture → near-duplicate and checkpoint checks</td><td>L2</td></tr>
+<tr><td>Season 3</td><td>L3 to L8, one a week in whatever slots season 3 gives system design; L6 takes two and is where Gossip Glomers and Maelstrom arrive, in Python (Maelstrom speaks JSON lines over stdin and stdout; Claude supplies the node skeleton and walks Echo with Isaac)</td><td>L3 to L8</td></tr>
 </table>
 
-<p><b>What "shipped" means for the system-design bet this season, if the standup takes this plan:</b> L0 and L1
-passed with their missions logged, L2's reading done, two posts published (L0 and L1), and the explainer
-re-read at the Oct 11 season wrap with the quiz score recorded as a baseline for L8.</p>
+<p><b>What "shipped" means for the system-design bet this season (adopted Sep 23):</b> L0 and L1 passed with their
+missions logged in <code>../PROGRESS.md</code>, L2's first half done, one post published (L0), and the explainer
+re-read at the Oct 11 season wrap with the quiz score recorded as the baseline for L8.</p>
+
+<p>This guide owns the system-design track until the ladder is done. The Sunday session queue in
+<a href="../ROADMAP.md">ROADMAP.md</a> section 5 (DDIA notes, Glomers, written designs) is the backlog that
+resumes after L8, re-dated at the Oct 11 wrap; the Sep 22 "Maelstrom install plus Echo" item is dropped, since
+Glomers is rung L6.</p>
 
 <h2>The explainer's own project list, reviewed</h2>
 
@@ -175,14 +183,15 @@ waits for the next rung and ships as a pair.</li>
 <li><b>The showcase project</b> gets its own five posts, one per phase, listed in its document.</li>
 </ul>
 
-<h2>For the Fri Sep 18 standup to decide</h2>
+<h2>Decisions taken</h2>
 <ol>
-<li>Does the Sunday session queue pause for the ladder, with L0's reading on Thu Sep 24 and its mission on Tue Sep 29?</li>
-<li>Does Tue Sep 22 take S1 (Maelstrom install plus Echo, about an hour), so L6 has no set-up cost later?</li>
-<li>Does the season's "shipped" for the system-design bet become the sentence above (L0 and L1 passed, L2 read, two posts, quiz baseline)?</li>
+<li>Sep 23: the Sunday session queue pauses for the ladder; this guide is the system-design track for season 2.</li>
+<li>Sep 23: Tue Sep 22's Maelstrom item is dropped; Glomers arrive at L6, in Python, guided.</li>
+<li>Sep 23: the season's "shipped" is the sentence above.</li>
+<li>Sep 23: sessions interleave reading and doing; no reading-only evenings. Reasoning-heavy rungs may move to a fresher slot when season 3 is planned.</li>
 </ol>
 
-<p class="srcnote">Built Fri Sep 18, 2026, 06:30, from <code>sprites-ladder.md</code> after Isaac's note that the first draft leaned on
+<p class="srcnote">Built Fri Sep 18, 2026, 06:30, from the former <code>sprites-ladder.md</code> (folded into this page Sep 23 and deleted) after Isaac's note that the first draft leaned on
 labels he had never seen; revised 09:30 after an independent read-through (schedule, L1 and L5 missions, vocabulary). Pages are generated by <code>build.py</code> in this folder; edit the data there, not the HTML.</p>
 
 </main>
