@@ -40,5 +40,14 @@ has to be about the running maxes: the side whose max is smaller is the side who
 water is already determined, because the other side's max is a lower bound that
 can't drop the min. Self-diagnosed the miss.
 
-**Next re-solve:** 2026-09-24 (rested; formula first, then say "which side's max is
-smaller, and why does that settle it?" before writing the branch).
+**Re-solve 2026-09-23: passed, unaided, first try.** Picked the side by comparing the
+running maxes, which was the 09-20 miss. Shape: `while l <= r`, exclusive maxes
+(account, then update, then move), `if/else` instead of two `if`s, so no `l == r`
+special case this time. 30k random tests OK. One tell left in the code: inside the
+`high_left <= high_right` branch the water is `min(high_left, high_right) - height[l]`.
+That `min` is `high_left` by the branch condition. The argument for the branch *is*
+that the min is known, so writing `min` there is a hedge; say the argument, then
+write `high_left`.
+
+**Next re-solve:** 2026-10-07 (two-week gap; write it without `min` and explain the
+branch in one sentence before coding).

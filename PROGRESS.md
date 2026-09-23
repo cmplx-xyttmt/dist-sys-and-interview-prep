@@ -45,6 +45,7 @@ _One line per daily slot. Time is minutes to a passing solution (or "DNF"). Fail
 | 2026-09-20 | Longest Repeating Character Replacement (sliding window + 26 counts) | untimed | hint needed to see the window and the 26-slot max; then solved first try, left-driven with add-check-undo; print left in | 2026-09-27 |
 | 2026-09-20 | RE-SOLVE Trapping Rain Water (two pointers) | DNF | picked the side by comparing heights instead of running maxes; late-night attempt; self-diagnosed | 2026-09-24 |
 | 2026-09-21 | Permutation in String (fixed-size sliding window + 26 counts) | untimed | solved unaided, right-driven with no undo; tracked a left pointer by hand and shrank with `j - i + 2 > n`, a disguised "window is full"; missed that a fixed-size window needs no left pointer | 2026-09-28 |
+| 2026-09-23 | RE-SOLVE Trapping Rain Water (two pointers) | untimed | passed unaided, first try; compared running maxes to pick the side (the 09-20 miss); redundant `min` inside the branch whose condition already fixes it | 2026-10-07 |
 
 ## Sunday reviews
 
@@ -57,6 +58,12 @@ _Reading half done Thu Sep 17 21:00 (weekday slot; the Sunday half-day was retir
 - **Note / quiz questions added:** none yet; the quiz waits for the re-read at L8.
 - **What slipped & why:** the "mini-visualization" deliverable is the explainer itself, but comprehension didn't follow, so the deep-dive becomes a ladder: `sprites-ladder.md` (L0–L8, one rung per Tue+Thu week, a mission each) and a showcase project, `curriculum-edtech/course-from-a-link-on-sprites.md`, replacing the Level-4 lead-id design.
 - **Next (proposed; Sep 18 standup decides):** L0 on Tue Sep 22 + Thu Sep 24; S1 Maelstrom set-up folds into L0's Tuesday as a 30-min install; Glomers returns as L6's mission.
+
+### S1 — Tue Sep 22, 2026 · B · Maelstrom install + Echo — not done, dropped
+- Isaac read the Echo challenge late and tired: Go examples on Fly's page, Ruby in Maelstrom's docs, "still not
+  sure what Maelstrom is". Second overwhelmed start in a row (S0 Sep 17 was the first).
+- Re-plan the same night (00:50–01:40, Sep 23): the Sprites ladder owns the track for season 2; sessions
+  interleave reading and doing; Glomers arrive at L6 in Python, guided. Next: L0 first half Thu Sep 24 19:30.
 
 ### Older weekly entries (pre-Sep 5 format)
 
