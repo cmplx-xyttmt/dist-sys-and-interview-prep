@@ -36,9 +36,20 @@ k=8 both 13 and 14 have count 8, so `count(x) == k` does not pin a value.
 `count(x) <= k` converges on the last F, 14, which is not in the matrix.
 `count(x) >= k` converges on the first T, 13, which is the answer.
 
-**Why the answer is always a matrix entry:** if `x` is not in the matrix then
-`count(x) == count(x - 1)`, so `x - 1` satisfies the predicate too and `x` was not
-the smallest. The first T therefore has to be a value that is present.
+**Why the answer is always a matrix entry.** Written out, 2026-09-24:
+
+> If x is not an entry of the matrix, then no entry equals x, so
+> `count(x - 1) = count(x) >= k`. Then x - 1 is a smaller value satisfying the
+> predicate, so x was not the smallest.
+
+That works because the entries are integers, so there is always an x - 1 to step
+back to. Without integers the same idea needs the largest entry a below x, and the
+fact that no entry lies in [a, x), which gives `count(a) = count(x) >= k` and the
+same contradiction. Longer, and not needed here.
+
+The move to remember: the only property the first T has is being smallest, so the
+way to contradict it is to produce a smaller one. That tells you what to construct
+before you know how.
 
 **What passed (2026-09-24):** `bisect_right` per row for the count, O(n log n) per
 count, O(n log n log V) overall where V is the value range.
