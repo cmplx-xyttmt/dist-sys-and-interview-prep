@@ -1,4 +1,4 @@
-"""Step 5 of tonight's L0 session: predict, then time, a container pull and a container start.
+"""Step 5 of the L0 rung page (section 2): predict, then time, a container pull and a container start.
 
 Order matters here:
 

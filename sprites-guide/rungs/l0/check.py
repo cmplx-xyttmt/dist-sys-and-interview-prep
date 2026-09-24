@@ -1,4 +1,4 @@
-"""Checks for tonight's L0 session (session-1.html).
+"""Checks for the L0 rung page's do-steps (sprites-guide/l0-a-computer-from-the-inside.html).
 
     python3 check.py          # every step, one line each
     python3 check.py step2    # one step, with details

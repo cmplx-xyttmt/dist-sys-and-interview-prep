@@ -40,8 +40,8 @@ RUNGS = [
   showcase="Phase P1 of the showcase creates one Sprite by hand with the CLI. Knowing what a virtual machine and a container image are is what makes <code>sprite create</code> finishing in one second surprising rather than magic.",
   say=[
    "what a <b>process</b> is, and what the <b>kernel</b> does that a process can't (talk to hardware, hand out memory, decide who runs)",
-   "what a <b>filesystem</b> is (names, directories, an index of which blocks hold which file) versus the <b>block device</b> under it (a disk seen as a numbered array of fixed-size blocks, typically 4 KB). The first reading below covers this",
-   "why a <b>container</b> is a normal process with a restricted view of the machine (the kernel features are called namespaces and cgroups; the second reading defines them) and a <b>virtual machine</b> is a whole second kernel with its own emulated hardware",
+   "what a <b>filesystem</b> is (names, directories, an index of which blocks hold which file) versus the <b>block device</b> under it (a disk seen as a numbered array of fixed-size blocks, typically 4 KB). Step 1's reading, below, covers this",
+   "why a <b>container</b> is a normal process with a restricted view of the machine (the kernel features are called namespaces and cgroups; step 6's reading, below, defines them) and a <b>virtual machine</b> is a whole second kernel with its own emulated hardware",
    "what a <b>container image</b> is: a stack of tar archives plus a JSON manifest, in the format the Open Container Initiative (OCI) standardised; and why pulling and unpacking one is the slow part of starting a container",
    "what a <b>microVM</b> is: a virtual machine with almost no emulated hardware, so it boots in milliseconds. Firecracker is the one Fly uses under every Sprite",
   ],
@@ -310,6 +310,25 @@ def page(r, i):
     if r["hint"]:
         hint = f'<details class="hint"><summary>Hint · {r["hint"][0]}</summary><p>{r["hint"][1]}</p></details>'
     unlocks = "".join(r["unlocks"])
+    nb = (3, 4, 5) if r["id"] in SESSIONS else (4, 5, 6)
+    if r["id"] in SESSIONS:
+        body = ('<h2 id="work">2 · Work through it, in order</h2>\n'
+                '<p class="srcnote">Read a little, then do a little. The ticks and the boxes save in this browser, with the rest of the ladder.</p>\n' + sessions_html(r) + "\n" + hint)
+    else:
+        body = f"""<h2 id="read">2 · Read, in this order</h2>
+<p class="srcnote">Each reading has a "Read actively" block: write your answers to its prompts <i>before</i> reading, run the
+command alongside if there is one, and afterwards write one quiz question you would have failed. The last field asks for a
+better way to read that piece actively; those ideas are raw material for the showcase's course generator. All boxes save in this browser.</p>
+<ul class="plain">{read}</ul>
+
+<h2 id="mission">3 · Mission <span class="tag deep">{html.escape(r["mission_type"])}</span></h2>
+<div class="spec">
+<strong>Do this</strong>
+<ol>{steps}</ol>
+<p><b>The check:</b> {r["check"]}</p>
+</div>
+{hint}
+"""
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -333,6 +352,19 @@ def page(r, i):
   details.active ol {{ margin: .2rem 0 .4rem; padding-left: 1.2rem; }}
   details.active .before {{ margin: 0; }}
   details.active .trace {{ margin: .3rem 0; color: var(--muted); }}
+  h3.half {{ margin: 2rem 0 .4rem; }}
+  ol.steps {{ padding-left: 1.4rem; }}
+  ol.steps > li.step {{ margin: 1.4rem 0; }}
+  label.steph {{ display: flex; gap: .55rem; align-items: baseline; flex-wrap: wrap; cursor: pointer; }}
+  label.steph .min {{ margin-left: auto; font-size: .8rem; color: var(--muted); }}
+  label.steph.ticked {{ color: var(--muted); }}
+  .kind {{ font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: .1rem .45rem; border-radius: 4px; font-weight: 600; }}
+  .kind.read {{ background: var(--callout-bg); color: var(--accent); }}
+  .kind.do {{ background: var(--warn-bg); color: var(--accent-warm); }}
+  .see {{ color: var(--muted); font-size: .92em; }}
+  li.step textarea {{ display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .88rem; padding: .4rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }}
+  .stop {{ margin: 1.2rem 0 2rem; padding: .9rem 1.1rem; border: 2px dashed var(--accent-warm); border-radius: 8px; font-size: .92rem; }}
+  .stop strong {{ display: block; margin-bottom: .3rem; }}
   details.active textarea, details.active input[type=text] {{ display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .84rem; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }}
 </style>
 </head>
@@ -342,36 +374,24 @@ def page(r, i):
 <p class="kicker">Rung {i} of {n-1} · {html.escape(r["tag"])} · {html.escape(r["hours"])}</p>
 <h1>{r["title"]}</h1>
 
-<p class="srcnote">One rung per week: the reading in the Thursday 19:30 system-design slot, the mission the following Tuesday 19:30.
+<p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Tick as you go; the checkpoint at the bottom is what marks the rung passed.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul>{say}</ul>
 
-<h2 id="read">2 · Read, in this order</h2>
-<p class="srcnote">Each reading has a "Read actively" block: write your answers to its prompts <i>before</i> reading, run the
-command alongside if there is one, and afterwards write one quiz question you would have failed. The last field asks for a
-better way to read that piece actively; those ideas are raw material for the showcase's course generator. All boxes save in this browser.</p>
-<ul class="plain">{read}</ul>
-
-<h2 id="mission">3 · Mission <span class="tag deep">{html.escape(r["mission_type"])}</span></h2>
-<div class="spec">
-<strong>Do this</strong>
-<ol>{steps}</ol>
-<p><b>The check:</b> {r["check"]}</p>
-</div>
-{hint}
+{body}
 
 <div class="cpw" data-level="{r["id"]}"></div>
 
-<h2 id="showcase">4 · In the showcase project</h2>
+<h2 id="showcase">{nb[0]} · In the showcase project</h2>
 <p>{r.get("showcase","")} See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
 
-<h2 id="unlocks">5 · Where this shows up in the explainer</h2>
+<h2 id="unlocks">{nb[1]} · Where this shows up in the explainer</h2>
 <p>Links go to the numbered sections of <a href="{EXPLAINER}">the explainer</a>, the page this ladder exists to make readable.</p>
 <ul>{unlocks}</ul>
 
-<h2 id="write">6 · Write about it</h2>
+<h2 id="write">{nb[2]} · Write about it</h2>
 <p>For the series on your site (plan and titles on the <a href="publishing.html">publishing page</a>). Sixty minutes of polish at most, the same week.</p>
 <ul>{write}</ul>
 
@@ -585,6 +605,124 @@ WRITE = {
  "L7": ["<b>Post 7 · \"Give the agent a capability, not the key.\"</b> Standalone, short. The broker, the failed leak attempts with their error messages, and what a Sprites Connector adds. Ties to the showcase's phase P3; can double as that phase's post."],
  "L8": ["<b>Post 8, the capstone · \"Re-reading the Sprites post after eight rungs.\"</b> The annotated re-read: which sentences became obvious, which still don't land, the storage-stack paragraph from memory, and the quiz score then versus now. Link every earlier post from the sentence it explains.", "<b>Post 0, the introduction</b>, is written before post 1; the draft and the title options are on the <a href=\"publishing.html\">publishing page</a>."],
 }
+
+# ---------------------------------------------------------------- sessions (reading and doing, interleaved)
+# SESSIONS[rung id] replaces that rung's separate "Read" and "Mission" sections with one ordered list of
+# steps, split into the Thursday half and the Tuesday half (the Sep 23 re-plan). Each step is
+# (kind, title, minutes, body). Ticks save under the guide's own key, so the sidebar and this page agree.
+# The starter code and check.py for each rung live in rungs/<id>/; the page says when to use them.
+NOTE_BOX = ('<textarea data-note="{id}" rows="3" placeholder="{ph}"></textarea>')
+SESSIONS = {
+ "L0": [
+  dict(name="First half", when="Thursday", steps=[
+   ("do", "Set up", 5,
+    '<p>Everything in this rung happens in one folder, with one terminal window. Docker Desktop takes a minute or two to start and you '
+    'won\'t need it until step 5, so start it first. The step numbers here match the names <code>check.py</code> uses. Copy and paste this:</p>'
+    '<pre class="term">cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0 &amp;&amp; open -a Docker &amp;&amp; python3 check.py</pre>'
+    '<p class="see">What you should see: five lines. <code>setup</code> says PASS once Docker is up ("not running yet" is fine for now; '
+    'run it again in a minute), and <code>step2</code>, <code>step4</code>, <code>step5</code> and <code>step7</code> say TODO. '
+    'Each do-step has a starter file in that folder with <code>TODO</code> lines where your code goes. Nothing to install.</p>'),
+   ("read", "What a filesystem sits on", 10,
+    '<p>Start with the first two bullets of <a href="#say">"After this rung you can say"</a> above: a process and the kernel, '
+    'and the filesystem versus the block device under it. Two minutes.</p>'
+    '<p>Then open <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener">OSTEP, '
+    '"File System Implementation"</a>. Read from the start through the section titled "Overall Organization", and stop when the '
+    'next section (about the inode) begins. That\'s about two pages. Look hard at the picture of the 64-block disk; you\'ll use its '
+    'numbers in step 4.</p>'
+    '<p><b>Before you read, guess here:</b> how does the filesystem get from the name <code>notes.txt</code> to the disk blocks '
+    'holding its bytes? What is stored about a file besides its bytes?</p>'
+    + NOTE_BOX.format(id="L0-read-1-pred", ph="Your guesses before reading; after reading, one quiz question you would have failed")),
+   ("do", "A file's size versus the disk it takes", 12,
+    '<p>The chapter says the disk is split into 4 KB blocks. Is your Mac\'s disk like that? Ask it:</p>'
+    '<pre class="term">diskutil info / | grep "Block Size"</pre>'
+    '<p>Now open <code>step2_blocks.py</code> and write the two functions marked TODO: <code>blocks_needed</code> (how many 4 KB '
+    'blocks a file of some size needs) and <code>allocated_bytes</code> (how much disk the filesystem says a file takes, from '
+    '<code>os.stat</code>). The docstring for <code>allocated_bytes</code> has a warning about units. Read it. Then:</p>'
+    '<pre class="term">python3 step2_blocks.py\npython3 check.py step2</pre>'
+    '<p class="see">What you should see: <code>step2: PASS</code> and a small table. A 1-byte file takes 4096 bytes on disk, and a '
+    '4097-byte file takes 8192. If the check says you are off by a factor of 8, that is the units warning.</p>'),
+   ("read", "The inode", 8,
+    '<p>Back to <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener">the OSTEP '
+    'chapter</a>. Read the section titled "File Organization: The Inode", up to where it starts on multi-level indexes. The part to '
+    'slow down on is the worked example that finds inode number 32. Say each step of that arithmetic out loud once.</p>'
+    '<p>Alongside, try it on a real file. The first number <code>ls -i</code> prints is the inode number:</p>'
+    '<pre class="term">ls -i step2_blocks.py\nstat step2_blocks.py</pre>'),
+   ("do", "Find an inode on the disk", 12,
+    '<p>Open <code>step4_inode.py</code>. The constants at the top are the chapter\'s example filesystem: 4 KB blocks, 256-byte '
+    'inodes, an inode table starting at 12 KB. Check them against the picture first. Then write the three functions: the byte '
+    'address where an inode starts, the block that holds it, and the sector that holds its first byte. The chapter\'s own example '
+    '(inode 32 starts at 20 KB) is your first test.</p>'
+    '<pre class="term">python3 step4_inode.py\npython3 check.py step4</pre>'
+    '<p class="see">What you should see: <code>step4: PASS</code>. The check\'s last line says something about inodes 0 to 15. '
+    'The disk only reads whole blocks, so what does looking up one file\'s inode fetch for free?</p>'),
+   ("do", "Predict, then time a container pull", 10,
+    '<p>A container image is a stack of archives that has to be downloaded and unpacked before anything can run. Starting a '
+    'container from an image you already have is a different cost. How different?</p>'
+    '<p>Guess before you measure. Open <code>step5_timing.py</code> and fill in the two predictions in seconds: the pull of '
+    '<code>python:3.12</code> from nothing, and one <code>docker run</code> once it\'s local. Then start the measurement (it '
+    'removes any local copy first, so the pull is from nothing):</p>'
+    '<pre class="term">python3 run_timing.py</pre>'
+    '<p class="see">What you should see: Docker\'s download progress, then <code>pull: ... s</code> and three run times. The image '
+    'is around 1 GB, so the pull can take a few minutes. <b>Don\'t wait for it.</b> Go to the next step and come back when it '
+    'prints "Saved timings.json". Then write <code>median()</code> in the same file and run <code>python3 check.py step5</code>. '
+    'PASS if your ratio was within 3x; if not, the check asks for one sentence in <code>SURPRISE</code> on what you had wrong. '
+    'That sentence is the most useful thing you\'ll write tonight.</p>'),
+   ("read", "A container is a process", 12,
+    '<p>While the pull runs, read <a href="https://jvns.ca/blog/2016/10/10/what-even-is-a-container/" target="_blank" '
+    'rel="noopener">Julia Evans, "What even is a container: namespaces and cgroups"</a>. Note the word <i>namespace</i> each time '
+    'it comes up, and what it hides.</p>'
+    '<p><b>Before you read, guess here:</b> is a container a process, a virtual machine, or a third thing? Three containers are '
+    'running on one machine: how many kernels are running?</p>'
+    + NOTE_BOX.format(id="L0-read-2-pred", ph="Your guesses before reading; after reading, one quiz question you would have failed")),
+   ("do", "Inside a container versus outside it", 15,
+    '<p>On a Mac there\'s a twist. The machine a container runs on is not macOS. Docker Desktop runs a hidden Linux virtual machine, '
+    'and every container is a process inside it. So "outside" means that VM, and <code>run_compare.py</code> reaches it with '
+    '<code>nsenter</code>.</p>'
+    '<p>Open <code>step7_inside_outside.py</code>. For each of five commands, predict whether the container prints the '
+    '<code>"same"</code> output as the Linux VM or <code>"different"</code> output. Then one True or False: when a container runs '
+    '<code>sleep 300</code>, can the VM\'s process list see it? Fill everything in, then:</p>'
+    '<pre class="term">python3 run_compare.py\npython3 check.py step7</pre>'
+    '<p class="see">What you should see: the five commands in three places (your Mac, the VM, the container), then the check marks '
+    'each wrong prediction. For each one, write a sentence in <code>NOTES</code> and run the check again until it says PASS. Look '
+    'at the kernel version line in particular.</p>'),
+  ], stop='Run <code>python3 check.py</code> once more. Five PASS lines means the first half is done. If you run out of energy '
+         'after the container-pull step, stop there instead: the last two steps open Tuesday, and that\'s fine. A short evening '
+         'that ends with a passing check beats a long one that doesn\'t.'),
+  dict(name="Second half", when="the following Tuesday", steps=[
+   ("read", "Why Amazon built something in between", 25,
+    '<p>Read sections 1 and 2 (about three pages) of <a href="https://www.usenix.org/conference/nsdi20/presentation/agache" '
+    'target="_blank" rel="noopener"><i>Firecracker: lightweight virtualization for serverless applications</i></a> (NSDI 2020).</p>'
+    '<p><b>Before you read, guess here:</b> why wasn\'t a container good enough for AWS Lambda? Why wasn\'t an ordinary VM? What '
+    'boot time does the paper aim for, and what did it remove to get there?</p>'
+    + NOTE_BOX.format(id="L0-read-3-pred", ph="Your guesses before reading; after reading, one quiz question you would have failed")),
+   ("do", "Five lines: shared versus copied", 15,
+    '<p>Open <code>compare.json</code> from the first half: it is your evidence. Write five lines in the box: what the container '
+    'shares with the kernel it runs on (the process list you could see from outside, the kernel version), and what it has its own '
+    'copy of (hostname, mounts, the process tree it can see). Use Firecracker\'s framing where it helps: which of these would a '
+    'microVM have its own copy of too?</p>'
+    + NOTE_BOX.format(id="L0-five-lines", ph="Five lines: shared with the kernel, versus its own copy")),
+   ("read", "What a pull downloads", 15,
+    '<p>Skim the <a href="https://github.com/opencontainers/image-spec/blob/main/spec.md" target="_blank" rel="noopener">OCI image '
+    'specification overview</a> (optional reading, 10 minutes): layers, manifest, config. Then open the image you pulled in the '
+    'first half and look at the layers that made the pull slow:</p>'
+    '<pre class="term">docker save python:3.12 -o /tmp/img.tar &amp;&amp; tar tf /tmp/img.tar | head -20\nrm /tmp/img.tar</pre>'
+    '<p><b>Before you look, guess here:</b> how many files is a container image? What is in the manifest?</p>'
+    + NOTE_BOX.format(id="L0-read-4-pred", ph="Your guesses before looking; afterwards, what you found")),
+  ], stop='Then pass the rung with the checkpoint below: your two timings, your predicted ratio, and the five lines.'),
+ ],
+}
+
+def sessions_html(r):
+    out, k = [], -1
+    for s in SESSIONS[r["id"]]:
+        total = sum(m for _, _, m, _ in s["steps"])
+        out.append(f'<h3 class="half">{s["name"]} · {s["when"]}, about {total} minutes</h3><ol class="steps" start="{k+1}">')
+        for kind, title, mins, body in s["steps"]:
+            k += 1
+            out.append(f'<li class="step"><label class="steph"><input type="checkbox" data-tick="{r["id"]}-s{k}"> '
+                       f'<span class="kind {kind}">{kind}</span> <b>{title}</b> <span class="min">{mins} min</span></label>{body}</li>')
+        out.append(f'</ol><div class="stop"><strong>{s["name"]} ends here</strong>{s["stop"]}</div>')
+    return "".join(out)
 
 if __name__ == "__main__":
     here = pathlib.Path(__file__).parent

@@ -21,6 +21,19 @@
   details.active ol { margin: .2rem 0 .4rem; padding-left: 1.2rem; }
   details.active .before { margin: 0; }
   details.active .trace { margin: .3rem 0; color: var(--muted); }
+  h3.half { margin: 2rem 0 .4rem; }
+  ol.steps { padding-left: 1.4rem; }
+  ol.steps > li.step { margin: 1.4rem 0; }
+  label.steph { display: flex; gap: .55rem; align-items: baseline; flex-wrap: wrap; cursor: pointer; }
+  label.steph .min { margin-left: auto; font-size: .8rem; color: var(--muted); }
+  label.steph.ticked { color: var(--muted); }
+  .kind { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: .1rem .45rem; border-radius: 4px; font-weight: 600; }
+  .kind.read { background: var(--callout-bg); color: var(--accent); }
+  .kind.do { background: var(--warn-bg); color: var(--accent-warm); }
+  .see { color: var(--muted); font-size: .92em; }
+  li.step textarea { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .88rem; padding: .4rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }
+  .stop { margin: 1.2rem 0 2rem; padding: .9rem 1.1rem; border: 2px dashed var(--accent-warm); border-radius: 8px; font-size: .92rem; }
+  .stop strong { display: block; margin-bottom: .3rem; }
   details.active textarea, details.active input[type=text] { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .84rem; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }
 </style>
 </head>
@@ -30,7 +43,7 @@
 <p class="kicker">Rung 6 of 8 · distributed systems · about 4 h over two weeks (reading 1.5 h, install 1 h, mission 1.5 h; challenge 3c is the stretch)</p>
 <h1>Gossip, membership, service discovery</h1>
 
-<p class="srcnote">One rung per week: the reading in the Thursday 19:30 system-design slot, the mission the following Tuesday 19:30.
+<p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Tick as you go; the checkpoint at the bottom is what marks the rung passed.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
@@ -49,6 +62,7 @@ better way to read that piece actively; those ideas are raw material for the sho
 <p><b>The check:</b> Maelstrom prints "Everything looks good!" for echo, 3a and 3b. For 3c (stretch) the same, and from its results block record <code>:msgs-per-op</code> under <code>:net :servers</code>, the number Glomers 3d later asks you to lower. The ten-line mapping exists.</p>
 </div>
 <details class="hint"><summary>Hint · If 3c fails under partition</summary><p>Two bugs cover most failures: you send once and never retry, or you retry and count duplicates. Keep a set of seen message ids, and keep a per-neighbour queue of unacknowledged messages that you resend on a timer.</p></details>
+
 
 <div class="cpw" data-level="L6"></div>
 

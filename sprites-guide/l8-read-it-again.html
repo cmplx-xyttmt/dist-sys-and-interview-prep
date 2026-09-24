@@ -21,6 +21,19 @@
   details.active ol { margin: .2rem 0 .4rem; padding-left: 1.2rem; }
   details.active .before { margin: 0; }
   details.active .trace { margin: .3rem 0; color: var(--muted); }
+  h3.half { margin: 2rem 0 .4rem; }
+  ol.steps { padding-left: 1.4rem; }
+  ol.steps > li.step { margin: 1.4rem 0; }
+  label.steph { display: flex; gap: .55rem; align-items: baseline; flex-wrap: wrap; cursor: pointer; }
+  label.steph .min { margin-left: auto; font-size: .8rem; color: var(--muted); }
+  label.steph.ticked { color: var(--muted); }
+  .kind { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: .1rem .45rem; border-radius: 4px; font-weight: 600; }
+  .kind.read { background: var(--callout-bg); color: var(--accent); }
+  .kind.do { background: var(--warn-bg); color: var(--accent-warm); }
+  .see { color: var(--muted); font-size: .92em; }
+  li.step textarea { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .88rem; padding: .4rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }
+  .stop { margin: 1.2rem 0 2rem; padding: .9rem 1.1rem; border: 2px dashed var(--accent-warm); border-radius: 8px; font-size: .92rem; }
+  .stop strong { display: block; margin-bottom: .3rem; }
   details.active textarea, details.active input[type=text] { display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .84rem; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }
 </style>
 </head>
@@ -30,7 +43,7 @@
 <p class="kicker">Rung 8 of 8 · synthesis · about 4 h, reading-heavy (sources 3 h, mission 1 h); split over two slots</p>
 <h1>Read it again, then the sources</h1>
 
-<p class="srcnote">One rung per week: the reading in the Thursday 19:30 system-design slot, the mission the following Tuesday 19:30.
+<p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Tick as you go; the checkpoint at the bottom is what marks the rung passed.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
@@ -48,6 +61,7 @@ better way to read that piece actively; those ideas are raw material for the sho
 <ol><li class="tick"><label><input type="checkbox" data-tick="L8-step-1"> <span>Take the explainer's quiz cold. Write the score down before reading the explanations. Four of five is the pass line; below that, the wrong answers name the rung to revisit.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L8-step-2"> <span>Close everything and write one paragraph explaining the storage stack to someone who has done L0 to L2 but nothing after. Then check it against section 04.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L8-step-3"> <span>Test the paragraph on a stranger: paste it to Claude with the explainer closed and ask what is unclear. Two or fewer sentences questioned is the pass line.</span></label></li><li class="tick"><label><input type="checkbox" data-tick="L8-step-4"> <span>Write the list of things you still can't explain. That list is season 3's reading.</span></label></li></ol>
 <p><b>The check:</b> Quiz at least 4 of 5, taken cold. The paragraph exists and drew at most two clarifying questions. The remaining gaps are listed by name.</p>
 </div>
+
 
 
 <div class="cpw" data-level="L8"></div>

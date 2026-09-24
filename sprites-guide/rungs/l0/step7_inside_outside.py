@@ -1,4 +1,4 @@
-"""Step 7 of tonight's L0 session: inside a container versus the Linux machine it runs on.
+"""Step 7 of the L0 rung page (section 2): inside a container versus the Linux machine it runs on.
 
 On a Mac, "the machine the container runs on" is not macOS. Docker Desktop runs
 a hidden Linux virtual machine, and every container is a process inside it.

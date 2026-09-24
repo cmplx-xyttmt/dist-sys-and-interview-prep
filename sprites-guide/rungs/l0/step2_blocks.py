@@ -1,4 +1,4 @@
-"""Step 2 of tonight's L0 session: a file's size versus the disk space it takes.
+"""Step 2 of the L0 rung page (section 2): a file's size versus the disk space it takes.
 
 You write the two functions marked TODO. Then run:
 

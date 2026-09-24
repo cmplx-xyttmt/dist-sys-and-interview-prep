@@ -1,4 +1,4 @@
-"""Step 4 of tonight's L0 session: find an inode on the disk.
+"""Step 4 of the L0 rung page (section 2): find an inode on the disk.
 
 The OSTEP chapter builds a tiny example filesystem (it calls it "vsfs") on a
 disk of 64 blocks. The numbers below are the ones from the chapter's pictures.
