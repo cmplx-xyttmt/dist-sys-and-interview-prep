@@ -4,6 +4,11 @@ One file per problem, named by LeetCode slug (matches `DSA_GROUPS` in
 `roadmap.html`). Each note is terse: problem, pattern, the missed insight,
 next re-solve date. Update the date here and in the note every re-solve.
 
+Before the Binary Search group, read
+[Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md):
+it holds the monotone-predicate template (F...FT...T, two known sentinels, pick which
+end you return) rather than the find-the-element form.
+
 | Problem | Pattern | Solved | Next re-solve |
 |---|---|---|---|
 | [Group Anagrams](./group-anagrams.md) | canonical key | 2026-09-05 | 2026-09-12 |
@@ -21,3 +26,4 @@ next re-solve date. Update the date here and in the note every re-solve.
 | [Longest Substring Without Repeating Characters](./longest-substring-without-repeating-characters.md) | sliding window + set | 2026-09-15 | 2026-09-22 |
 | [Longest Repeating Character Replacement](./longest-repeating-character-replacement.md) | sliding window + 26 counts | 2026-09-20 | 2026-09-27 |
 | [Permutation in String](./permutation-in-string.md) | fixed-size sliding window + 26 counts | 2026-09-21 | 2026-09-28 |
+| [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | 2026-10-01 (O(n) staircase count required) |

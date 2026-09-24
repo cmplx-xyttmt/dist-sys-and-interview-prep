@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L0 session 1</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+  .step { margin: 2.2rem 0 0; }
+  .step h2 { display: flex; gap: .7rem; align-items: baseline; flex-wrap: wrap; }
+  .step h2 .min { font-size: .8rem; font-weight: 500; color: var(--muted); margin-left: auto; }
+  .step h2 label { display: flex; gap: .55rem; align-items: baseline; cursor: pointer; }
+  .step.done h2 { color: var(--muted); }
+  .kind { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: .1rem .45rem; border-radius: 4px; font-weight: 600; }
+  .kind.read { background: var(--callout-bg); color: var(--accent); }
+  .kind.do { background: var(--warn-bg); color: var(--accent-warm); }
+  .see { color: var(--muted); font-size: .92em; }
+  .stop { margin: 3rem 0 1rem; padding: 1rem 1.1rem; border: 2px dashed var(--accent-warm); border-radius: 8px; font-family: -apple-system, sans-serif; font-size: .92rem; }
+  .stop strong { display: block; font-size: 1.05rem; margin-bottom: .3rem; }
+  table.plan td:last-child, table.plan th:last-child { text-align: right; }
+</style>
+</head>
+<body>
+<main>
+<p class="kicker">Rung L0 · session 1 of 2 · Thu Sep 24, 2026, 19:30 · about 85 minutes</p>
+<h1>A computer from the inside: first half</h1>
+
+<p>Tonight you alternate. Read a little, then do a little, and every "do" step ends with a check you run.
+Nothing tonight is reading on its own for more than twelve minutes.
+The full rung lives on <a href="../../l0-a-computer-from-the-inside.html">the L0 page</a>. This page cuts the
+first half of it into eight steps, in order.</p>
+
+<p>Everything happens in one folder, and one terminal window is enough:</p>
+<pre class="term">cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0</pre>
+<p>Each do-step has a starter file with <code>TODO</code> lines where your code goes, and one check command.
+<code>python3 check.py</code> with no step name shows where you are overall. Nothing to install.</p>
+
+<table class="plan">
+<tr><th>Step</th><th>What</th><th>Minutes</th></tr>
+<tr><td>0</td><td>Set up: start Docker, run the check once</td><td>5</td></tr>
+<tr><td>1</td><td>Read: the say-list, then OSTEP's opening pages</td><td>10</td></tr>
+<tr><td>2</td><td>Do: a file's size versus the disk it takes</td><td>12</td></tr>
+<tr><td>3</td><td>Read: OSTEP's inode section</td><td>8</td></tr>
+<tr><td>4</td><td>Do: find an inode on the disk</td><td>12</td></tr>
+<tr><td>5</td><td>Do: predict, then time a container pull</td><td>10</td></tr>
+<tr><td>6</td><td>Read: Julia Evans on containers, while the pull runs</td><td>12</td></tr>
+<tr><td>7</td><td>Do: inside a container versus outside it</td><td>15</td></tr>
+<tr><td></td><td><b>First half ends</b></td><td>84</td></tr>
+</table>
+
+<!-- ============================================================ 0 -->
+<section class="step" data-step="0">
+<h2><label><input type="checkbox"> <span class="kind do">do</span> 0 · Set up</label><span class="min">5 min · 19:30</span></h2>
+<p>Docker Desktop takes a minute or two to start, and you won't need it until step 5, so start it first.
+Then run the check once. Copy and paste this:</p>
+<pre class="term">cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0 &amp;&amp; open -a Docker &amp;&amp; python3 check.py</pre>
+<p class="see">What you should see: five lines. <code>setup</code> says PASS once Docker is up (FAIL with
+"not running yet" is fine for now; run it again in a minute), and <code>step2</code>, <code>step4</code>,
+<code>step5</code> and <code>step7</code> all say TODO. That list is tonight.</p>
+<p>Also open <a href="../../l0-a-computer-from-the-inside.html#read">the L0 page's reading list</a> in a
+browser tab. Its "Read actively" boxes are where your before-reading guesses go.</p>
+</section>
+
+<!-- ============================================================ 1 -->
+<section class="step" data-step="1">
+<h2><label><input type="checkbox"> <span class="kind read">read</span> 1 · What a filesystem sits on</label><span class="min">10 min</span></h2>
+<p>Start with the first two bullets of <a href="../../l0-a-computer-from-the-inside.html#say">"After this rung
+you can say"</a> on the L0 page: what a process and the kernel are, and the filesystem versus the block device
+under it. Two minutes.</p>
+<p>Then open <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener">OSTEP,
+"File System Implementation"</a>. Read from the start through the section titled "Overall Organization", and stop
+when the next section (about the inode) begins. That's about two pages.</p>
+<p>Before you read, write a guess in the L0 page's first "Read actively" box: how does the filesystem get from
+the name <code>notes.txt</code> to the disk blocks holding its bytes? As you read, look hard at the picture of the
+64-block disk. You'll use its numbers in step 4.</p>
+</section>
+
+<!-- ============================================================ 2 -->
+<section class="step" data-step="2">
+<h2><label><input type="checkbox"> <span class="kind do">do</span> 2 · A file's size versus the disk it takes</label><span class="min">12 min</span></h2>
+<p>The chapter says the disk is split into 4 KB blocks. Is your Mac's disk like that? Ask it:</p>
+<pre class="term">diskutil info / | grep "Block Size"</pre>
+<p>Now open <code>step2_blocks.py</code> and write the two functions marked TODO: <code>blocks_needed</code> (how many
+4 KB blocks a file of some size needs) and <code>allocated_bytes</code> (how much disk the filesystem says a file
+takes, from <code>os.stat</code>). The docstring for <code>allocated_bytes</code> has a warning about units. Read it.
+Then try your code on the files in this folder, and run the check:</p>
+<pre class="term">python3 step2_blocks.py
+python3 check.py step2</pre>
+<p class="see">What you should see: <code>step2: PASS</code> and a small table. A 1-byte file takes 4096 bytes on
+disk, and a 4097-byte file takes 8192. If the check says you are off by a factor of 8, that is the units warning.</p>
+</section>
+
+<!-- ============================================================ 3 -->
+<section class="step" data-step="3">
+<h2><label><input type="checkbox"> <span class="kind read">read</span> 3 · The inode</label><span class="min">8 min</span></h2>
+<p>Back to <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener">the
+OSTEP chapter</a>. Read the section titled "File Organization: The Inode", up to where it starts on multi-level
+indexes (you can stop there; the rest is Tuesday's bonus at most). The part to slow down on is the worked example
+that finds inode number 32. Say each step of that arithmetic out loud once.</p>
+<p>Alongside, try this on a real file. The first number <code>ls -i</code> prints is the inode number:</p>
+<pre class="term">ls -i step2_blocks.py
+stat step2_blocks.py</pre>
+</section>
+
+<!-- ============================================================ 4 -->
+<section class="step" data-step="4">
+<h2><label><input type="checkbox"> <span class="kind do">do</span> 4 · Find an inode on the disk</label><span class="min">12 min</span></h2>
+<p>Open <code>step4_inode.py</code>. The constants at the top are the chapter's example filesystem: 4 KB blocks,
+256-byte inodes, an inode table starting at 12 KB. Check them against the picture first. Then write the three
+functions: the byte address where an inode starts, the block that holds it, and the sector that holds its first byte.
+The chapter's own example (inode 32 starts at 20 KB) is your first test.</p>
+<pre class="term">python3 step4_inode.py
+python3 check.py step4</pre>
+<p class="see">What you should see: <code>step4: PASS</code>. The last line of the check says something about
+inodes 0 to 15 that is worth one second of thought: the disk only reads whole blocks, so what does looking up one
+file's inode fetch for free?</p>
+</section>
+
+<!-- ============================================================ 5 -->
+<section class="step" data-step="5">
+<h2><label><input type="checkbox"> <span class="kind do">do</span> 5 · Predict, then time a container pull</label><span class="min">10 min</span></h2>
+<p>This is the L0 page's <a href="../../l0-a-computer-from-the-inside.html#mission">mission</a>, steps 1 and 2.
+A container image is a stack of archives that has to be downloaded and unpacked before anything can run. Starting a
+container from an image you already have is a different cost. How different?</p>
+<p>Guess before you measure. Open <code>step5_timing.py</code> and fill in the two predictions in seconds: the pull
+of <code>python:3.12</code> from nothing, and one <code>docker run</code> once it's local. Then start the
+measurement (it removes any local copy first, so the pull is from nothing):</p>
+<pre class="term">python3 run_timing.py</pre>
+<p class="see">What you should see: Docker's download progress, one layer per line, then <code>pull: ... s</code>
+and three run times. The image is around 1 GB, so the pull can take a few minutes. <b>Don't wait for it.</b> Go
+to step 6 now and come back when it prints "Saved timings.json".</p>
+<p>When it's done, write <code>median()</code> in the same file and run:</p>
+<pre class="term">python3 check.py step5</pre>
+<p class="see">What you should see: a predicted-versus-measured table and PASS if your ratio was within 3x. If it
+wasn't, the check asks for one sentence in <code>SURPRISE</code> on what you had wrong. That sentence is the most
+useful thing you'll write tonight.</p>
+</section>
+
+<!-- ============================================================ 6 -->
+<section class="step" data-step="6">
+<h2><label><input type="checkbox"> <span class="kind read">read</span> 6 · A container is a process</label><span class="min">12 min</span></h2>
+<p>While the pull runs, read <a href="https://jvns.ca/blog/2016/10/10/what-even-is-a-container/" target="_blank" rel="noopener">Julia
+Evans, "What even is a container: namespaces and cgroups"</a>. It's short and it's the whole idea of tonight's
+last step.</p>
+<p>Before you read, guess in the L0 page's second "Read actively" box: three containers are running on one machine.
+How many kernels are running? As you read, note the word <i>namespace</i> each time it comes up, and what it hides.</p>
+</section>
+
+<!-- ============================================================ 7 -->
+<section class="step" data-step="7">
+<h2><label><input type="checkbox"> <span class="kind do">do</span> 7 · Inside a container versus outside it</label><span class="min">15 min</span></h2>
+<p>On a Mac there's a twist. The machine a container runs on is not macOS. Docker Desktop runs a hidden Linux virtual
+machine, and every container is a process inside it. So "outside" means that VM, and <code>run_compare.py</code>
+reaches it with the <code>nsenter</code> command from the L0 page.</p>
+<p>Open <code>step7_inside_outside.py</code>. For each of five commands, predict whether the container prints the
+<code>"same"</code> output as the Linux VM or <code>"different"</code> output. Then one True or False: when a container
+runs <code>sleep 300</code>, can the VM's process list see it? Fill everything in, then:</p>
+<pre class="term">python3 run_compare.py
+python3 check.py step7</pre>
+<p class="see">What you should see: a table of the five commands in three places (your Mac, the VM, the container),
+then the check marks each wrong prediction. For each one, write a sentence in <code>NOTES</code> and run the check
+again until it says PASS. Look at the kernel version line in particular, and compare it with what Julia Evans said
+about kernels.</p>
+<p>Want to see it by hand? <code>docker run --rm -it python:3.12 sh</code> gives you a shell inside a container.
+Type <code>hostname</code>, then <code>exit</code>. This part is optional.</p>
+</section>
+
+<div class="stop">
+<strong>First half ends here</strong>
+Run <code>python3 check.py</code> once more. Five PASS lines means tonight is done. Tick the L0 page's
+checkboxes for the first two readings and mission steps 1 to 3, and stop. If you're out of energy after step 5,
+stop there instead: steps 6 and 7 move to the start of Tuesday, and that's fine. A short evening that ends with a
+passing check beats a long one that doesn't.
+</div>
+
+<h2 id="session-2">Session 2 · Tue Sep 29, 2026, 19:30 (stub)</h2>
+<p>Tuesday is the second half, in the same folder and the same shape. First, read sections 1 and 2 of the
+<a href="https://www.usenix.org/conference/nsdi20/presentation/agache" target="_blank" rel="noopener">Firecracker paper</a>
+(why Amazon wanted something between a container and a virtual machine). Then write the mission's five lines
+(what a container shares with the kernel it runs on, and what it has its own copy of), using tonight's
+<code>compare.json</code> as the evidence. Then skim the
+<a href="https://github.com/opencontainers/image-spec/blob/main/spec.md" target="_blank" rel="noopener">OCI image
+overview</a> and open the image you pulled tonight with <code>docker save</code> and <code>tar tf</code>, to see the
+layers that made the pull slow. The session ends with the L0 page's checkpoint. Claude writes <code>session-2.html</code>
+and its starter files before Tuesday.</p>
+
+</main>
+<script>
+(function () {
+  var KEY = "sprites-l0-session-1";
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { state = {}; }
+  document.querySelectorAll("section.step").forEach(function (sec) {
+    var id = sec.getAttribute("data-step");
+    var box = sec.querySelector("input[type=checkbox]");
+    box.checked = !!state[id];
+    sec.classList.toggle("done", box.checked);
+    box.addEventListener("change", function () {
+      state[id] = box.checked;
+      sec.classList.toggle("done", box.checked);
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
