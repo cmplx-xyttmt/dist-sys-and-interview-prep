@@ -1,4 +1,4 @@
-"""Step 5 of the L0 rung page (section 2): predict, then time, a container pull and a container start.
+"""Step 6 of the L0 rung page (section 2): predict, then time, a container pull and a container start.
 
 Order matters here:
 
@@ -6,7 +6,7 @@ Order matters here:
 2. Run `python3 run_timing.py`. It copies your predictions into timings.json at
    the moment it starts, so changing them afterwards does not count.
 3. Write median() below.
-4. Run `python3 check.py step5`.
+4. Run `python3 check.py step6`.
 """
 
 # TODO: your guesses, in seconds, before measuring anything.

@@ -26,16 +26,19 @@ never built up.</p>
 
 <p>None of them is hard on its own. They stack, and the explainer starts at the top. So this guide is the stack:
 nine rungs, in the order each one needs the one before. Every rung ends with a mission (a measurement in L0, a
-small program in L1 to L7, a paragraph in L8) and a check it has to pass. When the check passes, you tick the rung, and the sidebar fills. This is the same
+small program in L1 to L7, a paragraph in L8) and a check it has to pass. A tutor (a Claude session in the rung's folder) checks it with you and records the pass. This is the same
 shape as the <a href="../../optimization-competitions/learning/guide/index.html">heuristic contests guide</a>,
 with missions instead of scored solvers.</p>
 
 <div class="callout">
 <strong>How to use it</strong>
-Rungs are never locked; read ahead whenever you like. A rung counts as passed when its mission's check passed,
-not when the reading is done. Every reading and every mission step has a checkbox that remembers itself (this
-browser only; use Export in the sidebar before clearing browser data, and paste the file into
-<code>dist-sys-interview-prep/sprites-guide/progress-export.json</code> so a Claude session can read it).
+Rungs are never locked; read ahead whenever you like. Work through a rung with its tutor: run
+<code>claude</code> in <code>sprites-guide/rungs/&lt;rung&gt;/</code> (for L0,
+<code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0 &amp;&amp; open -a Docker &amp;&amp; claude</code>)
+and type <b>start</b>. The tutor asks the questions on the rung page, tells you what you got right and wrong,
+and keeps your place in that folder's <code>progress.json</code>. A rung counts as passed when the tutor has
+checked the mission's evidence, not when the reading is done. The dots in the sidebar don't read
+<code>progress.json</code>, so they no longer show a pass.
 </div>
 
 <h2>The rungs</h2>
@@ -129,8 +132,8 @@ minutes of a session are copy and paste, not orientation.</p>
 
 <table>
 <tr><th>Slot</th><th>What</th><th>Rung</th></tr>
-<tr><td>Thu Sep 24</td><td>First half: the "after this rung you can say" list, OSTEP's file-system pages → prediction file and the <code>docker pull</code> timing, Julia Evans on containers → the inside/outside comparison</td><td>L0</td></tr>
-<tr><td>Tue Sep 29</td><td>Second half: Firecracker sections 1 and 2 → the five lines, the OCI overview skim → check</td><td>L0</td></tr>
+<tr><td>Thu Sep 24</td><td>First half, with the tutor: process and kernel (OSTEP chapters 4 and 6), OSTEP's file-system pages → the block and inode code, the <code>docker pull</code> prediction and timing, Julia Evans on containers</td><td>L0</td></tr>
+<tr><td>Tue Sep 29</td><td>Second half, with the tutor: virtual machines (OSTEP appendix B) → the inside/outside comparison, Firecracker sections 1 and 2 → the five lines, the OCI overview → the tutor checks the rung</td><td>L0</td></tr>
 <tr><td>Thu Oct 1 · Tue Oct 6</td><td>Two halves: SQLite internals and the WAL page → the key-value store and its three kill trials</td><td>L1</td></tr>
 <tr><td>Thu Oct 8</td><td>First half: Pro Git internals → the chunk store's byte-identical rebuild</td><td>L2</td></tr>
 <tr><td>Tue Oct 13 (season 3)</td><td>Second half: JuiceFS architecture → near-duplicate and checkpoint checks</td><td>L2</td></tr>

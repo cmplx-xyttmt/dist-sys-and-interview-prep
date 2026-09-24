@@ -1,4 +1,4 @@
-"""Step 7 of the L0 rung page (section 2): inside a container versus the Linux machine it runs on.
+"""Step 9 of the L0 rung page (section 2): inside a container versus the Linux machine it runs on.
 
 On a Mac, "the machine the container runs on" is not macOS. Docker Desktop runs
 a hidden Linux virtual machine, and every container is a process inside it.
@@ -9,7 +9,7 @@ and a python:3.12 container.
    For each command: will the container print the "same" output as the Linux VM,
    or "different" output?
 2. Run `python3 run_compare.py`. It copies your predictions into compare.json.
-3. Run `python3 check.py step7`. It shows which predictions were wrong.
+3. Run `python3 check.py step9`. It shows which predictions were wrong.
 4. For each wrong one, write a sentence in NOTES, and run the check again.
 """
 

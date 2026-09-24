@@ -1,8 +1,8 @@
-"""Step 2 of the L0 rung page (section 2): a file's size versus the disk space it takes.
+"""Step 3 of the L0 rung page (section 2): a file's size versus the disk space it takes.
 
 You write the two functions marked TODO. Then run:
 
-    python3 check.py step2
+    python3 check.py step3
 
 The check makes a few small files of known sizes, asks your functions about them,
 and compares the answers with what `du` (a separate program) says.

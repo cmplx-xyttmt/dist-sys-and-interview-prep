@@ -1,9 +1,9 @@
 """Checks for the L0 rung page's do-steps (sprites-guide/l0-a-computer-from-the-inside.html).
 
     python3 check.py          # every step, one line each
-    python3 check.py step2    # one step, with details
+    python3 check.py step3    # one step, with details
 
-Steps: setup, step2, step4, step5, step7. Stock python3, nothing to install.
+Steps: setup, step3, step5, step6, step9 (the numbers match the rung page's steps). Stock python3, nothing to install.
 """
 
 import importlib
@@ -50,22 +50,22 @@ def expect(got, want, what):
 def check_setup(say):
     say(f"python3 {sys.version.split()[0]}: fine")
     if shutil.which("docker") is None:
-        raise Fail("no `docker` command found. Steps 5 and 7 need Docker Desktop.")
+        raise Fail("no `docker` command found. Steps 6 and 9 need Docker Desktop.")
     r = subprocess.run(["docker", "info"], capture_output=True, text=True)
     if r.returncode != 0:
         raise Fail("Docker is installed but not running yet. Run `open -a Docker`; it takes "
-                   "a minute to start, and you don't need it until step 5.")
+                   "a minute to start, and you don't need it until step 6.")
     say("Docker Desktop is running")
 
 
-# ------------------------------------------------------------------ step 2
+# ------------------------------------------------------------------ step 3
 def du_bytes(path):
     out = subprocess.run(["du", "-k", path], capture_output=True, text=True, check=True).stdout
     return int(out.split()[0]) * 1024
 
 
-def check_step2(say):
-    m = load("step2_blocks")
+def check_step3(say):
+    m = load("step3_blocks")
     for size, want in [(0, 0), (1, 1), (4095, 1), (4096, 1), (4097, 2), (10000, 3), (8192, 2)]:
         expect(call(m.blocks_needed, size), want, f"blocks_needed({size})")
     say("blocks_needed: right on 7 sizes")
@@ -95,9 +95,9 @@ def check_step2(say):
     say("A 1-byte file takes a whole 4096-byte block, and 4097 bytes take two.")
 
 
-# ------------------------------------------------------------------ step 4
-def check_step4(say):
-    m = load("step4_inode")
+# ------------------------------------------------------------------ step 5 (inode)
+def check_step5(say):
+    m = load("step5_inode")
     cases = [  # inumber, byte address, block, sector
         (0, 12288, 3, 24),
         (1, 12544, 3, 24),
@@ -127,13 +127,13 @@ def check_step4(say):
     say("Inodes 0 to 15 share block 3, so reading any one of them fetches all sixteen.")
 
 
-# ------------------------------------------------------------------ step 5
-def check_step5(say):
-    m = load("step5_timing")
+# ------------------------------------------------------------------ step 6
+def check_step6(say):
+    m = load("step6_timing")
     path = os.path.join(HERE, "timings.json")
     if not os.path.exists(path):
         if m.PREDICTED_PULL_SECONDS is None or m.PREDICTED_RUN_SECONDS is None:
-            raise Todo("predictions in step5_timing.py are still None; write them, then run "
+            raise Todo("predictions in step6_timing.py are still None; write them, then run "
                        "`python3 run_timing.py`")
         raise Todo("no timings.json yet: run `python3 run_timing.py`")
     say("predictions written and timings.json measured")
@@ -162,15 +162,15 @@ def check_step5(say):
         say(f"Off by {off:.1f}x, and you wrote down why: \"{m.SURPRISE.strip()}\"")
     else:
         raise Fail(f"your ratio is off by {off:.1f}x. Write one sentence in SURPRISE in "
-                   "step5_timing.py on what you had wrong, then run the check again.")
+                   "step6_timing.py on what you had wrong, then run the check again.")
 
 
-# ------------------------------------------------------------------ step 7
-def check_step7(say):
-    m = load("step7_inside_outside")
+# ------------------------------------------------------------------ step 9
+def check_step9(say):
+    m = load("step9_inside_outside")
     blank = [k for k, v in m.PREDICT.items() if v not in ("same", "different")]
     if blank or m.PREDICT_VM_SEES_CONTAINER_SLEEP not in (True, False):
-        raise Todo("fill in every prediction in step7_inside_outside.py "
+        raise Todo("fill in every prediction in step9_inside_outside.py "
                    "(\"same\"/\"different\", and True/False), then run `python3 run_compare.py`")
     path = os.path.join(HERE, "compare.json")
     if not os.path.exists(path):
@@ -205,15 +205,15 @@ def check_step7(say):
         say(f"{len(wrong)} wrong, and your NOTES explain them.")
     else:
         raise Fail(f"{len(wrong)} prediction(s) wrong ({', '.join(wrong)}). Write one sentence "
-                   "for each in NOTES in step7_inside_outside.py, then run the check again.")
+                   "for each in NOTES in step9_inside_outside.py, then run the check again.")
 
 
 STEPS = {
     "setup": check_setup,
-    "step2": check_step2,
-    "step4": check_step4,
+    "step3": check_step3,
     "step5": check_step5,
-    "step7": check_step7,
+    "step6": check_step6,
+    "step9": check_step9,
 }
 
 
@@ -243,7 +243,7 @@ def main():
     if not args:
         results = [run_one(n, verbose=False) for n in STEPS]
         print(f"\n{sum(results)} of {len(results)} passing. "
-              "`python3 check.py step2` shows one step in detail.")
+              "`python3 check.py step3` shows one step in detail.")
         sys.exit(0 if all(results) else 1)
     for a in args:
         if a not in STEPS:

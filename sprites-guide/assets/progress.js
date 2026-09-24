@@ -10,7 +10,13 @@
  *   levels[id].done        -- the rung's checkpoint was passed (the mission's check)
  *   levels[id].attempts[]  -- one row per logged attempt: {at, score, note}
  *   ticks[id]              -- any checkbox on a page marked data-tick="..." (readings, steps, conditions)
- *   notes[id]              -- any textarea/input marked data-note="..." (predictions, quiz questions, ideas)
+ *   notes[id]              -- any textarea/input marked data-note="..." (publishing.html's notes box)
+ *
+ * Sep 24, 2026: the rung pages no longer carry the checkpoint widget (<div class="cpw">), tick boxes or
+ * guess boxes. A rung's record is rungs/<id>/progress.json, kept by the tutor session in that folder,
+ * and this file cannot read it from file://. So levels[id].done, and the sidebar dots and the start
+ * page's "passed / next up" labels that come from it, only reflect what was saved before that date.
+ * The widget code below is kept (it renders nothing when no page has a data-level mount).
  */
 (function () {
   "use strict";
@@ -289,7 +295,7 @@
         + '<span class="ti">' + L.title + "</span>"
         + '<span class="st">' + label + "</span></span>"
         + "<p>" + L.blurb + "</p>"
-        + '<div class="cp"><b>Checkpoint:</b> ' + L.cp + "</div></a>";
+        + '<div class="cp"><b>To pass:</b> ' + L.cp + "</div></a>";
     }
     mount.innerHTML = h;
   }

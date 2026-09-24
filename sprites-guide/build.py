@@ -3,9 +3,15 @@
 ../../curriculum-edtech/course-from-a-link-on-sprites.md), and refreshes the rung links under each
 section heading of explainer.html (which is otherwise hand-edited).
 
+It also writes rungs/<id>/CLAUDE.md for every rung: the tutor a Claude session reads when Isaac runs
+`claude` in that folder (and an empty rungs/<id>/progress.json if none exists; never overwritten).
+
 index.html is hand-written. assets/progress.js holds the sidebar's copy of the curriculum
-(id, slug, title, blurb, checkpoint sentence, evidence fields, criteria); keep the two in step when
-a slug, a check or a command changes. Run:  python3 build.py
+(id, slug, title, blurb, the passing sentence); keep the two in step when a slug or a check changes.
+Run:  python3 build.py
+
+Sep 24, 2026: guess boxes, tick boxes and the self-graded checkpoint widget removed from the rung
+pages. Guesses and recall go to the tutor; progress.json is the only record of a rung.
 
 Revised Sep 18, 2026 (09:30) after an independent read-through: L1's crash model, L5's overlay
 mount, L2's checkpoint size, the schedule, and every term used before it was defined.
@@ -35,21 +41,24 @@ def sec(num, note=""):
 # check, hint, unlocks (explainer sections), showcase (how it appears in the showcase project),
 # hours (honest budget for reading + mission).
 RUNGS = [
- dict(id="L0", slug="l0-a-computer-from-the-inside.html", tag="operating systems", hours="about 2 h (reading 1 h, mission 1 h)",
+ dict(id="L0", slug="l0-a-computer-from-the-inside.html", tag="operating systems", hours="about 2 h 50 min over two sessions (87 min Thursday, 80 min Tuesday)",
   title="A computer from the inside",
   showcase="Phase P1 of the showcase creates one Sprite by hand with the CLI. Knowing what a virtual machine and a container image are is what makes <code>sprite create</code> finishing in one second surprising rather than magic.",
   say=[
-   "what a <b>process</b> is, and what the <b>kernel</b> does that a process can't (talk to hardware, hand out memory, decide who runs)",
-   "what a <b>filesystem</b> is (names, directories, an index of which blocks hold which file) versus the <b>block device</b> under it (a disk seen as a numbered array of fixed-size blocks, typically 4 KB). Step 1's reading, below, covers this",
-   "why a <b>container</b> is a normal process with a restricted view of the machine (the kernel features are called namespaces and cgroups; step 6's reading, below, defines them) and a <b>virtual machine</b> is a whole second kernel with its own emulated hardware",
-   "what a <b>container image</b> is: a stack of tar archives plus a JSON manifest, in the format the Open Container Initiative (OCI) standardised; and why pulling and unpacking one is the slow part of starting a container",
-   "what a <b>microVM</b> is: a virtual machine with almost no emulated hardware, so it boots in milliseconds. Firecracker is the one Fly uses under every Sprite",
+   "what a <b>process</b> is, and what the <b>kernel</b> does that a process can't (talk to hardware, hand out memory, decide who runs). Step 1, below, explains both and gives the reading",
+   "what a <b>filesystem</b> is (names, directories, an index of which blocks hold which file) versus the <b>block device</b> under it (a disk seen as a numbered array of fixed-size blocks, typically 4 KB). Step 2 explains both, with its reading",
+   "why a <b>container</b> is a normal process with a restricted view of the machine (the kernel features are called namespaces and cgroups; step 7's reading defines them) and a <b>virtual machine</b> is a whole second kernel with its own emulated hardware (step 8)",
+   "what a <b>container image</b> is: a stack of tar archives plus a JSON manifest, in the format the Open Container Initiative (OCI) standardised; and why pulling and unpacking one is the slow part of starting a container. Step 6 measures it, step 12 looks inside one",
+   "what a <b>microVM</b> is: a virtual machine with almost no emulated hardware, so it boots in milliseconds. Firecracker is the one Fly uses under every Sprite. Step 10's reading",
   ],
   read=[
+   ("https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf", "<i>Operating Systems: Three Easy Pieces</i>, chapter 4 \"The Abstraction: The Process\", sections 4.1 and 4.2", "core", "8 min. What a process is made of."),
+   ("https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf", "OSTEP chapter 6 \"Mechanism: Limited Direct Execution\", section 6.2 up to the trap table", "core", "8 min. User mode, kernel mode, the system call."),
    ("https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf", "<i>Operating Systems: Three Easy Pieces</i>, chapter \"File System Implementation\", the first four pages (up to and including the inode section)", "core", "15 min. Blocks, the inode table, how a name becomes a list of blocks. This is the filesystem-versus-block-device distinction."),
    ("https://jvns.ca/blog/2016/10/10/what-even-is-a-container/", "Julia Evans, <i>What even is a container: namespaces and cgroups</i>", "core", "15 min. The clearest statement that a container is a process with a restricted view."),
+   ("https://pages.cs.wisc.edu/~remzi/OSTEP/vmm-intro.pdf", "OSTEP appendix B \"Virtual Machine Monitors\", sections B.1 and B.2", "core", "10 min. What a virtual machine is."),
    ("https://www.usenix.org/conference/nsdi20/presentation/agache", "<i>Firecracker: lightweight virtualization for serverless applications</i> (NSDI 2020), sections 1 and 2 only (about three pages)", "core", "25 min. Why Amazon wanted something between a container and a virtual machine."),
-   ("https://github.com/opencontainers/image-spec/blob/main/spec.md", "OCI image specification, the overview page", "optional", "10 min skim: layers, manifest, config. Just enough to know what <code>docker pull</code> downloads."),
+   ("https://github.com/opencontainers/image-spec/blob/main/spec.md", "OCI image specification, the overview page", "core", "10 min skim: layers, manifest, config. Just enough to know what <code>docker pull</code> downloads."),
   ],
   mission_type="estimate, then check",
   mission=[
@@ -260,7 +269,7 @@ RUNGS = [
    "where Sprites stop working (the explainer's section 06) and why; what \"running, warm, cold\" mean in the docs (billed and awake; asleep with its memory kept; asleep with only the disk kept); and what the S3 block device in early access is (the disk itself served from object storage, the next step of design bet 2)",
   ],
   read=[
-   (EXPLAINER, "The explainer, end to end, then the quiz in section 10", "core", "60 min. Record the quiz score in the checkpoint below; it has five questions."),
+   (EXPLAINER, "The explainer, end to end, then the quiz in section 10", "core", "60 min. Tell the tutor the quiz score; it has five questions."),
    ("https://fly.io/blog/code-and-let-live/", "Kurt Mackey, <i>Code and let live</i>", "core", "15 min. The why: \"ephemeral sandboxes are obsolete\" (a sandbox that forgets everything when the task ends)."),
    ("https://fly.io/blog/design-and-implementation/", "Thomas Ptacek, <i>The design and implementation of Sprites</i>", "core", "40 min. The how, and the explainer's main source."),
    ("https://fly.io/sprites/", "The Sprites product page and docs", "core", "30 min: checkpoints, the HTTPS URL per Sprite, Connectors, the running / warm / cold states, the S3 block device in early access."),
@@ -284,41 +293,35 @@ TAGS = {"core": "core", "optional": "opt"}
 
 def page(r, i):
     n = len(RUNGS)
+    folder = r["id"].lower()
     say = "".join(f"<li>{x}</li>" for x in r["say"])
     acts = ACTIVE.get(r["id"], [])
     def active_block(k):
         a = acts[k] if k < len(acts) else None
         if not a: return ""
-        rid = f'{r["id"]}-read-{k+1}'
-        prompts = "".join(f"<li>{q}</li>" for q in a["predict"])
         trace = f'<p class="trace"><b>Alongside:</b> {a["trace"]}</p>' if a.get("trace") else ""
-        return (f'<details class="active"><summary>Read actively</summary>'
-                f'<p class="before"><b>Before you read, answer in the box:</b></p><ol>{prompts}</ol>{trace}'
-                f'<textarea data-note="{rid}-pred" rows="3" placeholder="Your answers before reading; after reading, one quiz question you would have failed"></textarea>'
-                f'<input type="text" data-note="{rid}-idea" placeholder="A better way to read this one actively? (feeds the course generator)">'
-                f'</details>')
+        return f'<div class="active">{guess_html(a["predict"])}{trace}</div>'
     read = "".join(
-        f'<li class="tick"><label><input type="checkbox" data-tick="{r["id"]}-read-{k+1}"> '
-        f'<span><a href="{u}" target="_blank" rel="noopener">{t}</a> <span class="tag {TAGS[tag]}">{tag}</span>'
-        f'<span class="why"> — {why}</span></span></label>{active_block(k)}</li>'
+        f'<li><a href="{u}" target="_blank" rel="noopener">{t}</a> <span class="tag {TAGS[tag]}">{tag}</span>'
+        f'<span class="why"> — {why}</span>{active_block(k)}</li>'
         for k, (u, t, tag, why) in enumerate(r["read"]))
     write = "".join(f"<li>{w}</li>" for w in WRITE.get(r["id"], []))
-    steps = "".join(
-        f'<li class="tick"><label><input type="checkbox" data-tick="{r["id"]}-step-{k+1}"> <span>{x}</span></label></li>'
-        for k, x in enumerate(r["mission"]))
+    steps = "".join(f"<li>{x}</li>" for x in r["mission"])
     hint = ""
     if r["hint"]:
         hint = f'<details class="hint"><summary>Hint · {r["hint"][0]}</summary><p>{r["hint"][1]}</p></details>'
     unlocks = "".join(r["unlocks"])
-    nb = (3, 4, 5) if r["id"] in SESSIONS else (4, 5, 6)
     if r["id"] in SESSIONS:
         body = ('<h2 id="work">2 · Work through it, in order</h2>\n'
-                '<p class="srcnote">Read a little, then do a little. The ticks and the boxes save in this browser, with the rest of the ladder.</p>\n' + sessions_html(r) + "\n" + hint)
+                '<p class="srcnote">Read a little, then do a little. Step 0 starts the tutor; it keeps your place in '
+                f'<code>rungs/{folder}/progress.json</code>.</p>\n' + sessions_html(r) + "\n" + hint)
+        passing = ("The tutor checks the evidence and records it in <code>rungs/l0/progress.json</code>: it runs "
+                   "<code>check.py</code> itself (all five lines must say PASS) and goes over your five lines from step 11 "
+                   "against <code>compare.json</code>. You don't mark the rung passed yourself.")
     else:
         body = f"""<h2 id="read">2 · Read, in this order</h2>
-<p class="srcnote">Each reading has a "Read actively" block: write your answers to its prompts <i>before</i> reading, run the
-command alongside if there is one, and afterwards write one quiz question you would have failed. The last field asks for a
-better way to read that piece actively; those ideas are raw material for the showcase's course generator. All boxes save in this browser.</p>
+<p class="srcnote">Under most readings is a "before you read" list: tell the tutor your guesses before you open the
+reading, run the command alongside if there is one, and afterwards the tutor asks you a question or two about it.</p>
 <ul class="plain">{read}</ul>
 
 <h2 id="mission">3 · Mission <span class="tag deep">{html.escape(r["mission_type"])}</span></h2>
@@ -329,6 +332,10 @@ better way to read that piece actively; those ideas are raw material for the sho
 </div>
 {hint}
 """
+        passing = (f"The tutor checks the evidence and records it in <code>rungs/{folder}/progress.json</code>: the "
+                   "numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.")
+    nb = (3, 4, 5) if r["id"] in SESSIONS else (4, 5, 6)
+    docker = " &amp;&amp; open -a Docker" if r["id"] == "L0" else ""
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -337,35 +344,26 @@ better way to read that piece actively; those ideas are raw material for the sho
 <title>Sprites ladder · {r["id"]} · {html.escape(r["title"])}</title>
 <link rel="stylesheet" href="assets/style.css">
 <style>
-  li.tick label {{ display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; }}
-  li.tick input {{ margin: .3rem 0 0; flex: 0 0 auto; }}
-  li.tick label > span {{ flex: 1 1 auto; min-width: 0; }}
-  li.tick.ticked > label {{ color: var(--muted); }}
-  li.tick.ticked > label a {{ color: var(--muted); }}
-  li.tick .why {{ color: var(--muted); font-size: .92em; }}
+  li .why {{ color: var(--muted); font-size: .92em; }}
   ul.plain {{ list-style: none; padding-left: 0; }}
-  ul.plain li {{ margin: .45rem 0; }}
+  ul.plain > li {{ margin: .6rem 0; }}
   .spec ol {{ padding-left: 1.2rem; }}
   .spec ol li {{ margin: .55rem 0; }}
-  details.active {{ margin: .35rem 0 .6rem 1.8rem; font-size: .86rem; background: #f7f9fc; border-color: #d3ddea; }}
-  details.active summary {{ color: var(--accent); }}
-  details.active ol {{ margin: .2rem 0 .4rem; padding-left: 1.2rem; }}
-  details.active .before {{ margin: 0; }}
-  details.active .trace {{ margin: .3rem 0; color: var(--muted); }}
+  div.active {{ margin: .35rem 0 .6rem 1.2rem; font-size: .86rem; padding: .4rem .7rem; background: #f7f9fc; border: 1px solid #d3ddea; border-radius: 6px; }}
+  div.active .trace {{ margin: .3rem 0; color: var(--muted); }}
+  p.guess {{ margin: .6rem 0 .1rem; }}
+  ul.guess {{ margin: .1rem 0 .4rem; padding-left: 1.2rem; }}
   h3.half {{ margin: 2rem 0 .4rem; }}
   ol.steps {{ padding-left: 1.4rem; }}
   ol.steps > li.step {{ margin: 1.4rem 0; }}
-  label.steph {{ display: flex; gap: .55rem; align-items: baseline; flex-wrap: wrap; cursor: pointer; }}
-  label.steph .min {{ margin-left: auto; font-size: .8rem; color: var(--muted); }}
-  label.steph.ticked {{ color: var(--muted); }}
+  div.steph {{ display: flex; gap: .55rem; align-items: baseline; flex-wrap: wrap; }}
+  div.steph .min {{ margin-left: auto; font-size: .8rem; color: var(--muted); }}
   .kind {{ font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: .1rem .45rem; border-radius: 4px; font-weight: 600; }}
   .kind.read {{ background: var(--callout-bg); color: var(--accent); }}
   .kind.do {{ background: var(--warn-bg); color: var(--accent-warm); }}
   .see {{ color: var(--muted); font-size: .92em; }}
-  li.step textarea {{ display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .88rem; padding: .4rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }}
   .stop {{ margin: 1.2rem 0 2rem; padding: .9rem 1.1rem; border: 2px dashed var(--accent-warm); border-radius: 8px; font-size: .92rem; }}
   .stop strong {{ display: block; margin-bottom: .3rem; }}
-  details.active textarea, details.active input[type=text] {{ display: block; width: 100%; box-sizing: border-box; font: inherit; font-size: .84rem; padding: .35rem .5rem; border: 1px solid var(--border); border-radius: 5px; margin-top: .4rem; background: #fff; }}
 </style>
 </head>
 <body>
@@ -375,14 +373,16 @@ better way to read that piece actively; those ideas are raw material for the sho
 <h1>{r["title"]}</h1>
 
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
-Tick as you go; the checkpoint at the bottom is what marks the rung passed.</p>
+Work through it with the tutor, a Claude session that knows this rung:
+<code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/{folder}{docker} &amp;&amp; claude</code>, then type <b>start</b>.
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul>{say}</ul>
 
 {body}
 
-<div class="cpw" data-level="{r["id"]}"></div>
+<div class="callout" id="passing"><strong>Passing this rung</strong>{passing}</div>
 
 <h2 id="showcase">{nb[0]} · In the showcase project</h2>
 <p>{r.get("showcase","")} See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
@@ -529,15 +529,9 @@ def refresh_explainer_chips():
     p.write_text(s)
 
 # ---------------------------------------------------------------- read actively + write about it
-# ACTIVE[rung id] is a list parallel to that rung's `read` list: for each reading, the prompts to
-# answer in writing before reading, and (where one exists) a command or action to run alongside.
+# ACTIVE[rung id] is a list parallel to that rung's `read` list: for each reading, the questions the tutor
+# asks before he reads it, and (where one exists) a command or action to run alongside. L0's live in SESSIONS.
 ACTIVE = {
- "L0": [
-  dict(predict=["How does the filesystem get from the name <code>notes.txt</code> to the disk blocks holding its bytes? Guess how many disk reads that takes.", "What is stored about a file besides its bytes?"], trace="<code>ls -i notes.txt</code> shows the inode number; <code>stat notes.txt</code> shows the block count. Match them to the chapter's picture."),
-  dict(predict=["Is a container a process, a virtual machine, or a third thing? What stops it from seeing your files?", "Three containers are running: how many kernels are running?"], trace="<code>docker run -d alpine sleep 300</code>, then from the Linux VM shell (the <code>nsenter</code> command in the mission) run <code>ps aux | grep sleep</code>. The container's process is right there in the host's list."),
-  dict(predict=["Why wasn't a container good enough for AWS Lambda? Why wasn't an ordinary VM?", "What boot time does the paper aim for, and what did it remove to get there?"], trace=None),
-  dict(predict=["How many files is a container image? What is in the manifest?"], trace="<code>docker save python:3.12 -o img.tar &amp;&amp; tar tf img.tar | head -20</code>: the layers and the manifest, on your own disk."),
- ],
  "L1": [
   dict(predict=["What is SQLite's page size? How many tree levels does a table of a million rows need?"], trace="<code>sqlite3 t.db 'create table x(a); insert into x select value from generate_series(1,1000000); pragma page_size; pragma page_count;'</code>. Compare the page count with the post's arithmetic."),
   dict(predict=["Where does a write go first in WAL mode? When does the main database file change?"], trace="Open a second terminal and <code>watch ls -la t.db*</code> while you insert rows in WAL mode; watch <code>-wal</code> grow and the main file stand still."),
@@ -608,121 +602,341 @@ WRITE = {
 
 # ---------------------------------------------------------------- sessions (reading and doing, interleaved)
 # SESSIONS[rung id] replaces that rung's separate "Read" and "Mission" sections with one ordered list of
-# steps, split into the Thursday half and the Tuesday half (the Sep 23 re-plan). Each step is
-# (kind, title, minutes, body). Ticks save under the guide's own key, so the sidebar and this page agree.
-# The starter code and check.py for each rung live in rungs/<id>/; the page says when to use them.
-NOTE_BOX = ('<textarea data-note="{id}" rows="3" placeholder="{ph}"></textarea>')
+# steps, split into the Thursday half and the Tuesday half (the Sep 23 re-plan). Each step is a dict:
+#   kind ("read" or "do"), title, mins, body (HTML), guess (questions for the tutor to ask before the
+#   reading or the prediction, optional), check (the check.py step name, optional).
+# Since Sep 24, 2026 there are no boxes or ticks: guesses and recall happen in a tutor session
+# (rungs/<id>/CLAUDE.md, generated below), and rungs/<id>/progress.json is the only record.
+# The starter code and check.py for each rung live in rungs/<id>/; step numbers match check.py's names.
+OSTEP = "https://pages.cs.wisc.edu/~remzi/OSTEP/"
 SESSIONS = {
  "L0": [
   dict(name="First half", when="Thursday", steps=[
-   ("do", "Set up", 5,
-    '<p>Everything in this rung happens in one folder, with one terminal window. Docker Desktop takes a minute or two to start and you '
-    'won\'t need it until step 5, so start it first. The step numbers here match the names <code>check.py</code> uses. Copy and paste this:</p>'
-    '<pre class="term">cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0 &amp;&amp; open -a Docker &amp;&amp; python3 check.py</pre>'
-    '<p class="see">What you should see: five lines. <code>setup</code> says PASS once Docker is up ("not running yet" is fine for now; '
-    'run it again in a minute), and <code>step2</code>, <code>step4</code>, <code>step5</code> and <code>step7</code> say TODO. '
-    'Each do-step has a starter file in that folder with <code>TODO</code> lines where your code goes. Nothing to install.</p>'),
-   ("read", "What a filesystem sits on", 10,
-    '<p>Start with the first two bullets of <a href="#say">"After this rung you can say"</a> above: a process and the kernel, '
-    'and the filesystem versus the block device under it. Two minutes.</p>'
-    '<p>Then open <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener">OSTEP, '
-    '"File System Implementation"</a>. Read from the start through the section titled "Overall Organization", and stop when the '
-    'next section (about the inode) begins. That\'s about two pages. Look hard at the picture of the 64-block disk; you\'ll use its '
-    'numbers in step 4.</p>'
-    '<p><b>Before you read, guess here:</b> how does the filesystem get from the name <code>notes.txt</code> to the disk blocks '
-    'holding its bytes? What is stored about a file besides its bytes?</p>'
-    + NOTE_BOX.format(id="L0-read-1-pred", ph="Your guesses before reading; after reading, one quiz question you would have failed")),
-   ("do", "A file's size versus the disk it takes", 12,
+   dict(kind="do", title="Set up, and start the tutor", mins=5,
+    tutor="If he is talking to you, he has done the first half of this step. Run `python3 check.py`, walk him through the five lines it prints (what each step name means, and that TODO is expected), and mark step 0 done. If Docker is not running yet, say that is fine until step 6.", body=
+    '<p>Everything in this rung happens in one folder. Docker Desktop takes a minute or two to start and you won\'t need it '
+    'until step 6, so start it first. Then open the tutor: a Claude session in the rung\'s folder that knows these steps. '
+    'Copy and paste this into a terminal:</p>'
+    '<pre class="term">cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0 &amp;&amp; open -a Docker &amp;&amp; claude</pre>'
+    '<p>Then type <b>start</b>. The tutor reads <code>progress.json</code> in that folder, tells you which step you are on, and '
+    'runs it with you: it asks the "before you read" questions on this page, tells you what you got right and wrong, and asks a '
+    'question or two after each reading. It gives hints on the do-steps, not answers. Ask it about any word you don\'t know.</p>'
+    '<p>To run a command, use a second terminal tab in the same folder, or type it into the tutor with a <code>!</code> in front '
+    '(for example <code>! python3 check.py</code>).</p>'
+    '<p class="see">What you should see: the tutor runs <code>python3 check.py</code> and shows five lines. <code>setup</code> says '
+    'PASS once Docker is up ("not running yet" is fine for now; it will pass in a minute), and <code>step3</code>, '
+    '<code>step5</code>, <code>step6</code> and <code>step9</code> say TODO. Each do-step has a starter file in that folder with '
+    '<code>TODO</code> lines where your code goes. Nothing to install.</p>'),
+   dict(kind="read", title="What a process is, and what the kernel does", mins=18, body=
+    '<p>Two words come first, because everything else in this rung is built on them.</p>'
+    '<p>A <b>process</b> is a program that is running. The program is a file on disk. The process is that file loaded into '
+    'memory, with its own memory, its own list of open files, and a note of which instruction runs next. Open two terminal '
+    'tabs and run <code>python3</code> in each: that is one program and two processes.</p>'
+    '<p>The <b>kernel</b> is the part of the operating system that is always running and is in charge of every process. It is '
+    'the only code allowed to talk to the hardware (the disk, the network card). It hands out memory, and it decides which '
+    'process gets the CPU next. A process that wants to read a file can\'t touch the disk itself. It asks the kernel, and that '
+    'request is called a <b>system call</b>.</p>'
+    '<p>Try it. Each line <code>ps</code> prints is one process, and the PID column is its process id. <code>echo $$</code> '
+    'prints the id of your own shell, and <code>uname -r</code> prints the version of the kernel you are talking to (on a Mac, '
+    'the kernel is called Darwin).</p>'
+    '<pre class="term">ps aux | head -5\necho $$\nuname -r</pre>'
+    f'<p>Then read two short pieces of <i>Operating Systems: Three Easy Pieces</i> (OSTEP), a free textbook:</p>'
+    f'<ul><li><a href="{OSTEP}cpu-intro.pdf" target="_blank" rel="noopener">Chapter 4, "The Abstraction: The Process"</a>, '
+    'from the start through section 4.2 "Process API" (about three pages, 8 minutes). What a process is made of.</li>'
+    f'<li><a href="{OSTEP}cpu-mechanisms.pdf" target="_blank" rel="noopener">Chapter 6, "Mechanism: Limited Direct Execution"</a>, '
+    'section 6.2 "Problem #1: Restricted Operations", from its start to where it begins on the trap table (about two pages, '
+    '8 minutes). This is where user mode, kernel mode and the system call come from.</li></ul>',
+    guess=["When you run <code>python3</code> in two terminal tabs, how many programs are there, and how many processes?",
+           "Why can't your Python script write to the disk directly? What would go wrong if it could?"]),
+   dict(kind="read", title="What a filesystem sits on", mins=10, body=
+    '<p>A <b>block device</b> is a disk seen the plain way: a long row of fixed-size blocks, numbered 0, 1, 2 and so on, '
+    'usually 4 KB each. It knows nothing about names or folders. You can only say "read block 7" or "write block 7". A '
+    '<b>filesystem</b> is what the kernel keeps on top of it: file names, directories, and an index of which blocks belong to '
+    'which file. On your Mac, <code>diskutil list</code> shows the block devices (<code>/dev/disk0</code> and so on) and '
+    '<code>df -h /</code> shows the filesystem that sits on one of them.</p>'
+    f'<p>Now open <a href="{OSTEP}file-implementation.pdf" target="_blank" rel="noopener">OSTEP chapter 40, '
+    '"File System Implementation"</a>. Read from the start through section 40.2 "Overall Organization", and stop when section '
+    '40.3 (about the inode) begins. That\'s about two pages. Look hard at the picture of the 64-block disk; you\'ll use its '
+    'numbers in step 5.</p>',
+    guess=["How does the filesystem get from the name <code>notes.txt</code> to the disk blocks holding its bytes?",
+           "What is stored about a file besides its bytes?"]),
+   dict(kind="do", title="A file's size versus the disk it takes", mins=12, check="step3", body=
     '<p>The chapter says the disk is split into 4 KB blocks. Is your Mac\'s disk like that? Ask it:</p>'
     '<pre class="term">diskutil info / | grep "Block Size"</pre>'
-    '<p>Now open <code>step2_blocks.py</code> and write the two functions marked TODO: <code>blocks_needed</code> (how many 4 KB '
+    '<p>Now open <code>step3_blocks.py</code> and write the two functions marked TODO: <code>blocks_needed</code> (how many 4 KB '
     'blocks a file of some size needs) and <code>allocated_bytes</code> (how much disk the filesystem says a file takes, from '
     '<code>os.stat</code>). The docstring for <code>allocated_bytes</code> has a warning about units. Read it. Then:</p>'
-    '<pre class="term">python3 step2_blocks.py\npython3 check.py step2</pre>'
-    '<p class="see">What you should see: <code>step2: PASS</code> and a small table. A 1-byte file takes 4096 bytes on disk, and a '
+    '<pre class="term">python3 step3_blocks.py\npython3 check.py step3</pre>'
+    '<p class="see">What you should see: <code>step3: PASS</code> and a small table. A 1-byte file takes 4096 bytes on disk, and a '
     '4097-byte file takes 8192. If the check says you are off by a factor of 8, that is the units warning.</p>'),
-   ("read", "The inode", 8,
-    '<p>Back to <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf" target="_blank" rel="noopener">the OSTEP '
-    'chapter</a>. Read the section titled "File Organization: The Inode", up to where it starts on multi-level indexes. The part to '
-    'slow down on is the worked example that finds inode number 32. Say each step of that arithmetic out loud once.</p>'
+   dict(kind="read", title="The inode", mins=8, body=
+    f'<p>Back to <a href="{OSTEP}file-implementation.pdf" target="_blank" rel="noopener">the OSTEP chapter</a>. Read section 40.3 '
+    '"File Organization: The Inode", up to where it starts on multi-level indexes. The part to slow down on is the worked example '
+    'that finds inode number 32. Say each step of that arithmetic out loud once.</p>'
     '<p>Alongside, try it on a real file. The first number <code>ls -i</code> prints is the inode number:</p>'
-    '<pre class="term">ls -i step2_blocks.py\nstat step2_blocks.py</pre>'),
-   ("do", "Find an inode on the disk", 12,
-    '<p>Open <code>step4_inode.py</code>. The constants at the top are the chapter\'s example filesystem: 4 KB blocks, 256-byte '
+    '<pre class="term">ls -i step3_blocks.py\nstat step3_blocks.py</pre>',
+    guess=["An inode is the filesystem's record of one file. What do you think it has to hold, and roughly how big is it?"]),
+   dict(kind="do", title="Find an inode on the disk", mins=12, check="step5", body=
+    '<p>Open <code>step5_inode.py</code>. The constants at the top are the chapter\'s example filesystem: 4 KB blocks, 256-byte '
     'inodes, an inode table starting at 12 KB. Check them against the picture first. Then write the three functions: the byte '
     'address where an inode starts, the block that holds it, and the sector that holds its first byte. The chapter\'s own example '
     '(inode 32 starts at 20 KB) is your first test.</p>'
-    '<pre class="term">python3 step4_inode.py\npython3 check.py step4</pre>'
-    '<p class="see">What you should see: <code>step4: PASS</code>. The check\'s last line says something about inodes 0 to 15. '
+    '<pre class="term">python3 step5_inode.py\npython3 check.py step5</pre>'
+    '<p class="see">What you should see: <code>step5: PASS</code>. The check\'s last line says something about inodes 0 to 15. '
     'The disk only reads whole blocks, so what does looking up one file\'s inode fetch for free?</p>'),
-   ("do", "Predict, then time a container pull", 10,
-    '<p>A container image is a stack of archives that has to be downloaded and unpacked before anything can run. Starting a '
-    'container from an image you already have is a different cost. How different?</p>'
-    '<p>Guess before you measure. Open <code>step5_timing.py</code> and fill in the two predictions in seconds: the pull of '
+   dict(kind="do", title="Predict, then time a container pull", mins=10, check="step6",
+    tutor="The pull takes minutes. Once `run_timing.py` is running, move on to step 7 and come back to finish step 6 (median() and the check) when it prints \"Saved timings.json\". Step 6 is done only when its check passes. If his ratio is off by more than 3x, talk through what he had wrong before he writes SURPRISE.", body=
+    '<p>Two words first. A <b>container</b> is a process that the kernel starts with a restricted view of the machine (step 7\'s '
+    'reading shows how). A <b>container image</b> is the files that process starts from: a stack of archives, one per layer, '
+    'plus a small JSON file that lists them. Docker has to download and unpack all of it before a container can start '
+    '(step 12 looks inside one). Starting a container from an image you already have is a different cost. How different?</p>'
+    '<p>Guess before you measure. Open <code>step6_timing.py</code> and fill in the two predictions in seconds: the pull of '
     '<code>python:3.12</code> from nothing, and one <code>docker run</code> once it\'s local. Then start the measurement (it '
     'removes any local copy first, so the pull is from nothing):</p>'
     '<pre class="term">python3 run_timing.py</pre>'
     '<p class="see">What you should see: Docker\'s download progress, then <code>pull: ... s</code> and three run times. The image '
-    'is around 1 GB, so the pull can take a few minutes. <b>Don\'t wait for it.</b> Go to the next step and come back when it '
-    'prints "Saved timings.json". Then write <code>median()</code> in the same file and run <code>python3 check.py step5</code>. '
+    'is around 1 GB, so the pull can take a few minutes. <b>Don\'t wait for it.</b> Go to step 7 and come back when it '
+    'prints "Saved timings.json". Then write <code>median()</code> in the same file and run <code>python3 check.py step6</code>. '
     'PASS if your ratio was within 3x; if not, the check asks for one sentence in <code>SURPRISE</code> on what you had wrong. '
-    'That sentence is the most useful thing you\'ll write tonight.</p>'),
-   ("read", "A container is a process", 12,
+    'That sentence is the most useful thing you\'ll write tonight.</p>',
+    guess=["Before writing the numbers in the file, say them to the tutor: how long for the pull, how long for one run, and "
+           "why you think the ratio is what it is."]),
+   dict(kind="read", title="A container is a process", mins=12, body=
     '<p>While the pull runs, read <a href="https://jvns.ca/blog/2016/10/10/what-even-is-a-container/" target="_blank" '
     'rel="noopener">Julia Evans, "What even is a container: namespaces and cgroups"</a>. Note the word <i>namespace</i> each time '
-    'it comes up, and what it hides.</p>'
-    '<p><b>Before you read, guess here:</b> is a container a process, a virtual machine, or a third thing? Three containers are '
-    'running on one machine: how many kernels are running?</p>'
-    + NOTE_BOX.format(id="L0-read-2-pred", ph="Your guesses before reading; after reading, one quiz question you would have failed")),
-   ("do", "Inside a container versus outside it", 15,
-    '<p>On a Mac there\'s a twist. The machine a container runs on is not macOS. Docker Desktop runs a hidden Linux virtual machine, '
-    'and every container is a process inside it. So "outside" means that VM, and <code>run_compare.py</code> reaches it with '
-    '<code>nsenter</code>.</p>'
-    '<p>Open <code>step7_inside_outside.py</code>. For each of five commands, predict whether the container prints the '
+    'it comes up, and what it hides. A <b>namespace</b> limits what a process can see (other processes, mounts, the hostname); a '
+    '<b>cgroup</b> limits how much it can use (memory, CPU).</p>',
+    guess=["Is a container a process, a virtual machine, or a third thing? What stops it from seeing your files?",
+           "Three containers are running on one machine: how many kernels are running?"]),
+  ], stop='Ask the tutor to run <code>python3 check.py</code> once more. <code>setup</code>, <code>step3</code>, '
+         '<code>step5</code> and <code>step6</code> saying PASS means the first half is done; <code>step9</code> stays TODO '
+         'until Tuesday. If you run out of energy after step 5, stop there instead, and the tutor will pick up step 6 next '
+         'time. A short evening that ends with a passing check beats a long one that doesn\'t.'),
+  dict(name="Second half", when="the following Tuesday", steps=[
+   dict(kind="read", title="What a virtual machine is", mins=10, body=
+    '<p>A <b>virtual machine</b> (VM) is a whole computer made of software. A program called a <b>hypervisor</b> pretends to be '
+    'the hardware (CPU, memory, disk, network card), and a second, complete operating system, with its own kernel, boots inside '
+    'it. A container shares the kernel of the machine it runs on. A VM brings its own.</p>'
+    '<p>You have one running already. macOS can\'t run Linux containers, so Docker Desktop starts a small Linux VM, and every '
+    'container from Thursday was a process inside it.</p>'
+    f'<p>Read <a href="{OSTEP}vmm-intro.pdf" target="_blank" rel="noopener">OSTEP appendix B, "Virtual Machine Monitors"</a>, '
+    'sections B.1 "Introduction" and B.2 "Motivation: Why VMMs?" (about two pages). A virtual machine monitor is the book\'s '
+    'name for a hypervisor.</p>',
+    guess=["What does a hypervisor have to pretend to be, so that an unmodified operating system can boot on it?",
+           "Why would anyone run a second operating system on one computer?"]),
+   dict(kind="do", title="Inside a container versus outside it", mins=15, check="step9", body=
+    '<p>"Outside" a container, on a Mac, means Docker Desktop\'s Linux VM, not macOS. <code>run_compare.py</code> reaches the VM '
+    'with <code>nsenter</code>, a command that joins the namespaces of another process.</p>'
+    '<p>Open <code>step9_inside_outside.py</code>. For each of five commands, predict whether the container prints the '
     '<code>"same"</code> output as the Linux VM or <code>"different"</code> output. Then one True or False: when a container runs '
     '<code>sleep 300</code>, can the VM\'s process list see it? Fill everything in, then:</p>'
-    '<pre class="term">python3 run_compare.py\npython3 check.py step7</pre>'
+    '<pre class="term">python3 run_compare.py\npython3 check.py step9</pre>'
     '<p class="see">What you should see: the five commands in three places (your Mac, the VM, the container), then the check marks '
     'each wrong prediction. For each one, write a sentence in <code>NOTES</code> and run the check again until it says PASS. Look '
-    'at the kernel version line in particular.</p>'),
-  ], stop='Run <code>python3 check.py</code> once more. Five PASS lines means the first half is done. If you run out of energy '
-         'after the container-pull step, stop there instead: the last two steps open Tuesday, and that\'s fine. A short evening '
-         'that ends with a passing check beats a long one that doesn\'t.'),
-  dict(name="Second half", when="the following Tuesday", steps=[
-   ("read", "Why Amazon built something in between", 25,
+    'at the kernel version line in particular.</p>',
+    guess=["Before filling in the file, tell the tutor your five same-or-different predictions and why."]),
+   dict(kind="read", title="Why Amazon built something in between", mins=25, body=
     '<p>Read sections 1 and 2 (about three pages) of <a href="https://www.usenix.org/conference/nsdi20/presentation/agache" '
-    'target="_blank" rel="noopener"><i>Firecracker: lightweight virtualization for serverless applications</i></a> (NSDI 2020).</p>'
-    '<p><b>Before you read, guess here:</b> why wasn\'t a container good enough for AWS Lambda? Why wasn\'t an ordinary VM? What '
-    'boot time does the paper aim for, and what did it remove to get there?</p>'
-    + NOTE_BOX.format(id="L0-read-3-pred", ph="Your guesses before reading; after reading, one quiz question you would have failed")),
-   ("do", "Five lines: shared versus copied", 15,
-    '<p>Open <code>compare.json</code> from the first half: it is your evidence. Write five lines in the box: what the container '
-    'shares with the kernel it runs on (the process list you could see from outside, the kernel version), and what it has its own '
-    'copy of (hostname, mounts, the process tree it can see). Use Firecracker\'s framing where it helps: which of these would a '
-    'microVM have its own copy of too?</p>'
-    + NOTE_BOX.format(id="L0-five-lines", ph="Five lines: shared with the kernel, versus its own copy")),
-   ("read", "What a pull downloads", 15,
+    'target="_blank" rel="noopener"><i>Firecracker: lightweight virtualization for serverless applications</i></a> (NSDI 2020). '
+    'Firecracker is a <b>microVM</b>: a virtual machine with almost no pretend hardware, so it boots in a fraction of a second. '
+    'Fly runs one under every Sprite.</p>',
+    guess=["Why wasn't a container good enough for AWS Lambda? Why wasn't an ordinary VM?",
+           "What boot time does the paper aim for, and what did it remove to get there?"]),
+   dict(kind="do", title="Five lines: shared versus copied", mins=15,
+    tutor="Read `compare.json` yourself first. Take his lines one at a time and check each against it. When all five hold, save them in the note for step 11 and in `evidence`.", body=
+    '<p>Open <code>compare.json</code> from step 9: it is your evidence. Tell the tutor five lines: what the container shares '
+    'with the kernel it runs on (the process list you could see from outside, the kernel version), and what it has its own copy '
+    'of (hostname, mounts, the process tree it can see). Use Firecracker\'s framing where it helps: which of these would a '
+    'microVM have its own copy of too? The tutor pushes back on any line that compare.json doesn\'t support, and records the '
+    'final five in <code>progress.json</code>.</p>'),
+   dict(kind="read", title="What a pull downloads", mins=15, body=
     '<p>Skim the <a href="https://github.com/opencontainers/image-spec/blob/main/spec.md" target="_blank" rel="noopener">OCI image '
-    'specification overview</a> (optional reading, 10 minutes): layers, manifest, config. Then open the image you pulled in the '
-    'first half and look at the layers that made the pull slow:</p>'
-    '<pre class="term">docker save python:3.12 -o /tmp/img.tar &amp;&amp; tar tf /tmp/img.tar | head -20\nrm /tmp/img.tar</pre>'
-    '<p><b>Before you look, guess here:</b> how many files is a container image? What is in the manifest?</p>'
-    + NOTE_BOX.format(id="L0-read-4-pred", ph="Your guesses before looking; afterwards, what you found")),
-  ], stop='Then pass the rung with the checkpoint below: your two timings, your predicted ratio, and the five lines.'),
+    'specification overview</a> (10 minutes): layers, manifest, config. OCI is the Open Container Initiative, the group that '
+    'wrote down the image format Docker uses. Then open the image you pulled in the first half and look at the layers that made '
+    'the pull slow:</p>'
+    '<pre class="term">docker save python:3.12 -o /tmp/img.tar &amp;&amp; tar tf /tmp/img.tar | head -20\nrm /tmp/img.tar</pre>',
+    guess=["How many files is a container image? What is in the manifest?"]),
+  ], stop='Then tell the tutor you want to pass the rung. It runs <code>check.py</code>, goes over your five lines, and records '
+         'the result in <code>progress.json</code>.'),
  ],
 }
+
+def guess_html(qs, lead="Before you read"):
+    if not qs: return ""
+    return (f'<p class="guess"><b>{lead}:</b> tell the tutor your guess for each of these.</p>'
+            '<ul class="guess">' + "".join(f"<li>{q}</li>" for q in qs) + "</ul>")
 
 def sessions_html(r):
     out, k = [], -1
     for s in SESSIONS[r["id"]]:
-        total = sum(m for _, _, m, _ in s["steps"])
+        total = sum(st["mins"] for st in s["steps"])
         out.append(f'<h3 class="half">{s["name"]} · {s["when"]}, about {total} minutes</h3><ol class="steps" start="{k+1}">')
-        for kind, title, mins, body in s["steps"]:
+        for st in s["steps"]:
             k += 1
-            out.append(f'<li class="step"><label class="steph"><input type="checkbox" data-tick="{r["id"]}-s{k}"> '
-                       f'<span class="kind {kind}">{kind}</span> <b>{title}</b> <span class="min">{mins} min</span></label>{body}</li>')
+            lead = "Before you read" if st["kind"] == "read" else "Before you start"
+            out.append(f'<li class="step"><div class="steph"><span class="kind {st["kind"]}">{st["kind"]}</span> <b>{st["title"]}</b> '
+                       f'<span class="min">{st["mins"]} min</span></div>{st["body"]}{guess_html(st.get("guess"), lead)}</li>')
         out.append(f'</ol><div class="stop"><strong>{s["name"]} ends here</strong>{s["stop"]}</div>')
     return "".join(out)
+
+# ---------------------------------------------------------------- tutor sessions (rungs/<id>/CLAUDE.md)
+# Generated for every rung. The tutor reads progress.json, runs the current step as a conversation,
+# and writes progress.json after each step. build.py never overwrites an existing progress.json.
+
+def text(h):
+    """HTML fragment to plain text for the tutor file: keep code in backticks, drop the rest of the markup."""
+    h = re.sub(r"<pre[^>]*>(.*?)</pre>", lambda m: "\n\n```\n" + m.group(1) + "\n```\n\n", h, flags=re.S)
+    h = re.sub(r"<code>(.*?)</code>", r"`\1`", h, flags=re.S)
+    h = re.sub(r'<a href="([^"]+)"[^>]*>(.*?)</a>', r"\2 (\1)", h, flags=re.S)
+    h = re.sub(r"<li>", "\n- ", h)
+    h = re.sub(r"</p>\s*", "\n\n", h)
+    h = re.sub(r"<[^>]+>", "", h)
+    h = html.unescape(h)
+    h = re.sub(r"[ \t]+\n", "\n", h)
+    return re.sub(r"\n{3,}", "\n\n", h).strip()
+
+def tutor_steps(r):
+    """A flat list of (kind, title, text, guesses, check) for the rung, numbered from 0 in order."""
+    if r["id"] in SESSIONS:
+        out = []
+        for s in SESSIONS[r["id"]]:
+            for st in s["steps"]:
+                body = text(st["body"]) + (f'\n\nNote for the tutor: {st["tutor"]}' if st.get("tutor") else "")
+                out.append((st["kind"], f'{st["title"]} ({s["name"].lower()}, {s["when"]}, {st["mins"]} min)',
+                            body, st.get("guess") or [], st.get("check")))
+        return out
+    acts = ACTIVE.get(r["id"], [])
+    out = []
+    for k, (u, t, tag, why) in enumerate(r["read"]):
+        a = acts[k] if k < len(acts) else {}
+        body = f'Read {text(t)} ({u}), {tag}. {text(why)}'
+        if a.get("trace"): body += "\n\nAlongside: " + text(a["trace"])
+        out.append(("read", f"Reading {k+1}: {text(t)}", body, a.get("predict") or [], None))
+    for k, m in enumerate(r["mission"]):
+        out.append(("do", f"Mission step {k+1}", text(m), [], None))
+    return out
+
+TUTOR_RULES = """## How to run a session
+
+You are Isaac's tutor for this rung. He opens `claude` in this folder and says "start" (or anything
+like it). Then:
+
+1. Read `progress.json` in this folder. The current step is the lowest-numbered step that is not
+   done. Tell him in one line which step he is on and what it is, for example: "You're on step 3,
+   A file's size versus the disk it takes." If a step was left half-done (a long download, a check
+   still failing), say so and offer to finish it first.
+2. Run that step with him, as a conversation, one question at a time:
+   - **Before a reading or a prediction**, ask the step's guess questions (listed under the step
+     below). Wait for his answer. Don't correct him yet: the point is that the guess exists before
+     the reading does. Then send him to the reading with its link and page range.
+   - **After a reading**, go back to his guesses. Say plainly which parts were right and which were
+     wrong, and why. Then ask one or two recall questions about what he just read. Questions should
+     need understanding, not memory of a sentence. If he gets one wrong, explain it and ask a
+     variant.
+   - **On a do-step**, give hints, never solutions. Don't write or edit his code in the starter
+     files. If he is stuck, give the smallest hint that unblocks him: point at the line, name the
+     function to look up, or ask what he expects a value to be and have him print it. When he thinks
+     it's done, have him run the check (or run `python3 check.py <step>` yourself) and read the
+     output with him.
+3. **Explain any word he doesn't know** in plain words, in two or three sentences, with one concrete
+   command he can run to see the thing (for example `ps aux | head` for "process"). If the rung's
+   reading covers it, say where.
+4. **After each step**, update `progress.json` (see the schema below): mark the step done with the
+   time and a one-line note on what he got right or wrong. Write the file straight away, so the
+   next session picks up from here.
+5. **At the end of the session**, when he says he's stopping or the half is finished, print one line
+   he can paste into his Log, in this shape:
+   `Sprites <rung>: steps a to b done; <what he got wrong and now understands>; next: step c.`
+   Print it only. Don't edit any file outside this folder.
+
+## Passing the rung
+
+He doesn't mark the rung passed himself. You check the evidence:
+{pass_rule}
+When all of it holds, set `"passed": true`, `"passed_at"` to the date, and `"evidence"` to a short
+record of the numbers and lines that passed. If something is missing, say exactly what, and leave
+`passed` false.
+
+## progress.json
+
+```json
+{{"rung": "{rid}",
+ "steps": {{"0": {{"done": true, "at": "2026-09-25T19:42", "note": "one line: what he got right or wrong"}}}},
+ "passed": false, "passed_at": null, "evidence": ""}}
+```
+
+Step keys are the step numbers below, as strings. Get the time with `date +%Y-%m-%dT%H:%M`. Keep
+notes to one line. Never delete a note he earned in an earlier session.
+
+## How to talk
+
+Plain words and complete sentences. Short answers, then a question back to him. No em-dashes, no
+metaphors, no "great question". When he is wrong, say so directly and explain; when he is right,
+say what exactly was right. He learns by doing, so keep each reading short and get him back to a
+command or a line of code quickly. Evenings are his tired hours: if he says he's done, stop,
+save progress, and print the Log line.
+"""
+
+def pass_rule(r):
+    if r["id"] == "L0":
+        return ("- Run `python3 check.py` yourself: all five lines (setup, step3, step5, step6, step9) must say PASS.\n"
+                "- His five lines from step 11 (shared with the kernel versus its own copy) have been discussed and\n"
+                "  each is supported by `compare.json`.\n"
+                "- Record in `evidence`: the pull and run timings, his predicted and measured ratio, and the five lines.")
+    return f"- The mission's check, from the rung page: {text(r['check'])}\n- Record the numbers it names in `evidence`."
+
+def tutor_md(r):
+    folder = r["id"].lower()
+    say = "\n".join(f"- {text(x)}" for x in r["say"])
+    steps = []
+    for k, (kind, title, body, guesses, check) in enumerate(tutor_steps(r)):
+        s = f"### Step {k} · {kind} · {title}\n\n{body}\n"
+        if guesses:
+            s += "\nGuess questions (ask before the reading or the prediction):\n" + "\n".join(f"- {text(q)}" for q in guesses) + "\n"
+        if check:
+            s += f"\nDone when `python3 check.py {check}` says PASS.\n"
+        steps.append(s)
+    if r["id"] in SESSIONS:
+        layout = ("The steps are split into two halves: the first on Thursday at 19:30, the second the following "
+                  "Tuesday at 19:30. The starter files and `check.py` are in this folder; each do-step's file name "
+                  "starts with its step number. The step text below is the page's, written to Isaac as \"you\"; "
+                  "the notes for the tutor are yours.")
+    else:
+        layout = ("This rung has not been cut into a two-half script yet, so the steps are the readings in order, "
+                  "then the mission steps. The page lists them without these numbers, so when you tell him where he is, "
+                  "name the reading or the mission step too (\"step 5, mission step 1\"). There are no starter files "
+                  "yet: he writes the mission's code in this folder, and you don't write it for him. Before this rung "
+                  "starts it should be re-cut into a two-half script with a check script, like L0.")
+    return f"""# Tutor for rung {r["id"]} · {text(r["title"])}
+
+Generated by `sprites-guide/build.py` from the rung page `../../{r["slug"]}`; edit `build.py` and
+rerun it rather than editing this file. The rung page has the full text of every step, and is the
+source of truth if this file and the page ever disagree.
+
+{layout}
+
+## After this rung he can say
+
+{say}
+
+Every item above must come with an explanation or a named source by the time a step relies on it.
+If he asks about one and the steps below haven't covered it yet, explain it yourself.
+
+{TUTOR_RULES.format(pass_rule=pass_rule(r), rid=r["id"])}
+## The steps
+
+{chr(10).join(steps)}"""
+
+def write_tutors(here):
+    import json
+    for r in RUNGS:
+        d = here / "rungs" / r["id"].lower()
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "CLAUDE.md").write_text(tutor_md(r))
+        p = d / "progress.json"
+        if not p.exists():
+            p.write_text(json.dumps({"rung": r["id"], "steps": {}, "passed": False, "passed_at": None, "evidence": ""}, indent=1) + "\n")
+
 
 if __name__ == "__main__":
     here = pathlib.Path(__file__).parent
@@ -731,5 +945,6 @@ if __name__ == "__main__":
     (here / "explainer-map.html").write_text(explainer_map())
     (here / "showcase.html").write_text(showcase())
     refresh_explainer_chips()
-    print("built", len(RUNGS), "rung pages + explainer-map.html + showcase.html; explainer chips refreshed")
+    write_tutors(here)
+    print("built", len(RUNGS), "rung pages + explainer-map.html + showcase.html + rungs/*/CLAUDE.md; explainer chips refreshed")
 

@@ -1,15 +1,15 @@
 """Run the same commands on your Mac, in Docker Desktop's Linux VM, and in a container.
-Plumbing for step 7: you don't edit this.
+Plumbing for step 9: you don't edit this.
 
     python3 run_compare.py
 
-Refuses to start until every prediction in step7_inside_outside.py is filled in.
+Refuses to start until every prediction in step9_inside_outside.py is filled in.
 Writes compare.json next to this file and prints a table.
 
 How it reaches the Linux VM: `docker run --privileged --pid=host alpine nsenter -t 1 ...`
 starts a tiny container that is allowed to see every process on the VM, then
 `nsenter` joins the namespaces of process 1 (the VM's first process). From there
-the shell sees what the VM sees. This is the command from the L0 page's mission.
+the shell sees what the VM sees. This is the command from the L0 page's step 9.
 """
 
 import json
@@ -20,7 +20,7 @@ import time
 
 sys.dont_write_bytecode = True
 
-import step7_inside_outside as mine
+import step9_inside_outside as mine
 from run_timing import docker_ready
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -44,7 +44,7 @@ def run(prefix, cmd):
 def main():
     missing = [k for k, v in mine.PREDICT.items() if v not in ("same", "different")]
     if missing or mine.PREDICT_VM_SEES_CONTAINER_SLEEP not in (True, False):
-        print("Fill in every prediction in step7_inside_outside.py first:")
+        print("Fill in every prediction in step9_inside_outside.py first:")
         for k in missing:
             print(f'  PREDICT["{k}"] should be "same" or "different"')
         if mine.PREDICT_VM_SEES_CONTAINER_SLEEP not in (True, False):
@@ -89,7 +89,7 @@ def main():
             print(f"  {where:10} {shown or '(nothing)'}")
     print("\nThe VM's process list, filtered for `sleep 300`:")
     print("  " + (seen or "(nothing)"))
-    print(f"\nSaved {os.path.basename(OUT)}. Next: `python3 check.py step7`.")
+    print(f"\nSaved {os.path.basename(OUT)}. Next: `python3 check.py step9`.")
 
 
 if __name__ == "__main__":

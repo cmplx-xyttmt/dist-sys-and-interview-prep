@@ -1,4 +1,4 @@
-"""Step 4 of the L0 rung page (section 2): find an inode on the disk.
+"""Step 5 of the L0 rung page (section 2): find an inode on the disk.
 
 The OSTEP chapter builds a tiny example filesystem (it calls it "vsfs") on a
 disk of 64 blocks. The numbers below are the ones from the chapter's pictures.
@@ -7,7 +7,7 @@ trust the chapter and fix it here.
 
 You write the three functions marked TODO. Then run:
 
-    python3 check.py step4
+    python3 check.py step5
 """
 
 BLOCK_SIZE = 4096          # bytes per block

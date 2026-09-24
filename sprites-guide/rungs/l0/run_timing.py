@@ -1,9 +1,9 @@
-"""Measure a container pull and a container start. Plumbing for step 5: you don't edit this.
+"""Measure a container pull and a container start. Plumbing for step 6: you don't edit this.
 
     python3 run_timing.py              # remove the image, time the pull, time 3 runs
     python3 run_timing.py --runs-only  # keep the pull time you already have, re-time the runs
 
-Refuses to start until the predictions in step5_timing.py are filled in.
+Refuses to start until the predictions in step6_timing.py are filled in.
 Writes timings.json next to this file.
 """
 
@@ -16,7 +16,7 @@ import time
 
 sys.dont_write_bytecode = True
 
-import step5_timing
+import step6_timing
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "timings.json")
@@ -51,10 +51,10 @@ def timed(cmd, show_output):
 
 
 def main():
-    pull_p = step5_timing.PREDICTED_PULL_SECONDS
-    run_p = step5_timing.PREDICTED_RUN_SECONDS
+    pull_p = step6_timing.PREDICTED_PULL_SECONDS
+    run_p = step6_timing.PREDICTED_RUN_SECONDS
     if pull_p is None or run_p is None:
-        print("Write your two predictions in step5_timing.py first. That is the mission:")
+        print("Write your two predictions in step6_timing.py first. That is the mission:")
         print("the guess has to exist before the measurement does.")
         sys.exit(1)
     if not docker_ready():
@@ -81,7 +81,7 @@ def main():
                 print("`docker ps -a` lists them, `docker rm <id>` removes one). Then try again.")
                 sys.exit(1)
         print(f"\nTiming `docker pull {IMAGE}`. Docker's own progress output follows.")
-        print("This can take a few minutes. Start step 6's reading while it runs.\n")
+        print("This can take a few minutes. Start step 7's reading while it runs.\n")
         pull_s = timed(["docker", "pull", IMAGE], show_output=True)
         print(f"\npull: {pull_s:.1f} s")
 
@@ -101,8 +101,8 @@ def main():
     }
     with open(OUT, "w") as f:
         json.dump(record, f, indent=2)
-    print(f"\nSaved {os.path.basename(OUT)}. Next: write median() in step5_timing.py,")
-    print("then run `python3 check.py step5`.")
+    print(f"\nSaved {os.path.basename(OUT)}. Next: write median() in step6_timing.py,")
+    print("then run `python3 check.py step6`.")
 
 
 if __name__ == "__main__":
