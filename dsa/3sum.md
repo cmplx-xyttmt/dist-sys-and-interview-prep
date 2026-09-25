@@ -26,5 +26,5 @@ element, which makes each triplet reachable exactly once and turns dedupe into
 adjacent-value skips instead of a set. Both extra sets disappear. Chased a linear
 solution first; recognize the problem class instead.
 
-**Next re-solve:** 2026-09-18 (canonical form cold; place the two duplicate skips
+**Next re-solve:** 2026-09-30 (canonical form cold; place the two duplicate skips
 without testing; say why linear isn't on the table).

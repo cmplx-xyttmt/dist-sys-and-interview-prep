@@ -21,5 +21,5 @@ Character Replacement don't fit the left-driven form as cleanly.
 `add`, `remove`, `in`. `else:` after `break` is dead structure. Inner loop condenses
 to `while j < n and s[j] not in seen: seen.add(s[j]); j += 1`.
 
-**Next re-solve:** 2026-09-22 (right-driven shape cold with a set; then the
+**Next re-solve:** 2026-10-02 (right-driven shape cold with a set; then the
 `last`-index jump version and say why the `max` is there).

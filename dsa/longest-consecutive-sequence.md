@@ -26,5 +26,5 @@ already tells you. The analysis itself (count touches per element, not loop
 iterations) was fine; the gap is in the design step. Same touched-once argument
 recurs in Two Pointers, Sliding Window, and monotonic Stack.
 
-**Next re-solve:** 2026-09-15 (set version cold, state the each-number-visited-once
+**Next re-solve:** 2026-09-29 (set version cold, state the each-number-visited-once
 argument; then explain union-find's amortized bound in two sentences).

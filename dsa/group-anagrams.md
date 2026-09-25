@@ -17,5 +17,5 @@ word, so it is O(m · n log n). Also called string hashing O(1); it is O(n),
 dominated by the sort. Code was fine, the narration was not. Say the
 complexity out loud as you build it: "m words, each costs X, so m · X."
 
-**Next re-solve:** 2026-09-12 (focus: narrate complexity while coding, then
+**Next re-solve:** 2026-09-26 (focus: narrate complexity while coding, then
 give both keys and the trade-off unprompted).

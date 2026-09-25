@@ -18,4 +18,4 @@ with `int()` for no reason (strings are already hashable) and left an `else:` af
 Variant to know: one seen-set of tagged tuples `('r', r, ch)`, `('c', c, ch)`,
 `('b', r//3, c//3, ch)`. Shorter, same cost, less readable than three named sets.
 
-**Next re-solve:** 2026-09-22 (low priority; solved cleanly first try).
+**Next re-solve:** 2026-10-03 (low priority; solved cleanly first try).

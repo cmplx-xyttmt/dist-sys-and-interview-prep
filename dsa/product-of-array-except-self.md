@@ -28,5 +28,5 @@ over the three-arg range. Trigger to check: any `range(1, n)` / `range(n-2, -1, 
 
 Say aloud: Python ints don't overflow, Go/Java would; problem guarantees 32-bit fit.
 
-**Next re-solve:** 2026-09-13 (O(1)-extra two-pass version cold with use-then-update ordering
+**Next re-solve:** 2026-09-28 (O(1)-extra two-pass version cold with use-then-update ordering
 and no offsets; name the pattern before writing code).

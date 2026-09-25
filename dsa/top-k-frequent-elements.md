@@ -17,5 +17,5 @@ Trade-off to say unprompted: bucket is optimal on paper, heap is what you'd ship
 for small k (log k is tiny, memory O(d + k) not O(n)). Watch the n+1 off-by-one
 when coding the buckets.
 
-**Next re-solve:** 2026-09-12 (code all three cold, then say the complexities and when
+**Next re-solve:** 2026-09-26 (code all three cold, then say the complexities and when
 each wins).
