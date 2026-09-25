@@ -26,4 +26,5 @@ end you return) rather than the find-the-element form.
 | [Longest Substring Without Repeating Characters](./longest-substring-without-repeating-characters.md) | sliding window + set | 2026-09-15 | 2026-09-22 |
 | [Longest Repeating Character Replacement](./longest-repeating-character-replacement.md) | sliding window + 26 counts | 2026-09-20 | 2026-09-27 |
 | [Permutation in String](./permutation-in-string.md) | fixed-size sliding window + 26 counts | 2026-09-21 | 2026-09-28 |
+| [Minimum Window Substring](./minimum-window-substring.md) | sliding window, shrink while valid | 2026-09-25 | 2026-10-02 |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | 2026-10-01 (O(n) staircase count required) |
