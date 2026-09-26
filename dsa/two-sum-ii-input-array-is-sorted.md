@@ -26,5 +26,5 @@ counterexample rather than argue abstractly.
 **Explaining:** write the invariant as the first comment, before the loop: "what
 does each pointer move do to the sum, and which index does it eliminate?"
 
-**Next re-solve:** 2026-09-30 (single-loop form cold; say the elimination invariant
+**Next re-solve:** 2026-09-27, talk-through only (single-loop form cold; say the elimination invariant
 in plain English before typing).

@@ -14,4 +14,4 @@ Longest Substring Without Repeating Characters.
 
 **Missed insight:** none in the code. Didn't know what sliding window meant; see above.
 
-**Next re-solve:** 2026-10-03 (low priority).
+**Next re-solve:** none, dropped 2026-09-26: clean first-try solve (low priority).

@@ -18,5 +18,5 @@ Correct output, wrong loop shape; `while i < j` is the invariant. Left a debug
 O(1) extra. Each pointer moves at most n steps, so O(n). Watch where `lower()` goes
 once you stop preprocessing.
 
-**Next re-solve:** 2026-09-29 (in-place skipping version cold, `while i < j`,
+**Next re-solve:** 2026-09-27, talk-through only (in-place skipping version cold, `while i < j`,
 no debug output left; say the pointer-moves-once argument before coding).

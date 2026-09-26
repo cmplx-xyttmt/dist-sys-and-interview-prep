@@ -23,5 +23,5 @@ stuck on which pointer to move. Also: comment said width `j - i + 1` (code used
 `j - i`, correct); shadowed the `height` parameter with the loop variable (works only
 because `n` was read first; a bug waiting for a refactor).
 
-**Next re-solve:** 2026-10-01 (two-pointer version cold; state the elimination
+**Next re-solve:** 2026-09-28 (two-pointer version cold; state the elimination
 sentence first).

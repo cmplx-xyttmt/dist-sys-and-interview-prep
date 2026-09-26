@@ -37,5 +37,5 @@ slot, so update `matches` in O(1) by checking that slot before and after. Answer
 when `matches == 26`. True O(n) instead of O(26n). Worth knowing the shape, not
 worth reaching for in an interview unless asked.
 
-**Next re-solve:** 2026-09-28 (no left pointer, list equality; then say why the
+**Next re-solve:** 2026-09-27, talk-through only (no left pointer, list equality; then say why the
 size check is redundant).

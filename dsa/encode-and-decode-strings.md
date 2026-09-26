@@ -23,5 +23,5 @@ positions: `j = s.index(',', i)`, `length = int(s[i:j])`, body is
 `s[j+1 : j+1+length]`, then `i = j+1+length`. `index` over `find` so malformed
 input raises instead of slicing garbage.
 
-**Next re-solve:** 2026-09-27 (write the `index`-based decoder cold; state the
+**Next re-solve:** 2026-09-27, talk-through only (write the `index`-based decoder cold; state the
 escaping vs fixed-width vs length-prefix trade-off unprompted).
