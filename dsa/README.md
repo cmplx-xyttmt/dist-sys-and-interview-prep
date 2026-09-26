@@ -27,7 +27,7 @@ end you return) rather than the find-the-element form.
 | [Longest Repeating Character Replacement](./longest-repeating-character-replacement.md) | sliding window + 26 counts | 2026-09-20 | 2026-09-27 (code) |
 | [Permutation in String](./permutation-in-string.md) | fixed-size sliding window + 26 counts | 2026-09-21 | 2026-09-27 (talk-through) |
 | [Minimum Window Substring](./minimum-window-substring.md) | sliding window, shrink while valid | 2026-09-25 | 2026-10-02 (code) |
-| [Sliding Window Maximum](./sliding-window-maximum.md) | fixed window max, lazy-deletion heap (O(n) pending) | 2026-09-26 | 2026-10-03 (code) |
+| [Sliding Window Maximum](./sliding-window-maximum.md) | fixed window max, monotonic deque | 2026-09-26 | 2026-10-03 (code) |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | 2026-10-01 (O(n) staircase count required) |
 
 **Re-solve policy (set 2026-09-26, Isaac's call).** The full list was overdue and
