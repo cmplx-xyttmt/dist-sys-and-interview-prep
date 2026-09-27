@@ -1,0 +1,52 @@
+{
+ "tracker": {
+  "version": 2,
+  "updated_at": "2026-09-27T15:06:38+03:00",
+  "by": "page",
+  "note": "",
+  "summary": "20 problems done · 0/57 milestones",
+  "stale": []
+ },
+ "state": {
+  "tasks": {},
+  "metrics": {},
+  "quiz": {},
+  "game": {
+   "best": 0
+  },
+  "lastTab": "schedule",
+  "items": {
+   "p-contains-duplicate": true,
+   "p-valid-anagram": true,
+   "p-two-sum": true,
+   "p-group-anagrams": true,
+   "p-top-k-frequent-elements": true,
+   "p-encode-and-decode-strings": true,
+   "p-product-of-array-except-self": true,
+   "p-valid-sudoku": true,
+   "p-longest-consecutive-sequence": true,
+   "p-valid-palindrome": true,
+   "p-two-sum-ii-input-array-is-sorted": true,
+   "p-3sum": true,
+   "p-container-with-most-water": true,
+   "p-trapping-rain-water": true,
+   "p-best-time-to-buy-and-sell-stock": true,
+   "p-longest-substring-without-repeating-characters": true,
+   "p-longest-repeating-character-replacement": true,
+   "p-permutation-in-string": true,
+   "p-minimum-window-substring": true,
+   "p-sliding-window-maximum": true
+  },
+  "notes": {},
+  "recent": [
+   "p-sliding-window-maximum",
+   "p-minimum-window-substring",
+   "p-permutation-in-string",
+   "p-longest-repeating-character-replacement",
+   "p-longest-substring-without-repeating-characters",
+   "p-best-time-to-buy-and-sell-stock",
+   "p-trapping-rain-water",
+   "p-container-with-most-water"
+  ]
+ }
+}

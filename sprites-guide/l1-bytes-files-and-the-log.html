@@ -37,7 +37,7 @@
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l1 &amp;&amp; claude</code>, then type <b>start</b>.
-It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul><li>the three places a written byte can be before it is safe: your program's own buffer (Python's file object), the kernel's page cache, and the disk. Which crash loses which: a killed process loses only its own buffer; a power cut or kernel crash loses the page cache too; only <b>fsync</b> (the system call that forces the page cache to disk) protects against the last one</li><li>what <b>SQLite</b> is: one file, organised as fixed-size pages arranged in a <b>B-tree</b> (a sorted, shallow tree of pages), read and written by a library inside your process rather than a separate server</li><li>what a <b>write-ahead log</b> (WAL) is: every change is appended to a log and made durable <i>before</i> the main structure is updated, so a crash mid-update loses nothing that was acknowledged</li><li>why "append to a log, then apply" is the move underneath every durable system in the explainer: SQLite's WAL, Litestream, and the storage stack's metadata layer</li></ul>
@@ -56,7 +56,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <details class="hint"><summary>Hint · If trial A loses nothing</summary><p>Python flushes a file buffer when it fills (about 8 KB by default). If each value is small and the loop is fast, the kill may land just after a flush. Use 4 KB values so most kills land mid-buffer, or set <code>open(..., buffering=1 &lt;&lt; 20)</code> to make the buffer 1 MB and the loss obvious.</p></details>
 
 
-<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in <code>rungs/l1/progress.json</code>: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
+<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in the tracker: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
 
 <h2 id="showcase">4 · In the showcase project</h2>
 <p>The course agent's <code>progress.json</code> and review queue in the showcase are exactly the kind of small state a SQLite file with a write-ahead log is for. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
@@ -71,6 +71,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 
 </main>
 <footer class="pager" data-auto></footer>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>

@@ -4,14 +4,17 @@
 section heading of explainer.html (which is otherwise hand-edited).
 
 It also writes rungs/<id>/CLAUDE.md for every rung: the tutor a Claude session reads when Isaac runs
-`claude` in that folder (and an empty rungs/<id>/progress.json if none exists; never overwritten).
+`claude` in that folder. Progress for every rung lives in one file, sprites-guide/progress.json,
+kept by the acu2brain tracker (~/Projects/acu2brain-tracker/): the pages read and write it through
+the tracker's client.js, and tutor sessions write it with the tracker's track.py (Sep 27, 2026;
+before that each rung had its own rungs/<id>/progress.json, which no session ever wrote).
 
 index.html is hand-written. assets/progress.js holds the sidebar's copy of the curriculum
 (id, slug, title, blurb, the passing sentence); keep the two in step when a slug or a check changes.
 Run:  python3 build.py
 
 Sep 24, 2026: guess boxes, tick boxes and the self-graded checkpoint widget removed from the rung
-pages. Guesses and recall go to the tutor; progress.json is the only record of a rung.
+pages. Guesses and recall go to the tutor; the tracker's progress.json is the only record of a rung.
 
 Revised Sep 18, 2026 (09:30) after an independent read-through: L1's crash model, L5's overlay
 mount, L2's checkpoint size, the schedule, and every term used before it was defined.
@@ -314,8 +317,8 @@ def page(r, i):
     if r["id"] in SESSIONS:
         body = ('<h2 id="work">2 · Work through it, in order</h2>\n'
                 '<p class="srcnote">Read a little, then do a little. Step 0 starts the tutor; it keeps your place in '
-                f'<code>rungs/{folder}/progress.json</code>.</p>\n' + sessions_html(r) + "\n" + hint)
-        passing = ("The tutor checks the evidence and records it in <code>rungs/l0/progress.json</code>: it runs "
+                'the acu2brain tracker, so the sidebar here shows what the tutor recorded.</p>\n' + sessions_html(r) + "\n" + hint)
+        passing = ("The tutor checks the evidence and records it in the tracker: it runs "
                    "<code>check.py</code> itself (all five lines must say PASS) and goes over your five lines from step 11 "
                    "against <code>compare.json</code>. You don't mark the rung passed yourself.")
     else:
@@ -332,7 +335,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 </div>
 {hint}
 """
-        passing = (f"The tutor checks the evidence and records it in <code>rungs/{folder}/progress.json</code>: the "
+        passing = (f"The tutor checks the evidence and records it in the tracker: the "
                    "numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.")
     nb = (3, 4, 5) if r["id"] in SESSIONS else (4, 5, 6)
     docker = " &amp;&amp; open -a Docker" if r["id"] == "L0" else ""
@@ -375,7 +378,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/{folder}{docker} &amp;&amp; claude</code>, then type <b>start</b>.
-It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul>{say}</ul>
@@ -397,6 +400,7 @@ It asks the questions on this page, tells you what you got right and wrong, and 
 
 </main>
 <footer class="pager" data-auto></footer>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>
@@ -438,6 +442,7 @@ def explainer_map():
 </table>
 {bets}
 </main>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>
@@ -510,6 +515,7 @@ def showcase():
 The source text is <code>curriculum-edtech/course-from-a-link-on-sprites.md</code>; edit that and run <code>build.py</code>.</div>
 {body}
 </main>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>
@@ -606,7 +612,7 @@ WRITE = {
 #   kind ("read" or "do"), title, mins, body (HTML), guess (questions for the tutor to ask before the
 #   reading or the prediction, optional), check (the check.py step name, optional).
 # Since Sep 24, 2026 there are no boxes or ticks: guesses and recall happen in a tutor session
-# (rungs/<id>/CLAUDE.md, generated below), and rungs/<id>/progress.json is the only record.
+# (rungs/<id>/CLAUDE.md, generated below), and the tracker's sprites-guide/progress.json is the only record.
 # The starter code and check.py for each rung live in rungs/<id>/; step numbers match check.py's names.
 OSTEP = "https://pages.cs.wisc.edu/~remzi/OSTEP/"
 SESSIONS = {
@@ -618,7 +624,7 @@ SESSIONS = {
     'until step 6, so start it first. Then open the tutor: a Claude session in the rung\'s folder that knows these steps. '
     'Copy and paste this into a terminal:</p>'
     '<pre class="term">cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l0 &amp;&amp; open -a Docker &amp;&amp; claude</pre>'
-    '<p>Then type <b>start</b>. The tutor reads <code>progress.json</code> in that folder, tells you which step you are on, and '
+    '<p>Then type <b>start</b>. The tutor reads your progress from the tracker, tells you which step you are on, and '
     'runs it with you: it asks the "before you read" questions on this page, tells you what you got right and wrong, and asks a '
     'question or two after each reading. It gives hints on the do-steps, not answers. Ask it about any word you don\'t know.</p>'
     '<p>To run a command, use a second terminal tab in the same folder, or type it into the tutor with a <code>!</code> in front '
@@ -821,8 +827,9 @@ TUTOR_RULES = """## How to run a session
 You are Isaac's tutor for this rung. He opens `claude` in this folder and says "start" (or anything
 like it). Then:
 
-1. Read `progress.json` in this folder. The current step is the lowest-numbered step that is not
-   done. Tell him in one line which step he is on and what it is, for example: "You're on step 3,
+1. Read his progress: `python3 ~/Projects/acu2brain-tracker/track.py show sprites levels.{rid}` (it prints nothing useful, or an
+   error, if no step is recorded yet: then he is on step 0). The current step is the lowest-numbered
+   step that is not done. Tell him in one line which step he is on and what it is, for example: "You're on step 3,
    A file's size versus the disk it takes." If a step was left half-done (a long download, a check
    still failing), say so and offer to finish it first.
 2. Run that step with him, as a conversation, one question at a time:
@@ -841,32 +848,42 @@ like it). Then:
 3. **Explain any word he doesn't know** in plain words, in two or three sentences, with one concrete
    command he can run to see the thing (for example `ps aux | head` for "process"). If the rung's
    reading covers it, say where.
-4. **After each step**, update `progress.json` (see the schema below): mark the step done with the
-   time and a one-line note on what he got right or wrong. Write the file straight away, so the
-   next session picks up from here.
+4. **After each step**, record it with the command under "Recording progress" below: mark the step
+   done with the time and a one-line note on what he got right or wrong. Run it straight away, not
+   at the end, so the next session picks up from here and any page he has open shows it within a
+   second. This step is not optional: a session that ran steps and recorded none is a failed session.
 5. **At the end of the session**, when he says he's stopping or the half is finished, print one line
    he can paste into his Log, in this shape:
    `Sprites <rung>: steps a to b done; <what he got wrong and now understands>; next: step c.`
-   Print it only. Don't edit any file outside this folder.
+   Print it only. Don't edit any file outside this folder; the one exception is progress, recorded
+   through the tracker's command below.
 
 ## Passing the rung
 
 He doesn't mark the rung passed himself. You check the evidence:
 {pass_rule}
-When all of it holds, set `"passed": true`, `"passed_at"` to the date, and `"evidence"` to a short
-record of the numbers and lines that passed. If something is missing, say exactly what, and leave
-`passed` false.
+When all of it holds, record the evidence and the pass (commands below). If something is missing,
+say exactly what, and don't record the pass.
 
-## progress.json
+## Recording progress
 
-```json
-{{"rung": "{rid}",
- "steps": {{"0": {{"done": true, "at": "2026-09-25T19:42", "note": "one line: what he got right or wrong"}}}},
- "passed": false, "passed_at": null, "evidence": ""}}
+Progress for all rungs lives in `~/Projects/dist-sys-interview-prep/sprites-guide/progress.json`,
+kept by the acu2brain tracker. Don't edit that file by hand; use its command, which bumps the
+version and stamps who wrote it, so an open page shows the change:
+
+```
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.{rid}.steps.3 '{{"done": true, "at": "2026-09-25T19:42", "note": "one line: what he got right or wrong"}}' --by "tutor session" --note "{rid} step 3 done"
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.{rid}.evidence '"short record of the numbers and lines that passed"' --by "tutor session" --note "{rid} evidence"
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.{rid}.done true --by "tutor session" --note "{rid} passed"
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.{rid}.doneAt '"2026-09-25"' --by "tutor session" --note "{rid} passed"
 ```
 
-Step keys are the step numbers below, as strings. Get the time with `date +%Y-%m-%dT%H:%M`. Keep
-notes to one line. Never delete a note he earned in an earlier session.
+Step keys are the step numbers below. Get the time with `date +%Y-%m-%dT%H:%M`. The `--note` is what
+the page and the hub show ("{rid} step 3 done · tutor session, 19:42"), so keep it short. Keep step
+notes to one line. Never overwrite a note he earned in an earlier session. The context that helps the
+next slot (what he got stuck on, what to recap) goes in the Log line below, as before, not in the file.
+If this rung's steps change in a re-cut, the page shows a yellow note for ids it no longer knows;
+leave the old ids, and tell Isaac.
 
 ## How to talk
 
@@ -933,9 +950,6 @@ def write_tutors(here):
         d = here / "rungs" / r["id"].lower()
         d.mkdir(parents=True, exist_ok=True)
         (d / "CLAUDE.md").write_text(tutor_md(r))
-        p = d / "progress.json"
-        if not p.exists():
-            p.write_text(json.dumps({"rung": r["id"], "steps": {}, "passed": False, "passed_at": None, "evidence": ""}, indent=1) + "\n")
 
 
 if __name__ == "__main__":

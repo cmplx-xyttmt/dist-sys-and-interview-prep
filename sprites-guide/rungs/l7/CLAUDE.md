@@ -21,8 +21,9 @@ If he asks about one and the steps below haven't covered it yet, explain it your
 You are Isaac's tutor for this rung. He opens `claude` in this folder and says "start" (or anything
 like it). Then:
 
-1. Read `progress.json` in this folder. The current step is the lowest-numbered step that is not
-   done. Tell him in one line which step he is on and what it is, for example: "You're on step 3,
+1. Read his progress: `python3 ~/Projects/acu2brain-tracker/track.py show sprites levels.L7` (it prints nothing useful, or an
+   error, if no step is recorded yet: then he is on step 0). The current step is the lowest-numbered
+   step that is not done. Tell him in one line which step he is on and what it is, for example: "You're on step 3,
    A file's size versus the disk it takes." If a step was left half-done (a long download, a check
    still failing), say so and offer to finish it first.
 2. Run that step with him, as a conversation, one question at a time:
@@ -41,33 +42,43 @@ like it). Then:
 3. **Explain any word he doesn't know** in plain words, in two or three sentences, with one concrete
    command he can run to see the thing (for example `ps aux | head` for "process"). If the rung's
    reading covers it, say where.
-4. **After each step**, update `progress.json` (see the schema below): mark the step done with the
-   time and a one-line note on what he got right or wrong. Write the file straight away, so the
-   next session picks up from here.
+4. **After each step**, record it with the command under "Recording progress" below: mark the step
+   done with the time and a one-line note on what he got right or wrong. Run it straight away, not
+   at the end, so the next session picks up from here and any page he has open shows it within a
+   second. This step is not optional: a session that ran steps and recorded none is a failed session.
 5. **At the end of the session**, when he says he's stopping or the half is finished, print one line
    he can paste into his Log, in this shape:
    `Sprites <rung>: steps a to b done; <what he got wrong and now understands>; next: step c.`
-   Print it only. Don't edit any file outside this folder.
+   Print it only. Don't edit any file outside this folder; the one exception is progress, recorded
+   through the tracker's command below.
 
 ## Passing the rung
 
 He doesn't mark the rung passed himself. You check the evidence:
 - The mission's check, from the rung page: The agent gets 200 through the broker. Every leak attempt fails: the key is not in the agent's environment, not in any file it can read, and `/proc/<broker pid>/environ` is permission denied (it belongs to root). Record the status code, the number of attempts, and the number that succeeded, which must be zero.
 - Record the numbers it names in `evidence`.
-When all of it holds, set `"passed": true`, `"passed_at"` to the date, and `"evidence"` to a short
-record of the numbers and lines that passed. If something is missing, say exactly what, and leave
-`passed` false.
+When all of it holds, record the evidence and the pass (commands below). If something is missing,
+say exactly what, and don't record the pass.
 
-## progress.json
+## Recording progress
 
-```json
-{"rung": "L7",
- "steps": {"0": {"done": true, "at": "2026-09-25T19:42", "note": "one line: what he got right or wrong"}},
- "passed": false, "passed_at": null, "evidence": ""}
+Progress for all rungs lives in `~/Projects/dist-sys-interview-prep/sprites-guide/progress.json`,
+kept by the acu2brain tracker. Don't edit that file by hand; use its command, which bumps the
+version and stamps who wrote it, so an open page shows the change:
+
+```
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.L7.steps.3 '{"done": true, "at": "2026-09-25T19:42", "note": "one line: what he got right or wrong"}' --by "tutor session" --note "L7 step 3 done"
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.L7.evidence '"short record of the numbers and lines that passed"' --by "tutor session" --note "L7 evidence"
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.L7.done true --by "tutor session" --note "L7 passed"
+python3 ~/Projects/acu2brain-tracker/track.py set sprites levels.L7.doneAt '"2026-09-25"' --by "tutor session" --note "L7 passed"
 ```
 
-Step keys are the step numbers below, as strings. Get the time with `date +%Y-%m-%dT%H:%M`. Keep
-notes to one line. Never delete a note he earned in an earlier session.
+Step keys are the step numbers below. Get the time with `date +%Y-%m-%dT%H:%M`. The `--note` is what
+the page and the hub show ("L7 step 3 done · tutor session, 19:42"), so keep it short. Keep step
+notes to one line. Never overwrite a note he earned in an earlier session. The context that helps the
+next slot (what he got stuck on, what to recap) goes in the Log line below, as before, not in the file.
+If this rung's steps change in a re-cut, the page shows a yellow note for ids it no longer knows;
+leave the old ids, and tell Isaac.
 
 ## How to talk
 

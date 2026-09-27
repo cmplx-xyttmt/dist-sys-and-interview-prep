@@ -37,7 +37,7 @@
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l3 &amp;&amp; claude</code>, then type <b>start</b>.
-It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul><li>the <b>object storage</b> model, as Amazon S3 defines it: a flat namespace of keys inside a bucket, whole-object PUT and GET, no partial in-place writes, strong read-after-write consistency since December 2020, tens of milliseconds a call, very cheap per byte</li><li>the latency gap: a read from the server's local <b>NVMe</b> drive (the fast solid-state disk attached directly to the machine) takes around a hundred microseconds; an object-storage read takes tens of milliseconds, so a few hundred times slower</li><li>what a <b>read-through cache</b> is (on a miss, fetch from the slow store and keep a copy; on a hit, serve the copy) and what <b>cache invalidation</b> is (knowing when a copy has gone stale)</li><li>why immutable, content-addressed chunks make invalidation disappear: a chunk under a given hash never changes, so a cached chunk is never stale, so the cache can be thrown away and refilled at will</li><li>what <b>dm-cache</b> is in one paragraph: a Linux block-layer cache that puts a fast disk in front of a slow one, which is what the explainer compares the NVMe layer to</li></ul>
@@ -56,7 +56,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <details class="hint"><summary>Hint · If MinIO on Docker Desktop feels slow</summary><p>It will be slower than real S3 in some ways and faster in others (no network). The ratio is what you are after, not absolute numbers. For a realistic cold read, add <code>time.sleep(0.02)</code> per GET to simulate a 20 ms round trip.</p></details>
 
 
-<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in <code>rungs/l3/progress.json</code>: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
+<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in the tracker: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
 
 <h2 id="showcase">4 · In the showcase project</h2>
 <p>The Sprite's disk is object storage behind a local cache; phase P4's cost table in the showcase comes from the hot and cold storage prices this rung explains. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
@@ -71,6 +71,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 
 </main>
 <footer class="pager" data-auto></footer>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>

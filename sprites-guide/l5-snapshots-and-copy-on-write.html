@@ -37,7 +37,7 @@
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l5 &amp;&amp; claude</code>, then type <b>start</b>.
-It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul><li>what <b>copy-on-write</b> means: readers share one copy; a writer gets a private copy of only the part it changes</li><li>how an <b>overlay filesystem</b> works: a read-only lower directory, a writable upper directory holding only the changes, a work directory the kernel uses internally, and a merged view that shows both</li><li>why a virtual-machine <b>snapshot</b> can be taken in milliseconds (memory and disk are marked copy-on-write rather than copied) and what Firecracker's snapshot and restore do</li><li>why <b>forking</b> a disk from a snapshot is cheap, and why Sprites cannot yet do it natively: restore is in-place, and fork-from-checkpoint is a requested feature as of mid-2026. The explainer's section 05 describes forking as if it shipped; treat that paragraph as the plan, not the product</li></ul>
@@ -56,7 +56,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <details class="hint"><summary>Hint · If mount says wrong fs type or invalid argument</summary><p>Your upper or work directory is on the container's overlay root. Check <code>df .</code> shows tmpfs. If it says operation not permitted instead, you forgot <code>--privileged</code>. Either way the friction is the point: filesystems are a kernel matter, which is what rung L0 said.</p></details>
 
 
-<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in <code>rungs/l5/progress.json</code>: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
+<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in the tracker: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
 
 <h2 id="showcase">4 · In the showcase project</h2>
 <p>Phase P2's "regenerate this section" in the showcase is restore-then-rerun, and the missing native fork is why creating a learner's Sprite is a bootstrap script rather than a copy of a template. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
@@ -71,6 +71,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 
 </main>
 <footer class="pager" data-auto></footer>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>

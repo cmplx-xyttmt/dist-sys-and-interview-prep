@@ -37,7 +37,7 @@
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l6 &amp;&amp; claude</code>, then type <b>start</b>.
-It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul><li>how a <b>gossip protocol</b> spreads a fact: each node tells a few random peers each round, so the whole fleet knows in a number of rounds proportional to the logarithm of its size</li><li>what <b>SWIM</b> (Scalable Weakly-consistent Infection-style process group Membership, the 2002 protocol behind Serf and Consul) does: nodes ping each other and gossip about who is alive</li><li>what a <b>CRDT</b> (conflict-free replicated data type) is: a data structure whose replicas can be updated independently and always merge to the same result, without a coordinator</li><li>what <b>service discovery</b> means (finding which machine currently serves a name), and how a Sprite's public URL finds the physical host it lives on right now: Fly's <b>Corrosion</b> gossips that mapping across the fleet</li></ul>
@@ -56,7 +56,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <details class="hint"><summary>Hint · If 3c fails under partition</summary><p>Two bugs cover most failures: you send once and never retry, or you retry and count duplicates. Keep a set of seen message ids, and keep a per-neighbour queue of unacknowledged messages that you resend on a timer.</p></details>
 
 
-<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in <code>rungs/l6/progress.json</code>: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
+<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in the tracker: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
 
 <h2 id="showcase">4 · In the showcase project</h2>
 <p>Every learner's course URL in the showcase finds its Sprite through Corrosion; nothing to build, but it is why the URL survives the Sprite moving to another host. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
@@ -71,6 +71,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 
 </main>
 <footer class="pager" data-auto></footer>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>

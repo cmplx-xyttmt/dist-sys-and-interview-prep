@@ -37,7 +37,7 @@
 <p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/l2 &amp;&amp; claude</code>, then type <b>start</b>.
-It asks the questions on this page, tells you what you got right and wrong, and keeps your place in <code>progress.json</code>.</p>
+It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
 
 <h2 id="say">1 · After this rung you can say</h2>
 <ul><li>what a <b>cryptographic hash</b> (such as SHA-256) gives you here: a fixed-size name that is a function of the content, so two identical blobs get one name and a changed blob gets a new one</li><li>what <b>content addressing</b> means: store each blob under its hash. A blob under a given name can never change, so a copy of it can never be out of date</li><li>how <b>git</b> stores a repository as a graph of immutable objects (blobs, trees, commits) and why a commit is cheap: it is a few pointers over objects that already exist</li><li>why <b>deduplication</b> falls out for free, and why a <b>snapshot</b> of content-addressed data is a small manifest (a list of names) rather than a copy of the data</li><li>what <b>JuiceFS</b> is, since the explainer's storage section is built on its model: a filesystem that stores file data as chunks in object storage and the metadata (which chunks make up which file) in a separate database. The same split as Google's 2003 <b>GFS</b> paper, which had one metadata server and many chunk servers</li></ul>
@@ -56,7 +56,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <details class="hint"><summary>Hint · If the near-duplicate adds many chunks</summary><p>You changed the start of the file, or the chunk boundary shifted. Fixed-size chunking only deduplicates when the change is at the end; that is exactly why real systems (JuiceFS included) split on content rather than at fixed offsets. Note it and move on; content-defined chunking is a rabbit hole for another day.</p></details>
 
 
-<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in <code>rungs/l2/progress.json</code>: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
+<div class="callout" id="passing"><strong>Passing this rung</strong>The tutor checks the evidence and records it in the tracker: the numbers and sentences the check above asks for, discussed with you. You don't mark the rung passed yourself.</div>
 
 <h2 id="showcase">4 · In the showcase project</h2>
 <p>A Sprite checkpoint is this rung's manifest at machine scale; phase P2 of the showcase uses checkpoints as undo between generation stages. See <a href="showcase.html">Course from a link, on Sprites</a>.</p>
@@ -71,6 +71,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 
 </main>
 <footer class="pager" data-auto></footer>
+<script src="../../acu2brain-tracker/client.js"></script>
 <script src="assets/progress.js"></script>
 </body>
 </html>

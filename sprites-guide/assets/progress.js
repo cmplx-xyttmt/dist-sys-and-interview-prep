@@ -157,22 +157,43 @@
 
   function blank() { return { v: 1, levels: {}, days: [], ticks: {}, notes: {} }; }
 
+  // Since Sep 27 2026 the state lives in sprites-guide/progress.json, served by the acu2brain
+  // tracker (acu2brain-tracker/client.js, loaded by each page just before this file). Tutor
+  // sessions write the same file with acu2brain-tracker/track.py (levels.<id>.steps, .done),
+  // so this page finally shows what they record. KEY is the old localStorage key.
+  function passedIds(s) {
+    var out = [];
+    for (var i = 0; i < CURRICULUM.length; i++) if (s.levels[CURRICULUM[i].id] && s.levels[CURRICULUM[i].id].done) out.push(CURRICULUM[i].id);
+    return out;
+  }
+  var TRACKER = window.Acu2brain ? window.Acu2brain.open("sprites", {
+    summary: function (s) {
+      var p = passedIds(s), next = null;
+      for (var i = 0; i < CURRICULUM.length; i++) if (p.indexOf(CURRICULUM[i].id) === -1) { next = CURRICULUM[i].id; break; }
+      var steps = next && s.levels[next] && s.levels[next].steps ? Object.keys(s.levels[next].steps).length : 0;
+      return (p.length ? "passed " + p.join(", ") : "no rung passed yet") + (next ? " · " + next + (steps ? " at " + steps + " steps done" : " next") : "");
+    },
+    stale: function (s) {
+      var ids = CURRICULUM.map(function (L) { return L.id; });
+      return Object.keys(s.levels || {}).filter(function (k) { return ids.indexOf(k) === -1; });
+    },
+    onChange: function (s) { TRACKER.state = s; init(); }
+  }) : null;
+
   function load() {
-    try {
-      var raw = localStorage.getItem(KEY);
-      if (!raw) return blank();
-      var s = JSON.parse(raw);
-      if (!s || !s.levels) return blank();
-      if (!s.days) s.days = [];
-      if (!s.ticks) s.ticks = {};
-      if (!s.notes) s.notes = {};
-      return s;
-    } catch (e) { return blank(); }
+    var s = TRACKER && TRACKER.state ? JSON.parse(JSON.stringify(TRACKER.state)) : blank();
+    s.v = s.v || 1;
+    if (!s.levels) s.levels = {};
+    if (!s.days) s.days = [];
+    if (!s.ticks) s.ticks = {};
+    if (!s.notes) s.notes = {};
+    return s;
   }
 
-  function save(s) {
-    try { localStorage.setItem(KEY, JSON.stringify(s)); }
-    catch (e) { alert("Could not save progress: " + e.message); }
+  function save(s, note) {
+    if (!TRACKER) return Promise.resolve();
+    TRACKER.state = JSON.parse(JSON.stringify(s)); // so the next load() sees it before the server answers
+    return TRACKER.save(s, note);
   }
 
   function today() { return new Date().toISOString().slice(0, 10); }
@@ -266,7 +287,7 @@
           var f = inp.files[0]; if (!f) return;
           var r = new FileReader();
           r.onload = function () {
-            try { save(JSON.parse(r.result)); location.reload(); }
+            try { save(JSON.parse(r.result), "imported a backup").then(function () { location.reload(); }); }
             catch (e) { alert("That is not a progress file: " + e.message); }
           };
           r.readAsText(f);
@@ -274,7 +295,7 @@
         inp.click();
       } else if (act === "reset") {
         if (confirm("Erase all rung checkpoints, ticks and attempt history? Export first if you want it back.")) {
-          localStorage.removeItem(KEY); location.reload();
+          save(blank(), "reset all progress").then(function () { location.reload(); });
         }
       }
     });
@@ -369,14 +390,14 @@
     for (i = 0; i < crits.length; i++) crits[i].addEventListener("change", function (ev) {
       var st = load(), tid = ev.target.getAttribute("data-crit");
       if (ev.target.checked) st.ticks[tid] = today(); else delete st.ticks[tid];
-      touch(st); save(st); buildSidebar();
+      touch(st); save(st, (ev.target.checked ? "ticked " : "unticked ") + tid); buildSidebar();
     });
     mount.querySelector('[data-a="log"]').onclick = function () {
       var st = load(), en = lvl(st, id), any = false, fields = {};
       for (var k in (en.evidence || {})) if (en.evidence[k]) { fields[k] = en.evidence[k]; any = true; }
       if (!any) { alert("Fill in at least one evidence field first. A run without its numbers is a feeling."); return; }
       en.attempts.push({ at: today(), fields: fields, note: mount.querySelector('[data-f="note"]').value.trim() });
-      touch(st); save(st); renderCp(mount); buildSidebar();
+      touch(st); save(st, id + ": attempt logged"); renderCp(mount); buildSidebar();
     };
     mount.querySelector('[data-a="done"]').onclick = function () {
       var st = load(), en = lvl(st, id);
@@ -387,7 +408,7 @@
       }
       en.done = !en.done;
       en.doneAt = en.done ? today() : null;
-      touch(st); save(st); renderCp(mount); buildSidebar(); buildTree();
+      touch(st); save(st, id + (en.done ? " marked passed" : " unmarked")); renderCp(mount); buildSidebar(); buildTree();
     };
   }
 
@@ -410,7 +431,7 @@
         var st = load(), tid = ev.target.getAttribute("data-tick");
         if (ev.target.checked) st.ticks[tid] = today(); else delete st.ticks[tid];
         if (ev.target.parentNode) ev.target.parentNode.classList.toggle("ticked", ev.target.checked);
-        touch(st); save(st); buildSidebar();
+        touch(st); save(st, (ev.target.checked ? "ticked " : "unticked ") + tid); buildSidebar();
       });
     }
   }

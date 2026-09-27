@@ -294,7 +294,7 @@
   </div>
   <div class="card">
     <h3>Backup / restore progress</h3>
-    <p class="note">State lives in this browser's localStorage — export weekly (Sunday review) and keep the JSON in the repo.</p>
+    <p class="note">State lives in <code>dist-sys-interview-prep/progress.json</code>, saved through the acu2brain tracker on every change and committed at <code>/shutdown</code>.</p>
     <p style="margin:10px 0"><button class="btn" onclick="exportState()">Export JSON</button> <button class="btn ghost" onclick="document.getElementById('import-area').style.display='block'">Import…</button> <button class="btn ghost" onclick="resetAll()">Reset all</button></p>
     <div id="import-area" style="display:none"><textarea id="import-text" placeholder="Paste exported JSON here"></textarea><p style="margin-top:8px"><button class="btn" onclick="importState()">Load</button></p></div>
   </div>
@@ -303,13 +303,18 @@
 </div>
 <footer>Living doc · v3 (restarted Sep 4, 2026 — trigger-based checkpoints, season-driven hours) · companion to ROADMAP.md / PROGRESS.md</footer>
 
+<script src="/acu2brain-tracker/client.js"></script>
 <script>
 'use strict';
-const KEY='dsprep-v1';
-let S; try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
-S.tasks=S.tasks||{}; S.items=S.items||{}; S.recent=S.recent||[]; S.metrics=S.metrics||{}; S.quiz=S.quiz||{}; S.game=S.game||{best:0}; S.notes=S.notes||{};
-const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
-function resetAll(){if(confirm('Wipe ALL progress, notes and quiz answers from this browser? (Export a backup first if in doubt.)')){localStorage.removeItem(KEY);location.reload()}}
+// Progress lives in dist-sys-interview-prep/progress.json, served by the acu2brain tracker (acu2brain-tracker/).
+const norm=s=>{s=s||{};s.tasks=s.tasks||{};s.items=s.items||{};s.recent=s.recent||[];s.metrics=s.metrics||{};s.quiz=s.quiz||{};s.game=s.game||{best:0};s.notes=s.notes||{};return s};
+const TRACKER=Acu2brain.open('dsprep',{
+  summary:s=>{const all=MONTHS.flatMap(m=>m.tasks);return `${Object.keys(s.items).filter(k=>k.startsWith('p-')&&s.items[k]===true).length} problems done · ${all.filter(t=>taskDone(t[0])).length}/${all.length} milestones`},
+  onChange:s=>{S=norm(s);renderAll();renderQuiz();renderQuizScore()}
+});
+let S=norm(TRACKER.state);
+const save=note=>TRACKER.save(S,note);
+function resetAll(){if(confirm('Wipe ALL progress, notes and quiz answers? (git has the old progress.json if you change your mind.)')){S=norm({});save('reset all progress');renderAll();renderQuiz();renderQuizScore()}}
 
 /* ================= DATA ================= */
 /* Checkpoints are scoreboard TRIGGERS (see ROADMAP §5); dates are projections at the
@@ -617,7 +622,7 @@ const LAT=[
 /* ================= HELPERS ================= */
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const isDone=id=>!!S.items[id];
-function setItem(id,val){S.items[id]=val;save();renderAll()}
+function setItem(id,val){S.items[id]=val;save((val===true?'done: ':'changed ')+id);renderAll()}
 function distribute(list,n){const out=Array.from({length:n},()=>[]);if(!list.length)return out;
   list.forEach((x,i)=>out[Math.floor(i*n/list.length)].push(x));return out}
 function fmtBar(cur,tgt){return tgt?Math.min(100,Math.round(100*cur/tgt)):0}
@@ -1116,8 +1121,8 @@ function importState(){
   try{
     const obj=JSON.parse(document.getElementById('import-text').value);
     if(!obj.tasks&&!obj.items&&!obj.metrics)throw new Error('not a progress export');
-    S=obj;S.tasks=S.tasks||{};S.items=S.items||{};S.metrics=S.metrics||{};S.quiz=S.quiz||{};S.game=S.game||{best:0};S.notes=S.notes||{};
-    save();location.reload();
+    S=norm(obj);
+    save('imported a backup').then(()=>location.reload());
   }catch(e){alert('Import failed: '+e.message)}
 }
 
