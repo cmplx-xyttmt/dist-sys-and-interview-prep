@@ -1,14 +1,24 @@
 {
  "tracker": {
-  "version": 3,
-  "updated_at": "2026-09-27T14:52:14+03:00",
-  "by": "test",
-  "note": "remove test step",
+  "version": 4,
+  "updated_at": "2026-09-28T08:16:44+03:00",
+  "by": "standup (backfill)",
+  "note": "L0 step 0 done (backfill)",
   "summary": "no rung passed yet",
   "stale": []
  },
  "state": {
   "v": 1,
-  "levels": {}
+  "levels": {
+   "L0": {
+    "steps": {
+     "0": {
+      "done": true,
+      "at": "2026-09-24T19:40",
+      "note": "set up, check.py walked through; step 1 read, its guess and recall questions not done yet"
+     }
+    }
+   }
+  }
  }
 }

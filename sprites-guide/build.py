@@ -375,7 +375,7 @@ reading, run the command alongside if there is one, and afterwards the tutor ask
 <p class="kicker">Rung {i} of {n-1} · {html.escape(r["tag"])} · {html.escape(r["hours"])}</p>
 <h1>{r["title"]}</h1>
 
-<p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 19:30, the second half the following Tuesday at 19:30.
+<p class="srcnote">One rung per week, in two sessions: the first half on Thursday at 07:15, the second half the following Tuesday at 07:15, before work.
 Work through it with the tutor, a Claude session that knows this rung:
 <code>cd ~/Projects/dist-sys-interview-prep/sprites-guide/rungs/{folder}{docker} &amp;&amp; claude</code>, then type <b>start</b>.
 It asks the questions on this page, tells you what you got right and wrong, and keeps your place in the tracker.</p>
@@ -845,14 +845,20 @@ like it). Then:
      function to look up, or ask what he expects a value to be and have him print it. When he thinks
      it's done, have him run the check (or run `python3 check.py <step>` yourself) and read the
      output with him.
-3. **Explain any word he doesn't know** in plain words, in two or three sentences, with one concrete
+3. **Break dense readings into small pieces.** Isaac found the textbook readings dense (OSTEP ch. 4 and 6 in
+   L0's step 1, Sep 24), and he learns by doing, not by reading. So never send him off to read a whole
+   section at once. Give him about one page or one subsection at a time, ask one check question or give
+   one small exercise (a command to run, a number to work out) on that piece, and only then send him to
+   the next piece. The acu-primer lessons work the same way: a short piece, then a check, then the next.
+   If a piece still doesn't land, explain it yourself and move on rather than making him re-read.
+4. **Explain any word he doesn't know** in plain words, in two or three sentences, with one concrete
    command he can run to see the thing (for example `ps aux | head` for "process"). If the rung's
    reading covers it, say where.
-4. **After each step**, record it with the command under "Recording progress" below: mark the step
+5. **After each step**, record it with the command under "Recording progress" below: mark the step
    done with the time and a one-line note on what he got right or wrong. Run it straight away, not
    at the end, so the next session picks up from here and any page he has open shows it within a
    second. This step is not optional: a session that ran steps and recorded none is a failed session.
-5. **At the end of the session**, when he says he's stopping or the half is finished, print one line
+6. **At the end of the session**, when he says he's stopping or the half is finished, print one line
    he can paste into his Log, in this shape:
    `Sprites <rung>: steps a to b done; <what he got wrong and now understands>; next: step c.`
    Print it only. Don't edit any file outside this folder; the one exception is progress, recorded
@@ -890,8 +896,8 @@ leave the old ids, and tell Isaac.
 Plain words and complete sentences. Short answers, then a question back to him. No em-dashes, no
 metaphors, no "great question". When he is wrong, say so directly and explain; when he is right,
 say what exactly was right. He learns by doing, so keep each reading short and get him back to a
-command or a line of code quickly. Evenings are his tired hours: if he says he's done, stop,
-save progress, and print the Log line.
+command or a line of code quickly. Sessions are at 07:15 and work follows at about 08:45, so
+watch the clock: at 08:40, or whenever he says he's done, stop, save progress, and print the Log line.
 """
 
 def pass_rule(r):
@@ -914,8 +920,10 @@ def tutor_md(r):
             s += f"\nDone when `python3 check.py {check}` says PASS.\n"
         steps.append(s)
     if r["id"] in SESSIONS:
-        layout = ("The steps are split into two halves: the first on Thursday at 19:30, the second the following "
-                  "Tuesday at 19:30. The starter files and `check.py` are in this folder; each do-step's file name "
+        layout = ("The steps are split into two halves: the first on Thursday at 07:15, the second the following "
+                  "Tuesday at 07:15 (mornings from Sep 28, 2026; a session has about 90 minutes and work starts after it). "
+                  "The steps keep their Thursday and Tuesday labels, but they are a suggestion, not a boundary: always "
+                  "start from the lowest step that isn't done, even if that step is in the other half. The starter files and `check.py` are in this folder; each do-step's file name "
                   "starts with its step number. The step text below is the page's, written to Isaac as \"you\"; "
                   "the notes for the tutor are yours.")
     else:
