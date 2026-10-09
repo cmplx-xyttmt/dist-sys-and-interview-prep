@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 2,
-  "updated_at": "2026-09-27T15:06:38+03:00",
+  "version": 4,
+  "updated_at": "2026-10-09T20:12:43+03:00",
   "by": "page",
-  "note": "",
-  "summary": "20 problems done · 0/57 milestones",
+  "note": "done: p-valid-parentheses",
+  "summary": "21 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -14,7 +14,7 @@
   "game": {
    "best": 0
   },
-  "lastTab": "schedule",
+  "lastTab": "work",
   "items": {
    "p-contains-duplicate": true,
    "p-valid-anagram": true,
@@ -35,7 +35,8 @@
    "p-longest-repeating-character-replacement": true,
    "p-permutation-in-string": true,
    "p-minimum-window-substring": true,
-   "p-sliding-window-maximum": true
+   "p-sliding-window-maximum": true,
+   "p-valid-parentheses": true
   },
   "notes": {},
   "recent": [
