@@ -11,24 +11,31 @@ end you return) rather than the find-the-element form.
 
 | Problem | Pattern | Solved | Next re-solve |
 |---|---|---|---|
-| [Group Anagrams](./group-anagrams.md) | canonical key | 2026-09-05 | 2026-09-26 (code, today) |
+| [Group Anagrams](./group-anagrams.md) | canonical key | 2026-09-05 | paused (was 2026-09-26 (code, today)) |
 | [Top K Frequent Elements](./top-k-frequent-elements.md) | count, then select | 2026-09-05 | with the Heap / Priority Queue group |
-| [Encode and Decode Strings](./encode-and-decode-strings.md) | length-prefix framing | 2026-09-06 | 2026-09-27 (talk-through) |
-| [Product of Array Except Self](./product-of-array-except-self.md) | prefix/suffix | 2026-09-06 | 2026-10-03 (code) |
+| [Encode and Decode Strings](./encode-and-decode-strings.md) | length-prefix framing | 2026-09-06 | paused (was 2026-09-27 (talk-through)) |
+| [Product of Array Except Self](./product-of-array-except-self.md) | prefix/suffix | 2026-09-06 | paused (was 2026-10-03 (code)) |
 | [Valid Sudoku](./valid-sudoku.md) | hash sets per constraint | 2026-09-08 | dropped |
-| [Longest Consecutive Sequence](./longest-consecutive-sequence.md) | set + start-of-run test | 2026-09-08 | 2026-09-29 (code) |
-| [Valid Palindrome](./valid-palindrome.md) | two pointers | 2026-09-09 | 2026-09-27 (talk-through) |
-| [Two Sum II](./two-sum-ii-input-array-is-sorted.md) | two pointers, sorted | 2026-09-10 | 2026-09-27 (talk-through) |
-| [3Sum](./3sum.md) | sort + fix one + two pointers | 2026-09-11 | 2026-09-30 (code) |
+| [Longest Consecutive Sequence](./longest-consecutive-sequence.md) | set + start-of-run test | 2026-09-08 | paused (was 2026-09-29 (code)) |
+| [Valid Palindrome](./valid-palindrome.md) | two pointers | 2026-09-09 | paused (was 2026-09-27 (talk-through)) |
+| [Two Sum II](./two-sum-ii-input-array-is-sorted.md) | two pointers, sorted | 2026-09-10 | paused (was 2026-09-27 (talk-through)) |
+| [3Sum](./3sum.md) | sort + fix one + two pointers | 2026-09-11 | paused (was 2026-09-30 (code)) |
 | [Container With Most Water](./container-with-most-water.md) | two pointers, elimination | 2026-09-11 | 2026-09-28 (code) |
 | [Trapping Rain Water](./trapping-rain-water.md) | prefix/suffix max, two pointers | 2026-09-13, re-solved 2026-09-23 | 2026-10-07 (code) |
 | [Best Time to Buy and Sell Stock](./best-time-to-buy-and-sell-stock.md) | running min | 2026-09-13 | dropped |
-| [Longest Substring Without Repeating Characters](./longest-substring-without-repeating-characters.md) | sliding window + set | 2026-09-15 | 2026-09-27 (talk-through) |
+| [Longest Substring Without Repeating Characters](./longest-substring-without-repeating-characters.md) | sliding window + set | 2026-09-15 | paused (was 2026-09-27 (talk-through)) |
 | [Longest Repeating Character Replacement](./longest-repeating-character-replacement.md) | sliding window + 26 counts | 2026-09-20 | 2026-09-27 (code) |
-| [Permutation in String](./permutation-in-string.md) | fixed-size sliding window + 26 counts | 2026-09-21 | 2026-09-27 (talk-through) |
+| [Permutation in String](./permutation-in-string.md) | fixed-size sliding window + 26 counts | 2026-09-21 | paused (was 2026-09-27 (talk-through)) |
 | [Minimum Window Substring](./minimum-window-substring.md) | sliding window, shrink while valid | 2026-09-25 | 2026-10-02 (code) |
 | [Sliding Window Maximum](./sliding-window-maximum.md) | fixed window max, monotonic deque | 2026-09-26, re-solved 2026-10-09 | 2026-10-23 (code, index-based) |
-| [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | 2026-10-01 (O(n) staircase count required) |
+| [Valid Parentheses](./valid-parentheses.md) | stack of unmatched openers | 2026-10-09 | none (clean) |
+| [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | paused (was 2026-10-01 (O(n) staircase count required)) |
+
+**Re-solves paused (2026-10-09, Isaac's call).** They were taking the DSA slot away from new
+problems. Everything is "paused" except the five that needed a hint or more than one attempt
+on the first solve (Container With Most Water, Trapping Rain Water, Character Replacement,
+Minimum Window Substring, Sliding Window Maximum); those keep their dates. The rest come back
+later, ideally surfaced by the acu2brain tracker on a spaced cadence rather than by this table.
 
 **Re-solve policy (set 2026-09-26, Isaac's call).** The full list was overdue and
 would have blocked new problems for a week, so it is split three ways. **Code** a
