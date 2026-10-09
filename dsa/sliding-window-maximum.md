@@ -42,5 +42,15 @@ monotonic-stack idea, and it comes back in the Stack group (Daily Temperatures, 
 Rectangle). The deque is a monotonic stack that also drops from the front when an
 element ages out.
 
-**Next re-solve:** 2026-10-03 (code; deque version cold, index-based, and say in one
-sentence why the deque stays sorted).
+**Re-solve 2026-10-09 (due 10-03): passed, unaided, first try.** Deque version from
+cold, 50k random tests OK. Order improved: the departing element is handled *before*
+the new one is appended, so the front check never sees the new value. Two things the
+re-solve asked for and didn't get. It is the value-based form again, not the
+index-based one; and a `left` pointer is tracked by hand for a window whose size is
+fixed, which is the Permutation in String miss repeated (`left` is `right - k`; drop
+`nums[right - k]` once `right >= k`, no pointer). The subtle-but-correct form came
+out twice now, so it is the one in the fingers; the index form still needs one
+deliberate pass.
+
+**Next re-solve:** 2026-10-23 (index-based, no left pointer, and the one sentence on
+why the deque stays sorted, said before coding).
