@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 4,
-  "updated_at": "2026-10-09T20:12:43+03:00",
+  "version": 7,
+  "updated_at": "2026-10-10T12:04:51+03:00",
   "by": "page",
-  "note": "done: p-valid-parentheses",
-  "summary": "21 problems done · 0/57 milestones",
+  "note": "",
+  "summary": "22 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -14,7 +14,7 @@
   "game": {
    "best": 0
   },
-  "lastTab": "work",
+  "lastTab": "schedule",
   "items": {
    "p-contains-duplicate": true,
    "p-valid-anagram": true,
@@ -36,18 +36,19 @@
    "p-permutation-in-string": true,
    "p-minimum-window-substring": true,
    "p-sliding-window-maximum": true,
-   "p-valid-parentheses": true
+   "p-valid-parentheses": true,
+   "p-min-stack": true
   },
   "notes": {},
   "recent": [
+   "p-min-stack",
    "p-sliding-window-maximum",
    "p-minimum-window-substring",
    "p-permutation-in-string",
    "p-longest-repeating-character-replacement",
    "p-longest-substring-without-repeating-characters",
    "p-best-time-to-buy-and-sell-stock",
-   "p-trapping-rain-water",
-   "p-container-with-most-water"
+   "p-trapping-rain-water"
   ]
  }
 }
