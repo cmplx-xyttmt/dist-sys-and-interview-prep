@@ -30,6 +30,7 @@ end you return) rather than the find-the-element form.
 | [Sliding Window Maximum](./sliding-window-maximum.md) | fixed window max, monotonic deque | 2026-09-26, re-solved 2026-10-09 | 2026-10-23 (code, index-based) |
 | [Valid Parentheses](./valid-parentheses.md) | stack of unmatched openers | 2026-10-09 | none (clean) |
 | [Min Stack](./min-stack.md) | second stack of running minimums | 2026-10-10 | none (clean) |
+| [Evaluate Reverse Polish Notation](./evaluate-reverse-polish-notation.md) | operand stack | 2026-10-11 | none (clean) |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | paused (was 2026-10-01 (O(n) staircase count required)) |
 
 **Re-solves paused (2026-10-09, Isaac's call).** They were taking the DSA slot away from new
