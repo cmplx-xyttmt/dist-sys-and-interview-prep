@@ -10,7 +10,11 @@ prepend `()p`, append `p()`. Correct through n=3 (all 5), misses one at n=4:
 three rules concatenates two of those. 34 of 42 at n=5. The build-from-smaller idea
 can be completed, though. Every valid string starts with `(`; the `)` that matches it
 splits the string into an inside part and an after part, both valid and smaller.
-That decomposition is exhaustive, and it is the Catalan recurrence.
+That decomposition is exhaustive, and it is the Catalan recurrence. Found it the
+same day from the hint: for k in 0..n-1, `"(" + a + ")" + b` with `a` of size k and
+`b` of size n-1-k, base case `gen(0) = [""]`. The match position is unique, so each
+string appears for exactly one k and no set is needed. The three rules were k=n-1,
+k=0, and one string of the general case.
 
 **Attempt 2 and 3 (passed):** enumerate all 2^(2n) bit masks, keep the valid ones.
 Validity is a counter: `+1` on `(`, `-1` on `)`, fail if it ever goes negative, pass
