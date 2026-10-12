@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 8,
-  "updated_at": "2026-10-11T19:58:30+03:00",
+  "version": 9,
+  "updated_at": "2026-10-13T00:06:45+03:00",
   "by": "page",
   "note": "",
-  "summary": "23 problems done · 0/57 milestones",
+  "summary": "24 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -38,18 +38,19 @@
    "p-sliding-window-maximum": true,
    "p-valid-parentheses": true,
    "p-min-stack": true,
-   "p-evaluate-reverse-polish-notation": true
+   "p-evaluate-reverse-polish-notation": true,
+   "p-generate-parentheses": true
   },
   "notes": {},
   "recent": [
+   "p-generate-parentheses",
    "p-evaluate-reverse-polish-notation",
    "p-min-stack",
    "p-sliding-window-maximum",
    "p-minimum-window-substring",
    "p-permutation-in-string",
    "p-longest-repeating-character-replacement",
-   "p-longest-substring-without-repeating-characters",
-   "p-best-time-to-buy-and-sell-stock"
+   "p-longest-substring-without-repeating-characters"
   ]
  }
 }
