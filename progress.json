@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 10,
-  "updated_at": "2026-10-14T18:49:05+03:00",
+  "version": 11,
+  "updated_at": "2026-10-17T13:51:17+03:00",
   "by": "page",
   "note": "",
-  "summary": "25 problems done · 0/57 milestones",
+  "summary": "26 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -40,18 +40,19 @@
    "p-min-stack": true,
    "p-evaluate-reverse-polish-notation": true,
    "p-generate-parentheses": true,
-   "p-daily-temperatures": true
+   "p-daily-temperatures": true,
+   "p-car-fleet": true
   },
   "notes": {},
   "recent": [
+   "p-car-fleet",
    "p-daily-temperatures",
    "p-generate-parentheses",
    "p-evaluate-reverse-polish-notation",
    "p-min-stack",
    "p-sliding-window-maximum",
    "p-minimum-window-substring",
-   "p-permutation-in-string",
-   "p-longest-repeating-character-replacement"
+   "p-permutation-in-string"
   ]
  }
 }
