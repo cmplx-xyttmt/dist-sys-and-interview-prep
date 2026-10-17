@@ -33,6 +33,7 @@ end you return) rather than the find-the-element form.
 | [Evaluate Reverse Polish Notation](./evaluate-reverse-polish-notation.md) | operand stack | 2026-10-11 | none (clean) |
 | [Generate Parentheses](./generate-parentheses.md) | backtracking, two counts (pending; passed by enumerate-and-filter) | 2026-10-13 | 2026-10-27 (code) |
 | [Daily Temperatures](./daily-temperatures.md) | monotonic stack | 2026-10-14 | none (clean) |
+| [Car Fleet](./car-fleet.md) | sort by position, sweep with the fleet leader | 2026-10-17 | none (clean) |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | paused (was 2026-10-01 (O(n) staircase count required)) |
 
 **Re-solves paused (2026-10-09, Isaac's call).** They were taking the DSA slot away from new
