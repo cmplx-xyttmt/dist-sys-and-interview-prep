@@ -74,4 +74,4 @@ Each step deletes a column or a row. Do not read the answer before trying it.
 "Find the element" is one instance. Before coding, write the F/T row for a small
 example and say out loud which end you want.
 
-**Re-solve 2026-10-01:** from scratch, and the count must be the O(n) staircase.
+**Re-solve 2026-10-01:** from scratch, and the count must be the O(n) staircase. Not done; re-solves paused 2026-10-09 (Isaac's call), so the O(n) staircase count is still untried.

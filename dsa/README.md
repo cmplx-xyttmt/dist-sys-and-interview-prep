@@ -4,6 +4,10 @@ One file per problem, named by LeetCode slug (matches `DSA_GROUPS` in
 `roadmap.html`). Each note is terse: problem, pattern, the missed insight,
 next re-solve date. Update the date here and in the note every re-solve.
 
+Before the 1-D Dynamic Programming group, read
+[Arithmetic Slices](./arithmetic-slices.md): counting by where a thing *ends* rather than
+where it starts, and the charging argument for an amortized O(n) scan.
+
 Before the Binary Search group, read
 [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md):
 it holds the monotone-predicate template (F...FT...T, two known sentinels, pick which
@@ -35,6 +39,7 @@ end you return) rather than the find-the-element form.
 | [Daily Temperatures](./daily-temperatures.md) | monotonic stack | 2026-10-14 | none (clean) |
 | [Car Fleet](./car-fleet.md) | sort by position, sweep with the fleet leader | 2026-10-17 | none (clean) |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | paused (was 2026-10-01 (O(n) staircase count required)) |
+| [Arithmetic Slices](./arithmetic-slices.md) (extra, from Repovive) | cached maximal run; per-end counting | 2026-10-22, unaided | none (clean); holds the charging-argument frame |
 
 **Re-solves paused (2026-10-09, Isaac's call).** They were taking the DSA slot away from new
 problems. Everything is "paused" except the five that needed a hint or more than one attempt
