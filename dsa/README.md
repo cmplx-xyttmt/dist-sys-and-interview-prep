@@ -38,7 +38,7 @@ end you return) rather than the find-the-element form.
 | [Generate Parentheses](./generate-parentheses.md) | backtracking, two counts (pending; passed by enumerate-and-filter) | 2026-10-13 | 2026-10-27 (code) |
 | [Daily Temperatures](./daily-temperatures.md) | monotonic stack | 2026-10-14 | none (clean) |
 | [Car Fleet](./car-fleet.md) | sort by position, sweep with the fleet leader | 2026-10-17 | none (clean) |
-| [Largest Rectangle in Histogram](./largest-rectangle-in-histogram.md) | nearest shorter bar each side, monotonic stack | 2026-10-24 | none (clean); one-pass version open |
+| [Largest Rectangle in Histogram](./largest-rectangle-in-histogram.md) | nearest shorter bar each side, monotonic stack | 2026-10-24, second submission | 2026-10-31 (code, one-pass) |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | paused (was 2026-10-01 (O(n) staircase count required)) |
 | [Arithmetic Slices](./arithmetic-slices.md) (extra, from Repovive) | cached maximal run; per-end counting | 2026-10-22, unaided | none (clean); holds the charging-argument frame |
 | [Sum of Square Numbers](./sum-of-square-numbers.md) (extra) | two pointers over pairs of squares; Fermat's two-square theorem | 2026-10-22, unaided | 2026-10-29 (code, all three versions) |
