@@ -1,9 +1,9 @@
 {
  "tracker": {
-  "version": 11,
-  "updated_at": "2026-10-17T13:51:17+03:00",
-  "by": "page",
-  "note": "",
+  "version": 12,
+  "updated_at": "2026-10-24T15:14:13+03:00",
+  "by": "claude session",
+  "note": "Largest Rectangle in Histogram passed, two-pass monotonic stacks",
   "summary": "26 problems done · 0/57 milestones",
   "stale": []
  },
@@ -41,7 +41,8 @@
    "p-evaluate-reverse-polish-notation": true,
    "p-generate-parentheses": true,
    "p-daily-temperatures": true,
-   "p-car-fleet": true
+   "p-car-fleet": true,
+   "p-largest-rectangle-in-histogram": true
   },
   "notes": {},
   "recent": [
