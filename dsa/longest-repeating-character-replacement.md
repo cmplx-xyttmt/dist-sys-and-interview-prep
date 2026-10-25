@@ -37,5 +37,5 @@ at that moment `max_count == occ[idx]` is the true max of the window, so every n
 `best` is a truly valid window. A stale `max_count` can only pass the check at a size
 already recorded. _Pending: say it in your own words on the re-solve._
 
-**Next re-solve:** 2026-09-27 (right-driven, no undo, no print; then the
+**Next re-solve:** owed, no date (right-driven, no undo, no print; then the
 never-decrease version and the sentence that justifies it).

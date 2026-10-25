@@ -61,5 +61,5 @@ count crosses its target (on add, `occ_s == occ_t` after; on remove, `occ_s ==
 occ_t - 1` after). Valid when `have == need`. Same trick as the `matches` counter in
 Permutation in String. True O(n).
 
-**Next re-solve:** 2026-10-02 (128-slot or dict; say the invariant sentence before
+**Next re-solve:** owed, no date (128-slot or dict; say the invariant sentence before
 writing the loop; then the `have`/`need` version).

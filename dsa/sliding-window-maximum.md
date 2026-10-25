@@ -52,5 +52,5 @@ fixed, which is the Permutation in String miss repeated (`left` is `right - k`; 
 out twice now, so it is the one in the fingers; the index form still needs one
 deliberate pass.
 
-**Next re-solve:** 2026-10-23 (index-based, no left pointer, and the one sentence on
+**Next re-solve:** owed, no date (index-based, no left pointer, and the one sentence on
 why the deque stays sorted, said before coding).

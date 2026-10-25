@@ -82,7 +82,7 @@ Track C is the *engine* for Track B: Glomers challenges turn DDIA theory into sc
 - **Rules of engagement:**
   - Timed from day one: 25 min mediums, 40 min hards. Struggle 20 min before hints.
   - Every solved problem gets a 2-line note in `dsa/`: pattern + the insight you missed.
-  - **Spaced re-solves:** redo failed problems at +3 days and +2 weeks.
+  - **Spaced re-solves:** failed problems are marked as owed in `dsa/`, with no date. Scheduling them is planned for acu-primer's spaced repetition (decided 2026-10-25); before that, they're done when there's room.
 - **Go cross-training (optional, capped, deferred):** re-solve ~15–20 *easy* problems in Go purely for syntax muscle memory (slices, maps, structs) — now tied to the Go on-ramp in Stage 4 (§3C). All timed DSA is Python.
 
 ### B — System design
@@ -190,7 +190,7 @@ NeetCode 150 in the §3A pattern order, two timed problems per session. No dates
 problem is the first unchecked one (roadmap.html's Schedule tab shows the next six). Pace:
 ~6 sessions/week during the contest season, 3–4/week from Sep 14, so ~7 problems/week. At
 that rate the 60-problem line of the applications trigger lands ~mid-Nov 2026 and the full
-150 ~Feb 2027. Failed problems get re-solve dates in `dsa/` and take the light days' slots.
+150 ~Feb 2027. Failed problems are marked as owed re-solves in `dsa/` (no dates since 2026-10-25) and take the light days' slots.
 
 ### Queue 2 — system design (was: Sundays, the half-day)
 
@@ -321,8 +321,9 @@ now by the WEEK.md system (/standup, /shutdown, the Log, the seasons) plus this 
 - **Capture:** DDIA notes in `notes/ddia/`, DSA insights in `dsa/`, weekly entries in
   `PROGRESS.md`.
 - **Spaced repetition:** the quiz deck in `roadmap.html` (add 1–3 questions per finished
-  chapter or challenge) plus the re-solve dates in `dsa/` notes. This was always the
-  fallback; now it's the plan.
+  chapter or challenge) plus the owed re-solves in `dsa/` notes. This was always the
+  fallback; now it's the plan. From 2026-10-25 the re-solves wait for acu-primer's planned
+  spaced repetition to schedule them.
 - **When 2brain resumes**, Phase 0 inherits all of this material, and the 2brain `/sync`
   design doc (write it after DDIA's replication chapters) still stands — offline-first
   sync, LWW, tombstones, delta endpoints are design-interview topics you'll have

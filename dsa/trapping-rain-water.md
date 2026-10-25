@@ -49,5 +49,5 @@ That `min` is `high_left` by the branch condition. The argument for the branch *
 that the min is known, so writing `min` there is a hedge; say the argument, then
 write `high_left`.
 
-**Next re-solve:** 2026-10-07 (two-week gap; write it without `min` and explain the
+**Next re-solve:** owed, no date (two-week gap; write it without `min` and explain the
 branch in one sentence before coding).

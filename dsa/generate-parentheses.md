@@ -30,5 +30,5 @@ not after, so a prefix is extended only when the next character keeps it valid._
 
 **Missed insight:** _pending the backtracking attempt._
 
-**Next re-solve:** 2026-10-27 (backtracking version cold; say the two counts and the
+**Next re-solve:** owed, no date (backtracking version cold; say the two counts and the
 two conditions before coding).

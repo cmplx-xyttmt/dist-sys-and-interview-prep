@@ -39,5 +39,5 @@ branch. Also: a popped element's boundaries are both known at the moment it is p
 **Habits to fix:** indices, not `(value, index)` pairs, in monotonic stacks; preallocate
 the answer array when filling it out of order.
 
-**Next re-solve:** 2026-10-31 (code, one-pass version, indices only, preallocated).
+**Next re-solve:** owed, no date (code, one-pass version, indices only, preallocated).
 Booked at Isaac's request.
