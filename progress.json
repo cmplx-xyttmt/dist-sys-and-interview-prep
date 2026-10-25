@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 15,
-  "updated_at": "2026-10-24T15:20:52+03:00",
+  "version": 20,
+  "updated_at": "2026-10-25T09:59:46+03:00",
   "by": "claude session",
-  "note": "show Largest Rectangle under solved",
-  "summary": "27 problems done · 0/57 milestones",
+  "note": "show Binary Search under solved",
+  "summary": "28 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -42,18 +42,19 @@
    "p-generate-parentheses": true,
    "p-daily-temperatures": true,
    "p-car-fleet": true,
-   "p-largest-rectangle-in-histogram": true
+   "p-largest-rectangle-in-histogram": true,
+   "p-binary-search": true
   },
   "notes": {},
   "recent": [
+   "p-binary-search",
    "p-largest-rectangle-in-histogram",
    "p-car-fleet",
    "p-daily-temperatures",
    "p-generate-parentheses",
    "p-evaluate-reverse-polish-notation",
    "p-min-stack",
-   "p-sliding-window-maximum",
-   "p-minimum-window-substring"
+   "p-sliding-window-maximum"
   ]
  }
 }
