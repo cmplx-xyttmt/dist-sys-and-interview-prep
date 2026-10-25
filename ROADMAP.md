@@ -82,7 +82,7 @@ Track C is the *engine* for Track B: Glomers challenges turn DDIA theory into sc
 - **Rules of engagement:**
   - Timed from day one: 25 min mediums, 40 min hards. Struggle 20 min before hints.
   - Every solved problem gets a 2-line note in `dsa/`: pattern + the insight you missed.
-  - **Spaced re-solves:** failed problems are marked as owed in `dsa/`, with no date. Scheduling them is planned for acu-primer's spaced repetition (decided 2026-10-25); before that, they're done when there's room.
+  - **Spaced re-solves:** failed problems are marked as owed in `dsa/`, with no date. Who schedules them (acu-primer or acu2brain) is an open question logged in WEEK.md on 2026-10-25; before that, they're done when there's room.
 - **Go cross-training (optional, capped, deferred):** re-solve ~15–20 *easy* problems in Go purely for syntax muscle memory (slices, maps, structs) — now tied to the Go on-ramp in Stage 4 (§3C). All timed DSA is Python.
 
 ### B — System design
@@ -322,8 +322,8 @@ now by the WEEK.md system (/standup, /shutdown, the Log, the seasons) plus this 
   `PROGRESS.md`.
 - **Spaced repetition:** the quiz deck in `roadmap.html` (add 1–3 questions per finished
   chapter or challenge) plus the owed re-solves in `dsa/` notes. This was always the
-  fallback; now it's the plan. From 2026-10-25 the re-solves wait for acu-primer's planned
-  spaced repetition to schedule them.
+  fallback; now it's the plan. From 2026-10-25 the re-solves wait for acu-primer or acu2brain
+  to schedule them (undecided).
 - **When 2brain resumes**, Phase 0 inherits all of this material, and the 2brain `/sync`
   design doc (write it after DDIA's replication chapters) still stands — offline-first
   sync, LWW, tombstones, delta endpoints are design-interview topics you'll have

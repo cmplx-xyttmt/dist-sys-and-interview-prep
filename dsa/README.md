@@ -45,8 +45,9 @@ end you return) rather than the find-the-element form.
 | [Sum of Square Numbers](./sum-of-square-numbers.md) (extra) | two pointers over pairs of squares; Fermat's two-square theorem | 2026-10-22, unaided | owed (code, all three versions) |
 
 **Re-solves have no dates (2026-10-25, Isaac's call).** The dates kept passing unmet, so
-the table now says only whether a re-solve is owed and what it should focus on. The plan
-is for spaced repetition in acu-primer (`../acu-primer/`) to schedule them. Until that
+the table now says only whether a re-solve is owed and what it should focus on. Something else
+should schedule them, maybe acu-primer or the acu2brain tracker; that's an open question
+logged in `~/Projects/WEEK.md` (Acubrain entry, Oct 25). Until that
 exists, an owed re-solve is done whenever there's room, and each note's "Next re-solve"
 line keeps its focus. The two policy paragraphs below are history.
 
