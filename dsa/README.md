@@ -40,6 +40,7 @@ end you return) rather than the find-the-element form.
 | [Car Fleet](./car-fleet.md) | sort by position, sweep with the fleet leader | 2026-10-17 | none (clean) |
 | [Largest Rectangle in Histogram](./largest-rectangle-in-histogram.md) | nearest shorter bar each side, monotonic stack | 2026-10-24, second submission | owed (code, one-pass) |
 | [Binary Search](./binary-search.md) | boundary template, sentinels at -1 and n | 2026-10-25 | none (clean) |
+| [Search a 2D Matrix](./search-a-2d-matrix.md) | flatten row-major, boundary template | 2026-10-26, second version | none |
 | [Kth Smallest Element in a Sorted Matrix](./kth-smallest-element-in-a-sorted-matrix.md) (extra, from Repovive) | binary search on the answer + count predicate | 2026-09-24, with hints | owed (O(n) staircase count required), paused |
 | [Arithmetic Slices](./arithmetic-slices.md) (extra, from Repovive) | cached maximal run; per-end counting | 2026-10-22, unaided | none (clean); holds the charging-argument frame |
 | [Sum of Square Numbers](./sum-of-square-numbers.md) (extra) | two pointers over pairs of squares; Fermat's two-square theorem | 2026-10-22, unaided | owed (code, all three versions) |

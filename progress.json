@@ -1,9 +1,9 @@
 {
  "tracker": {
-  "version": 20,
-  "updated_at": "2026-10-25T09:59:46+03:00",
+  "version": 22,
+  "updated_at": "2026-10-26T20:46:10+03:00",
   "by": "claude session",
-  "note": "show Binary Search under solved",
+  "note": "show Search a 2D Matrix under solved",
   "summary": "28 problems done · 0/57 milestones",
   "stale": []
  },
@@ -43,18 +43,19 @@
    "p-daily-temperatures": true,
    "p-car-fleet": true,
    "p-largest-rectangle-in-histogram": true,
-   "p-binary-search": true
+   "p-binary-search": true,
+   "p-search-a-2d-matrix": true
   },
   "notes": {},
   "recent": [
+   "p-search-a-2d-matrix",
    "p-binary-search",
    "p-largest-rectangle-in-histogram",
    "p-car-fleet",
    "p-daily-temperatures",
    "p-generate-parentheses",
    "p-evaluate-reverse-polish-notation",
-   "p-min-stack",
-   "p-sliding-window-maximum"
+   "p-min-stack"
   ]
  }
 }
