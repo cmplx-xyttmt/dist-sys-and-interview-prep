@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 24,
-  "updated_at": "2026-10-28T19:52:16+03:00",
-  "by": "claude session",
-  "note": "show Koko under solved",
-  "summary": "28 problems done · 0/57 milestones",
+  "version": 26,
+  "updated_at": "2026-10-28T20:05:39+03:00",
+  "by": "page",
+  "note": "",
+  "summary": "30 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -14,7 +14,7 @@
   "game": {
    "best": 0
   },
-  "lastTab": "schedule",
+  "lastTab": "dashboard",
   "items": {
    "p-contains-duplicate": true,
    "p-valid-anagram": true,
