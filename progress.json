@@ -1,7 +1,7 @@
 {
  "tracker": {
-  "version": 26,
-  "updated_at": "2026-10-28T20:05:39+03:00",
+  "version": 27,
+  "updated_at": "2026-10-30T13:56:07+03:00",
   "by": "page",
   "note": "",
   "summary": "30 problems done · 0/57 milestones",
@@ -14,7 +14,7 @@
   "game": {
    "best": 0
   },
-  "lastTab": "dashboard",
+  "lastTab": "schedule",
   "items": {
    "p-contains-duplicate": true,
    "p-valid-anagram": true,
