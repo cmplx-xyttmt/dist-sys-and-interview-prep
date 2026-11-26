@@ -17,7 +17,9 @@ array isn't rotated, every index is F, `right` stays at n, and the special case 
 `nums[0]`. Correct, and the special case was found before coding, not after a failed test.
 
 **Open, hinted:** is there a reference element that guarantees at least one T, so the
-special case disappears? (Asked, not answered yet.)
+special case disappears? Tried the second element first (it can sit in either run), then
+guessed the last element with `<=`, which is right: it is always in the minimum's run. Not
+coded yet; left for the re-solve.
 
 **Missed insight:** when there's no target value, build the predicate from an element you
 already know the position of. The F/T table drawn on one example is how to find it.
