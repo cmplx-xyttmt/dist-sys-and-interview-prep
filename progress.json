@@ -1,10 +1,10 @@
 {
  "tracker": {
-  "version": 27,
-  "updated_at": "2026-10-30T13:56:07+03:00",
-  "by": "page",
-  "note": "",
-  "summary": "30 problems done · 0/57 milestones",
+  "version": 30,
+  "updated_at": "2026-11-26T12:08:24+03:00",
+  "by": "claude session",
+  "note": "show Find Min under solved",
+  "summary": "31 problems done · 0/57 milestones",
   "stale": []
  },
  "state": {
@@ -45,18 +45,19 @@
    "p-largest-rectangle-in-histogram": true,
    "p-binary-search": true,
    "p-search-a-2d-matrix": true,
-   "p-koko-eating-bananas": true
+   "p-koko-eating-bananas": true,
+   "p-find-minimum-in-rotated-sorted-array": true
   },
   "notes": {},
   "recent": [
+   "p-find-minimum-in-rotated-sorted-array",
    "p-koko-eating-bananas",
    "p-search-a-2d-matrix",
    "p-binary-search",
    "p-largest-rectangle-in-histogram",
    "p-car-fleet",
    "p-daily-temperatures",
-   "p-generate-parentheses",
-   "p-evaluate-reverse-polish-notation"
+   "p-generate-parentheses"
   ]
  }
 }
